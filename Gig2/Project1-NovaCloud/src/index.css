@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Glassmorphism and modern UI glow */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gradient-glow-purple {
+  background: radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.22) 0%, transparent 65%);
+}
+
+.gradient-glow-blue {
+  background: radial-gradient(circle at 80% 50%, rgba(56, 189, 248, 0.18) 0%, transparent 60%);
+}
