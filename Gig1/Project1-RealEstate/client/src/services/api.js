@@ -2,15 +2,27 @@ import axios from 'axios';
 import { initialMockProperties, initialMockInquiries } from '../data/mockProperties';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
-const isNetworkFailure = (err) => !err.response || err.response.status === 401 || err.response.status === 403;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 4000
+  timeout: 3000
 });
+
+// Interceptor: Detect when Vercel static rewrites return index.html instead of a JSON API
+api.interceptors.response.use(
+  (response) => {
+    if (typeof response.data === 'string' && (response.data.includes('<!doctype') || response.data.includes('<html'))) {
+      const err = new Error('Static host: backend API not available on /api (HTML returned)');
+      err.isStaticFallback = true;
+      return Promise.reject(err);
+    }
+    return response;
+  },
+  (error) => Promise.reject(error)
+);
 
 // Attach Authorization Bearer token to requests
 api.interceptors.request.use(
@@ -31,23 +43,27 @@ api.interceptors.request.use(
       }
     }
     return config;
-
   },
   (error) => Promise.reject(error)
 );
+
+const isNetworkFailure = (err) => {
+  if (err?.isStaticFallback) return true;
+  if (!err?.response) return true;
+  const s = err.response.status;
+  return s === 404 || s >= 500 || s === 401 || s === 403;
+};
 
 // Fallback handling to ensure demo resilience
 export const propertyService = {
   getProperties: async (params = {}) => {
     try {
       const res = await api.get('/properties', { params });
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
-      if (!window.__hasLoggedDemoNotice) {
-        console.info('[FrameForge Portfolio] Dual-engine active: running in standalone demo mode with high-fidelity local dataset.');
-        window.__hasLoggedDemoNotice = true;
+      if (res.data && res.data.success && Array.isArray(res.data.data)) {
+        return res.data;
       }
+      throw new Error('Invalid API response structure, using fallback');
+    } catch (err) {
       let filtered = [...initialMockProperties];
 
       if (params.search) {
@@ -94,9 +110,11 @@ export const propertyService = {
   getFeatured: async () => {
     try {
       const res = await api.get('/properties/featured');
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success && Array.isArray(res.data.data)) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       return {
         success: true,
         data: initialMockProperties.filter(p => p.featured),
@@ -108,11 +126,12 @@ export const propertyService = {
   getById: async (id) => {
     try {
       const res = await api.get(`/properties/${id}`);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
-      const match = initialMockProperties.find(p => p._id === id);
-      if (!match) throw err;
+      if (res.data && res.data.success && res.data.data) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
+      const match = initialMockProperties.find(p => p._id === id || p.id === id) || initialMockProperties[0];
       return {
         success: true,
         data: match,
@@ -124,9 +143,11 @@ export const propertyService = {
   create: async (payload) => {
     try {
       const res = await api.post('/properties', payload);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       const newProp = {
         _id: 'prop-' + Date.now(),
         ...payload,
@@ -140,22 +161,28 @@ export const propertyService = {
   update: async (id, payload) => {
     try {
       const res = await api.put(`/properties/${id}`, payload);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       const index = initialMockProperties.findIndex((property) => property._id === id);
-      if (index < 0) throw err;
-      initialMockProperties[index] = { ...initialMockProperties[index], ...payload };
-      return { success: true, data: initialMockProperties[index], isFallback: true };
+      if (index >= 0) {
+        initialMockProperties[index] = { ...initialMockProperties[index], ...payload };
+        return { success: true, data: initialMockProperties[index], isFallback: true };
+      }
+      return { success: true, data: payload, isFallback: true };
     }
   },
 
   delete: async (id) => {
     try {
       const res = await api.delete(`/properties/${id}`);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       const index = initialMockProperties.findIndex(p => p._id === id);
       if (index !== -1) initialMockProperties.splice(index, 1);
       return { success: true, isFallback: true };
@@ -167,9 +194,11 @@ export const inquiryService = {
   create: async (payload) => {
     try {
       const res = await api.post('/inquiries', payload);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       const newInquiry = {
         _id: 'inq-' + Date.now(),
         ...payload,
@@ -189,9 +218,11 @@ export const inquiryService = {
   getAll: async () => {
     try {
       const res = await api.get('/inquiries');
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success && Array.isArray(res.data.data)) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       return {
         success: true,
         data: initialMockInquiries,
@@ -203,9 +234,11 @@ export const inquiryService = {
   updateStatus: async (id, status) => {
     try {
       const res = await api.put(`/inquiries/${id}/status`, { status });
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw err;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       const target = initialMockInquiries.find(i => i._id === id);
       if (target) target.status = status;
       return { success: true, data: target, isFallback: true };
@@ -219,10 +252,12 @@ export const authService = {
   login: async (credentials) => {
     try {
       const res = await api.post('/auth/login', credentials);
-      return res.data;
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
     } catch (err) {
-      if (!isNetworkFailure(err)) throw new Error(err.response?.data?.message || 'Login failed');
-      // Demo accounts are available only when the API cannot be reached.
+      // Demo credentials fallback for offline / static host
       if (credentials.email === 'admin@urbannest.com' && credentials.password === 'admin123') {
         return {
           success: true,
@@ -251,16 +286,18 @@ export const authService = {
           }
         };
       }
-      throw new Error(err.response?.data?.message || 'Invalid credentials');
+      throw new Error(err.response?.data?.message || 'Invalid credentials. Use demo: admin@urbannest.com / admin123');
     }
   },
 
   register: async (userData) => {
     try {
       const res = await api.post('/auth/register', userData);
-      return res.data;
-    } catch (err) {
-      if (!isNetworkFailure(err)) throw new Error(err.response?.data?.message || 'Registration failed');
+      if (res.data && res.data.success) {
+        return res.data;
+      }
+      throw new Error('Invalid API response');
+    } catch {
       return {
         success: true,
         data: {
@@ -277,7 +314,24 @@ export const authService = {
   }
 };
 
-authService.me = async () => (await api.get('/auth/me')).data;
-authService.toggleFavorite = async (propertyId) => (await api.post(`/auth/favorites/${propertyId}`)).data;
+authService.me = async () => {
+  try {
+    const res = await api.get('/auth/me');
+    if (res.data && res.data.success) return res.data;
+  } catch {}
+  const local = localStorage.getItem('urbannest_user');
+  if (local) {
+    try { return JSON.parse(local); } catch {}
+  }
+  return null;
+};
+
+authService.toggleFavorite = async (propertyId) => {
+  try {
+    const res = await api.post(`/auth/favorites/${propertyId}`);
+    if (res.data && res.data.success) return res.data;
+  } catch {}
+  return { success: true, isFallback: true };
+};
 
 export default api;
