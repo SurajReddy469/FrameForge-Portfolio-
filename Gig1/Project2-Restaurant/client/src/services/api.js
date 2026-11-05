@@ -309,7 +309,13 @@ const setLocalData = (key, data) => {
 
 // Safe API response processor: Surface HTTP errors clearly, never hide them!
 const handleApiResponse = async (res) => {
-  if (!res.ok) {
+  const contentType = res.headers.get('content-type') || '';
+  if (!res.ok || contentType.includes('text/html')) {
+    if (res.status === 404 || res.status >= 500 || contentType.includes('text/html')) {
+      const err = new Error(`Backend offline (${res.status})`);
+      err.isOffline = true;
+      throw err;
+    }
     const errorData = await res.json().catch(() => ({}));
     const err = new Error(errorData.message || `HTTP Request failed with status ${res.status}`);
     err.status = res.status;

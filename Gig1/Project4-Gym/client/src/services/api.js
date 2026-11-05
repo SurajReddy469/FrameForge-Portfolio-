@@ -276,7 +276,13 @@ const setLocalData = (key, val) => {
 };
 
 const handleApiResponse = async (res) => {
-  if (!res.ok) {
+  const contentType = res.headers.get('content-type') || '';
+  if (!res.ok || contentType.includes('text/html')) {
+    if (res.status === 404 || res.status >= 500 || contentType.includes('text/html')) {
+      const err = new Error(`Backend offline (${res.status})`);
+      err.isOffline = true;
+      throw err;
+    }
     const errBody = await res.json().catch(() => ({}));
     const err = new Error(errBody.message || `HTTP ${res.status}: Request failed`);
     err.status = res.status;
