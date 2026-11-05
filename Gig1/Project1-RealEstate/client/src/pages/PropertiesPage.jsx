@@ -1,0 +1,234 @@
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import PropertyCard from '../components/PropertyCard';
+import SkeletonCard from '../components/SkeletonCard';
+import FilterBar from '../components/FilterBar';
+import { propertyService } from '../services/api';
+import { Building2, X, ArrowUpDown } from 'lucide-react';
+
+const CITIES = ['Hyderabad', 'Bengaluru', 'Goa', 'Mumbai', 'Delhi NCR'];
+const PROPERTY_TYPES = ['Penthouse', 'Villa', 'Apartment', 'House', 'Commercial'];
+
+const PropertiesPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [sortBy, setSortBy] = useState('newest');
+  const [retryKey, setRetryKey] = useState(0);
+
+  // Sync state from URL parameters
+  const [filters, setFilters] = useState({
+    search: searchParams.get('search') || '',
+    city: searchParams.get('city') || 'All',
+    propertyType: searchParams.get('propertyType') || 'All',
+    purpose: searchParams.get('purpose') || 'All',
+    bedrooms: searchParams.get('bedrooms') || 'All'
+  });
+
+  // Keep filter state in sync with browser navigation.
+  useEffect(() => {
+    setFilters({
+      search: searchParams.get('search') || '',
+      city: searchParams.get('city') || 'All',
+      propertyType: searchParams.get('propertyType') || 'All',
+      purpose: searchParams.get('purpose') || 'All',
+      bedrooms: searchParams.get('bedrooms') || 'All'
+    });
+  }, [searchParams]);
+
+  // Keep URL in sync when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filters.search) params.set('search', filters.search);
+    if (filters.city && filters.city !== 'All') params.set('city', filters.city);
+    if (filters.propertyType && filters.propertyType !== 'All') params.set('propertyType', filters.propertyType);
+    if (filters.purpose && filters.purpose !== 'All') params.set('purpose', filters.purpose);
+    if (filters.bedrooms && filters.bedrooms !== 'All') params.set('bedrooms', filters.bedrooms);
+    if (params.toString() !== searchParams.toString()) {
+      setSearchParams(params, { replace: true });
+    }
+  }, [filters, setSearchParams]);
+
+  // Fetch properties whenever filters or sortBy change
+  useEffect(() => {
+    const fetchListings = async () => {
+      setLoading(true);
+      setLoadError(false);
+      try {
+        const queryParams = {
+          ...filters,
+          sortBy
+        };
+        const res = await propertyService.getProperties(queryParams);
+        if (res.success && res.data) {
+          setProperties(res.data);
+        } else {
+          setLoadError(true);
+        }
+      } catch (err) {
+        console.error('Error fetching properties', err);
+        setLoadError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchListings();
+  }, [filters, sortBy, retryKey]);
+
+  const handleReset = () => {
+    setFilters({
+      search: '',
+      city: 'All',
+      propertyType: 'All',
+      purpose: 'All',
+      bedrooms: 'All'
+    });
+    setSortBy('newest');
+  };
+
+  const removeFilter = (key, defaultValue = 'All') => {
+    setFilters(prev => ({ ...prev, [key]: defaultValue }));
+  };
+
+  const activeFilterCount = Object.entries(filters).filter(
+    ([k, v]) => v && v !== 'All' && v !== ''
+  ).length;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      
+      {/* Top Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+            Curated Real Estate Catalog
+          </h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Browse sample luxury residences with live criteria filtering.
+          </p>
+        </div>
+
+        {/* Sort selector */}
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
+            <ArrowUpDown className="w-3.5 h-3.5" />
+            Sort By:
+          </span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-3.5 py-2 text-xs font-semibold bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm cursor-pointer"
+          >
+            <option value="newest">Newest Listed</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Filter Component */}
+      <FilterBar
+        filters={filters}
+        setFilters={setFilters}
+        onReset={handleReset}
+        cities={CITIES}
+        propertyTypes={PROPERTY_TYPES}
+      />
+
+      {/* Active Filter Pills Bar */}
+      {activeFilterCount > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+          <span className="text-xs font-semibold text-slate-500 mr-1">Active Filters:</span>
+
+          {filters.search && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+              Keyword: "{filters.search}"
+              <button onClick={() => removeFilter('search', '')} className="cursor-pointer"><X className="w-3 h-3 hover:text-rose-500" /></button>
+            </span>
+          )}
+
+          {filters.city !== 'All' && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+              City: {filters.city}
+              <button onClick={() => removeFilter('city')} className="cursor-pointer"><X className="w-3 h-3 hover:text-rose-500" /></button>
+            </span>
+          )}
+
+          {filters.purpose !== 'All' && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+              Purpose: {filters.purpose}
+              <button onClick={() => removeFilter('purpose')} className="cursor-pointer"><X className="w-3 h-3 hover:text-rose-500" /></button>
+            </span>
+          )}
+
+          {filters.propertyType !== 'All' && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+              Type: {filters.propertyType}
+              <button onClick={() => removeFilter('propertyType')} className="cursor-pointer"><X className="w-3 h-3 hover:text-rose-500" /></button>
+            </span>
+          )}
+
+          {filters.bedrooms !== 'All' && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
+              Bedrooms: {filters.bedrooms} BHK
+              <button onClick={() => removeFilter('bedrooms')} className="cursor-pointer"><X className="w-3 h-3 hover:text-rose-500" /></button>
+            </span>
+          )}
+
+          <button
+            onClick={handleReset}
+            className="text-xs font-semibold text-rose-600 hover:text-rose-700 underline ml-2 cursor-pointer"
+          >
+            Clear All
+          </button>
+        </div>
+      )}
+
+      {/* Results Header */}
+      <div className="flex items-center justify-between text-xs text-slate-500">
+        <span>Showing <strong className="text-slate-900 font-bold">{properties.length}</strong> matching properties</span>
+      </div>
+
+      {/* Grid of Properties */}
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <SkeletonCard key={n} />
+          ))}
+        </div>
+      ) : loadError ? (
+        <div className="text-center py-20 bg-white rounded-3xl border border-rose-200 p-8 space-y-4" role="alert">
+          <h3 className="text-lg font-bold text-slate-900">Properties could not be loaded</h3>
+          <p className="text-sm text-slate-500 max-w-sm mx-auto">Please check your connection and try again.</p>
+          <button onClick={() => setRetryKey((current) => current + 1)} className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">Try again</button>
+        </div>
+      ) : properties.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 p-8 space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+            <Building2 className="w-8 h-8" />
+          </div>
+          <h3 className="text-lg font-bold text-slate-900">No matching properties found</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            We couldn't find any property matching your active criteria. Try broadening your search or resetting filters.
+          </p>
+          <button
+            onClick={handleReset}
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition cursor-pointer"
+          >
+            Reset All Filters
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {properties.map((property) => (
+            <PropertyCard key={property._id} property={property} />
+          ))}
+        </div>
+      )}
+
+    </div>
+  );
+};
+
+export default PropertiesPage;

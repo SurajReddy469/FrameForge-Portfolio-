@@ -1,0 +1,36 @@
+{
+  "name": "urbannest-server",
+  "version": "1.0.0",
+  "description": "Backend API for UrbanNest Real Estate Portal - FrameForge Portfolio",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node --test src/**/*.test.js tests/**/*.test.js",
+    "seed": "node src/utils/seeder.js",
+    "seed:destroy": "node src/utils/seeder.js -d"
+  },
+  "keywords": [
+    "mern",
+    "real-estate",
+    "api",
+    "express",
+    "mongodb",
+    "frameforge"
+  ],
+  "author": "FrameForge",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "supertest": "^7.3.1"
+  }
+}
