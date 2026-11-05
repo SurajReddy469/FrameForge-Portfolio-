@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UtensilsCrossed, Calendar, ArrowRight, Star, Award, Sparkles, ChefHat, Clock, Wine, ShieldCheck } from 'lucide-react';
 import MenuItemCard from '../components/MenuItemCard';
 import DishDetailModal from '../components/DishDetailModal';
-import { menuService } from '../services/api';
+import { menuService, INITIAL_DISHES } from '../services/api';
 
 const HomePage = () => {
   const [featuredDishes, setFeaturedDishes] = useState([]);
@@ -18,7 +18,8 @@ const HomePage = () => {
           setFeaturedDishes(res.data.slice(0, 6));
         }
       } catch (err) {
-        console.error('Featured dishes fetch error', err);
+        console.warn("Featured dishes fallback applied", err);
+        setFeaturedDishes(INITIAL_DISHES.slice(0, 6));
       } finally {
         setLoading(false);
       }

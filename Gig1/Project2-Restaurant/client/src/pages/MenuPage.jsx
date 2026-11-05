@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, Sparkles, Utensils, Flame, Leaf, X } from 'lucide-react';
 import MenuItemCard from '../components/MenuItemCard';
 import DishDetailModal from '../components/DishDetailModal';
-import { menuService } from '../services/api';
+import { menuService, INITIAL_DISHES } from '../services/api';
 
 const MenuPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +35,8 @@ const MenuPage = () => {
           setDishes(res.data);
         }
       } catch (err) {
-        console.error('Menu fetch error', err);
+        console.warn("Menu fetch fallback applied", err);
+        setDishes(INITIAL_DISHES);
       } finally {
         setLoading(false);
       }
