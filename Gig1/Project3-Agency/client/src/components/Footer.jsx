@@ -56,7 +56,7 @@ export default function Footer({ onOpenEstimator }) {
             Crafting enterprise-grade digital experiences, scalable SaaS architectures, and high-conversion web platforms for global innovators.
           </p>
           <div className="flex items-center gap-3 pt-2">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="GitHub">
+            <a href="https://github.com/SurajReddy469/FrameForge-Portfolio-" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="GitHub Repository">
               <Code2 className="w-4 h-4" />
             </a>
             <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="Platform">

@@ -122,6 +122,15 @@ export default function Footer() {
         <div className="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs gap-4">
           <p>© {new Date().getFullYear()} MediCare Plus CarePoint Clinic. All rights reserved.</p>
           <div className="flex items-center gap-4 text-slate-400">
+            <a
+              href="https://github.com/SurajReddy469/FrameForge-Portfolio-"
+              target="_blank"
+              rel="noreferrer"
+              className="text-teal-400 hover:text-teal-300 font-semibold"
+            >
+              GitHub Source ↗
+            </a>
+            <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
             <span>FrameForge Portfolio Flagship</span>
             <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
             <span>Gig 1: Full-Stack MERN Architecture</span>

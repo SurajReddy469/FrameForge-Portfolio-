@@ -103,6 +103,15 @@ const Footer = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
           <p>© {new Date().getFullYear()} GourmetHaven Fine Dining. Crafted with precision for FrameForge Portfolio.</p>
           <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/SurajReddy469/FrameForge-Portfolio-"
+              target="_blank"
+              rel="noreferrer"
+              className="text-amber-400 hover:text-amber-300 transition-colors font-semibold"
+            >
+              GitHub Source ↗
+            </a>
+            <span>•</span>
             <span className="flex items-center gap-1 text-stone-400">
               Gig 1 • Project 2 of 5
             </span>

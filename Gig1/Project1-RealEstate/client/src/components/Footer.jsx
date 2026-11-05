@@ -82,9 +82,19 @@ const Footer = () => {
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>India (Global Freelance)</span>
               </li>
+              <li className="pt-1">
+                <a
+                  href="https://wa.me/919876543210?text=Hi%20FrameForge,%20I'm%20interested%20in%20a%20custom%20real%20estate%20platform%20like%20UrbanNest"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-semibold"
+                >
+                  <span>💬 WhatsApp Order Chat</span>
+                </a>
+              </li>
               <li className="pt-2">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/SurajReddy469/FrameForge-Portfolio-"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-semibold"

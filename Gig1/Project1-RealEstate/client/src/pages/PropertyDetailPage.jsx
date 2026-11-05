@@ -40,7 +40,7 @@ import {
   User
 } from 'lucide-react';
 
-const BUSINESS_WHATSAPP = (import.meta.env.VITE_BUSINESS_WHATSAPP || '').replace(/\D/g, '');
+const BUSINESS_WHATSAPP = (import.meta.env.VITE_BUSINESS_WHATSAPP || '919876543210').replace(/\D/g, '');
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -94,6 +94,18 @@ const PropertyDetailPage = () => {
 
   const handleInquirySubmit = async (e) => {
     e.preventDefault();
+    if (!form.name.trim()) {
+      addToast('Please enter your full name', 'error');
+      return;
+    }
+    if (!form.email.trim() || !form.email.includes('@')) {
+      addToast('Please enter a valid email address', 'error');
+      return;
+    }
+    if (!form.phone.trim()) {
+      addToast('Please enter your phone number', 'error');
+      return;
+    }
     setSubmitting(true);
     try {
       await inquiryService.create({
@@ -103,7 +115,7 @@ const PropertyDetailPage = () => {
       setSubmitSuccess(true);
       addToast('Tour inspection requested successfully!', 'success');
     } catch (err) {
-      alert('Failed to send booking: ' + (err.message || 'Please check your inputs'));
+      addToast('Failed to send booking: ' + (err.message || 'Please check your inputs'), 'error');
     } finally {
       setSubmitting(false);
     }
