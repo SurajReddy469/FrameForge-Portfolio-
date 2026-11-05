@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import SkeletonCard from '../components/SkeletonCard';
@@ -17,41 +17,31 @@ const PropertiesPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [retryKey, setRetryKey] = useState(0);
 
-  // Sync state from URL parameters
-  const [filters, setFilters] = useState({
+  // Directly derive filters from URL searchParams (single source of truth)
+  const filters = useMemo(() => ({
     search: searchParams.get('search') || '',
     city: searchParams.get('city') || 'All',
     propertyType: searchParams.get('propertyType') || 'All',
     purpose: searchParams.get('purpose') || 'All',
     bedrooms: searchParams.get('bedrooms') || 'All'
-  });
+  }), [searchParams]);
 
-  // Keep filter state in sync with browser navigation.
-  useEffect(() => {
-    setFilters({
-      search: searchParams.get('search') || '',
-      city: searchParams.get('city') || 'All',
-      propertyType: searchParams.get('propertyType') || 'All',
-      purpose: searchParams.get('purpose') || 'All',
-      bedrooms: searchParams.get('bedrooms') || 'All'
-    });
-  }, [searchParams]);
-
-  // Keep URL in sync when filters change
-  useEffect(() => {
+  // Update URL searchParams when user modifies filters
+  const setFilters = useCallback((updater) => {
+    const nextFilters = typeof updater === 'function' ? updater(filters) : updater;
     const params = new URLSearchParams();
-    if (filters.search) params.set('search', filters.search);
-    if (filters.city && filters.city !== 'All') params.set('city', filters.city);
-    if (filters.propertyType && filters.propertyType !== 'All') params.set('propertyType', filters.propertyType);
-    if (filters.purpose && filters.purpose !== 'All') params.set('purpose', filters.purpose);
-    if (filters.bedrooms && filters.bedrooms !== 'All') params.set('bedrooms', filters.bedrooms);
-    if (params.toString() !== searchParams.toString()) {
-      setSearchParams(params, { replace: true });
-    }
+    if (nextFilters.search) params.set('search', nextFilters.search);
+    if (nextFilters.city && nextFilters.city !== 'All') params.set('city', nextFilters.city);
+    if (nextFilters.propertyType && nextFilters.propertyType !== 'All') params.set('propertyType', nextFilters.propertyType);
+    if (nextFilters.purpose && nextFilters.purpose !== 'All') params.set('purpose', nextFilters.purpose);
+    if (nextFilters.bedrooms && nextFilters.bedrooms !== 'All') params.set('bedrooms', nextFilters.bedrooms);
+    setSearchParams(params, { replace: true });
   }, [filters, setSearchParams]);
 
-  // Fetch properties whenever filters or sortBy change
+  // Fetch properties once whenever searchParams, sortBy, or retryKey change
   useEffect(() => {
+    let isSubscribed = true;
+
     const fetchListings = async () => {
       setLoading(true);
       setLoadError(false);
@@ -61,34 +51,45 @@ const PropertiesPage = () => {
           sortBy
         };
         const res = await propertyService.getProperties(queryParams);
-        if (res.success && res.data) {
-          setProperties(res.data);
-        } else {
-          setLoadError(true);
+        if (isSubscribed) {
+          if (res.success && res.data) {
+            setProperties(res.data);
+          } else {
+            setLoadError(true);
+          }
         }
       } catch (err) {
-        console.error('Error fetching properties', err);
-        setLoadError(true);
+        if (isSubscribed) {
+          console.error('Error fetching properties', err);
+          setLoadError(true);
+        }
       } finally {
-        setLoading(false);
+        if (isSubscribed) {
+          setLoading(false);
+        }
       }
     };
+
     fetchListings();
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [filters, sortBy, retryKey]);
 
   const handleReset = () => {
-    setFilters({
-      search: '',
-      city: 'All',
-      propertyType: 'All',
-      purpose: 'All',
-      bedrooms: 'All'
-    });
+    setSearchParams(new URLSearchParams(), { replace: true });
     setSortBy('newest');
   };
 
   const removeFilter = (key, defaultValue = 'All') => {
-    setFilters(prev => ({ ...prev, [key]: defaultValue }));
+    const params = new URLSearchParams(searchParams);
+    if (defaultValue === '' || defaultValue === 'All') {
+      params.delete(key);
+    } else {
+      params.set(key, defaultValue);
+    }
+    setSearchParams(params, { replace: true });
   };
 
   const activeFilterCount = Object.entries(filters).filter(

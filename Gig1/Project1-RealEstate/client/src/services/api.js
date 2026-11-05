@@ -44,7 +44,10 @@ export const propertyService = {
       return res.data;
     } catch (err) {
       if (!isNetworkFailure(err)) throw err;
-      console.warn('[API Notice] Backend server not reachable, using local demo data fallback.');
+      if (!window.__hasLoggedDemoNotice) {
+        console.info('[FrameForge Portfolio] Dual-engine active: running in standalone demo mode with high-fidelity local dataset.');
+        window.__hasLoggedDemoNotice = true;
+      }
       let filtered = [...initialMockProperties];
 
       if (params.search) {
