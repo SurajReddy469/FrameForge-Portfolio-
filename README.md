@@ -1,25 +1,27 @@
 # FrameForge – Full-Stack MERN Portfolio & Production Suite
 
 ![Node.js](https://img.shields.io/badge/Node.js-v20%2B-green?logo=node.js)
-![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![React](https://img.shields.io/badge/React-18%2F19-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-5%2F8-purple?logo=vite)
-![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3-38bdf8?logo=tailwind-css)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v3%2Fv4-38bdf8?logo=tailwind-css)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-brightgreen?logo=mongodb)
 ![Tests](https://img.shields.io/badge/Automated_Tests-69%20Passing-success)
+![Vercel](https://img.shields.io/badge/Deployments-6%20Live-black?logo=vercel)
 
 Production-grade full-stack MERN (MongoDB, Express.js, React, Node.js + Tailwind CSS) portfolio showcasing enterprise architectures, dual-engine offline resilience, role-based access control, server-side transaction protection, and automated test suites.
 
 ---
 
-## 🚀 Projects Overview
+## 🚀 Live Production Deployments & Projects
 
-| # | Project Name | Domain / Niche | Key Architectural Features | Local Port (API / Client) |
+| # | Project Name | Domain / Niche | Live Vercel Production URL | Local Port |
 | :-: | :--- | :--- | :--- | :---: |
-| **1** | **UrbanNest** | Real Estate Marketplace | Multi-facet property search, inquiry leads intake, broker filters, admin CMS portal | `:5000` / `:5173` |
-| **2** | **GourmetHaven** | Fine Dining & Reservations | Server-side price recalculation, order idempotency, seating zone capacity limits | `:5001` / `:5174` |
-| **3** | **ApexMedia** | Digital Agency & CRM | Interactive 2-step scope & budget estimator, unique inquiry tracking, sales CRM | `:5002` / `:5175` |
-| **4** | **FitPulse** | Gym & Studio Management | Real-time session capacity engine, QR digital member pass, RFC 4180 CSV export | `:5003` / `:5176` |
-| **5** | **MediCare Plus** | Medical Clinic & Booking | 2-step clinical patient intake, atomic slot conflict locking (409), printable slip | `:5004` / `:5177` |
+| **1** | **UrbanNest** | Real Estate Marketplace | 🔗 [frame-forge-portfolio.vercel.app](https://frame-forge-portfolio.vercel.app) | `:5000` / `:5173` |
+| **2** | **GourmetHaven** | Fine Dining & Reservations | 🔗 [frameforge-gourmethaven.vercel.app](https://frameforge-gourmethaven.vercel.app) | `:5001` / `:5174` |
+| **3** | **ApexMedia** | Digital Agency & CRM | 🔗 [frameforge-apexmedia.vercel.app](https://frameforge-apexmedia.vercel.app) | `:5002` / `:5175` |
+| **4** | **FitPulse** | Gym & Studio Management | 🔗 [frameforge-fitpulse.vercel.app](https://frameforge-fitpulse.vercel.app) | `:5003` / `:5176` |
+| **5** | **MediCare Plus** | Medical Clinic & Booking | 🔗 [frameforge-medicare.vercel.app](https://frameforge-medicare.vercel.app) | `:5004` / `:5177` |
+| **6** | **NovaCloud** | B2B AI Cloud SaaS | 🔗 [frameforge-novacloud.vercel.app](https://frameforge-novacloud.vercel.app) | `:5180` |
 
 ---
 
@@ -29,7 +31,7 @@ Production-grade full-stack MERN (MongoDB, Express.js, React, Node.js + Tailwind
 - **Server-Side Transaction Integrity:** Cart pricing is strictly validated and recalculated on the server. Tampered client prices are discarded.
 - **Privilege Escalation Protection:** Public registration strictly forces default client roles (`user` or `patient`), rejecting or stripping client-supplied `role: 'admin'`.
 - **Atomic Concurrency Defense:** Concurrently booking identical doctor appointment slots or gym sessions triggers a clean HTTP `409 Conflict`.
-- **Automated Verification:** **69 automated test cases** across all 5 projects with 100% pass rate (`npm test`).
+- **Automated Verification:** **69 automated test cases** across all 5 servers with 100% pass rate (`npm test`).
 
 ---
 
@@ -83,6 +85,7 @@ When importing this repository into Vercel, set the **Root Directory** for each 
 3. **ApexMedia:** `Gig1/Project3-Agency/client`
 4. **FitPulse:** `Gig1/Project4-Gym/client`
 5. **MediCare Plus:** `Gig1/Project5-Clinic/client`
+6. **NovaCloud:** `Gig2/Project1-NovaCloud`
 
 Framework preset: **Vite**  
 Build command: `npm run build`  
