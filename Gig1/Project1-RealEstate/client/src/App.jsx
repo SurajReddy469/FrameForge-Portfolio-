@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from './context/AuthContext';
 import { CompareProvider } from './context/CompareContext';
 import { ToastProvider } from './context/ToastContext';
@@ -53,6 +54,7 @@ function App() {
           </ToastProvider>
         </CompareProvider>
       </AuthProvider>
+      <Analytics />
     </ErrorBoundary>
   );
 }
