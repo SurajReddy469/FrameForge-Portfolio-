@@ -39,3 +39,4 @@ Thumbs.db
 # Antigravity Brain / Temp
 .system_generated/
 scratch/
+.vercel/

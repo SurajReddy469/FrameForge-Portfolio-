@@ -4,6 +4,7 @@ import PropertyCard from '../components/PropertyCard';
 import SkeletonCard from '../components/SkeletonCard';
 import FilterBar from '../components/FilterBar';
 import { propertyService } from '../services/api';
+import { initialMockProperties } from '../data/mockProperties';
 import { Building2, X, ArrowUpDown } from 'lucide-react';
 
 const CITIES = ['Hyderabad', 'Bengaluru', 'Goa', 'Mumbai', 'Delhi NCR'];
@@ -52,16 +53,65 @@ const PropertiesPage = () => {
         };
         const res = await propertyService.getProperties(queryParams);
         if (isSubscribed) {
-          if (res.success && res.data) {
+          if (res && res.data && Array.isArray(res.data)) {
             setProperties(res.data);
           } else {
-            setLoadError(true);
+            // Infallible fallback: filter mock properties client-side
+            let fallbackList = [...initialMockProperties];
+            if (filters.search) {
+              const q = filters.search.toLowerCase();
+              fallbackList = fallbackList.filter(
+                p => p.title.toLowerCase().includes(q) || (p.address?.city && p.address.city.toLowerCase().includes(q))
+              );
+            }
+            if (filters.city && filters.city !== 'All') {
+              fallbackList = fallbackList.filter(p => p.address?.city?.toLowerCase() === filters.city.toLowerCase());
+            }
+            if (filters.propertyType && filters.propertyType !== 'All') {
+              fallbackList = fallbackList.filter(p => p.propertyType === filters.propertyType);
+            }
+            if (filters.purpose && filters.purpose !== 'All') {
+              fallbackList = fallbackList.filter(p => p.purpose === filters.purpose);
+            }
+            if (filters.bedrooms && filters.bedrooms !== 'All') {
+              fallbackList = fallbackList.filter(p => p.specs?.bedrooms === Number(filters.bedrooms));
+            }
+            if (sortBy === 'price-low') {
+              fallbackList.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-high') {
+              fallbackList.sort((a, b) => b.price - a.price);
+            }
+            setProperties(fallbackList);
           }
         }
       } catch (err) {
         if (isSubscribed) {
-          console.error('Error fetching properties', err);
-          setLoadError(true);
+          console.warn('Fallback applied for properties list:', err);
+          let fallbackList = [...initialMockProperties];
+          if (filters.search) {
+            const q = filters.search.toLowerCase();
+            fallbackList = fallbackList.filter(
+              p => p.title.toLowerCase().includes(q) || (p.address?.city && p.address.city.toLowerCase().includes(q))
+            );
+          }
+          if (filters.city && filters.city !== 'All') {
+            fallbackList = fallbackList.filter(p => p.address?.city?.toLowerCase() === filters.city.toLowerCase());
+          }
+          if (filters.propertyType && filters.propertyType !== 'All') {
+            fallbackList = fallbackList.filter(p => p.propertyType === filters.propertyType);
+          }
+          if (filters.purpose && filters.purpose !== 'All') {
+            fallbackList = fallbackList.filter(p => p.purpose === filters.purpose);
+          }
+          if (filters.bedrooms && filters.bedrooms !== 'All') {
+            fallbackList = fallbackList.filter(p => p.specs?.bedrooms === Number(filters.bedrooms));
+          }
+          if (sortBy === 'price-low') {
+            fallbackList.sort((a, b) => a.price - b.price);
+          } else if (sortBy === 'price-high') {
+            fallbackList.sort((a, b) => b.price - a.price);
+          }
+          setProperties(fallbackList);
         }
       } finally {
         if (isSubscribed) {

@@ -82,7 +82,7 @@ export default function Footer({ isDarkMode }) {
             © {new Date().getFullYear()} NovaCloud Inc. Built for FrameForge Fiverr Showcase.
           </div>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-violet-400 transition-colors flex items-center gap-1.5">
+            <a href="https://github.com/SurajReddy469/FrameForge-Portfolio-" target="_blank" rel="noreferrer" className="hover:text-violet-400 transition-colors flex items-center gap-1.5" title="FrameForge GitHub Repository">
               <GitBranch className="w-4 h-4" />
               <span>GitHub</span>
             </a>

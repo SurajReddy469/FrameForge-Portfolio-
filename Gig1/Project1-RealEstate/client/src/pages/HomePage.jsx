@@ -15,6 +15,7 @@ import {
 import PropertyCard from '../components/PropertyCard';
 import SkeletonCard from '../components/SkeletonCard';
 import { propertyService } from '../services/api';
+import { initialMockProperties } from '../data/mockProperties';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -31,12 +32,14 @@ const HomePage = () => {
     const fetchFeatured = async () => {
       try {
         const res = await propertyService.getFeatured();
-        if (res.success && res.data) {
+        if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
           setFeaturedProperties(res.data);
+        } else {
+          setFeaturedProperties(initialMockProperties.filter(p => p.featured));
         }
       } catch (err) {
-        console.error('Failed to load featured listings', err);
-        setFeaturedError(true);
+        console.warn('Fallback applied for featured listings', err);
+        setFeaturedProperties(initialMockProperties.filter(p => p.featured));
       } finally {
         setLoading(false);
       }
