@@ -16,7 +16,7 @@ Production-grade full-stack MERN (MongoDB, Express.js, React, Node.js + Tailwind
 
 | # | Project Name | Domain / Niche | Live Vercel Production URL | Local Port |
 | :-: | :--- | :--- | :--- | :---: |
-| **1** | **UrbanNest** | Real Estate Marketplace | 🔗 [frame-forge-portfolio.vercel.app](https://frame-forge-portfolio.vercel.app) | `:5000` / `:5173` |
+| **1** | **FrameForge Hub & UrbanNest** | Portfolio Hub & Real Estate | 🔗 [frameforge-hub.vercel.app](https://frameforge-hub.vercel.app) *(Mirror: [frame-forge-portfolio.vercel.app](https://frame-forge-portfolio.vercel.app))* | `:5000` / `:5173` |
 | **2** | **GourmetHaven** | Fine Dining & Reservations | 🔗 [frameforge-gourmethaven.vercel.app](https://frameforge-gourmethaven.vercel.app) | `:5001` / `:5174` |
 | **3** | **ApexMedia** | Digital Agency & CRM | 🔗 [frameforge-apexmedia.vercel.app](https://frameforge-apexmedia.vercel.app) | `:5002` / `:5175` |
 | **4** | **FitPulse** | Gym & Studio Management | 🔗 [frameforge-fitpulse.vercel.app](https://frameforge-fitpulse.vercel.app) | `:5003` / `:5176` |
