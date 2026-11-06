@@ -46,7 +46,15 @@ const ReservationsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.guestName || !formData.guestEmail || !formData.guestPhone) {
+    if (!formData.reservationDate) {
+      addToast('Please pick a dining reservation date', 'error');
+      return;
+    }
+    if (!formData.reservationTime) {
+      addToast('Please choose a dining time slot', 'error');
+      return;
+    }
+    if (!formData.guestName?.trim() || !formData.guestEmail?.trim() || !formData.guestPhone?.trim()) {
       addToast('Please fill all contact details', 'error');
       return;
     }

@@ -204,7 +204,7 @@ export default function HomePage({ onOpenEstimator }) {
               <ShieldCheck className="w-4 h-4" /> 100% Security & Code Quality Guarantee
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Why Global Founders Choose FrameForge Engineering
+              Why Global Founders Choose ApexMedia Engineering
             </h3>
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">
               We eliminate technical debt before it begins. Our platforms ship with comprehensive automated test suites, zero hardcoded credentials, strict RBAC authorization, and automated CI/CD pipelines.
@@ -243,7 +243,7 @@ export default function HomePage({ onOpenEstimator }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex flex-col justify-between">
             <p className="text-sm text-slate-300 italic leading-relaxed">
-              "FrameForge architected our multi-tenant SaaS from scratch. We passed external enterprise pen-testing on the first attempt and scaled to \$2.4M ARR without a hiccup."
+              "ApexMedia architected our multi-tenant SaaS from scratch. We passed external enterprise pen-testing on the first attempt and scaled to \$2.4M ARR without a hiccup."
             </p>
             <div className="mt-6 flex items-center gap-3 pt-4 border-t border-slate-800/60">
               <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">

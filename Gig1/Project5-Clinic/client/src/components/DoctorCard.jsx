@@ -8,8 +8,12 @@ export default function DoctorCard({ doctor, onBook }) {
         {/* Header: Neutral Silhouette Avatar & Rating */}
         <div className="flex items-start justify-between gap-4 mb-5">
           <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-500/20 to-cyan-500/10 border border-teal-500/30 flex items-center justify-center text-teal-300 shadow-inner group-hover:border-teal-400 transition">
-              <User className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 to-cyan-500/10 border border-teal-500/30 flex items-center justify-center text-teal-300 shadow-inner group-hover:border-teal-400 transition shrink-0">
+              {doctor.avatar ? (
+                <img src={doctor.avatar} alt={doctor.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              ) : (
+                <User className="w-8 h-8" />
+              )}
             </div>
             <div>
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-500/10 text-teal-300 border border-teal-500/20 mb-1">

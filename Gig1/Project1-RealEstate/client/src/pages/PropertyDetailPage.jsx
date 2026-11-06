@@ -67,6 +67,8 @@ const PropertyDetailPage = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [tourConfirmationModalOpen, setTourConfirmationModalOpen] = useState(false);
+  const [confirmedTour, setConfirmedTour] = useState(null);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -116,6 +118,18 @@ const PropertyDetailPage = () => {
         property: property._id,
         ...form
       });
+      const code = 'UN-TOUR-' + Math.floor(100000 + Math.random() * 900000);
+      const bookingData = {
+        confirmationCode: code,
+        propertyTitle: property.title,
+        tourType: form.tourType,
+        date: form.preferredDate,
+        time: form.preferredTime,
+        contactMethod: form.preferredContact,
+        guestName: form.name
+      };
+      setConfirmedTour(bookingData);
+      setTourConfirmationModalOpen(true);
       setSubmitSuccess(true);
       addToast('Tour inspection requested successfully!', 'success');
     } catch (err) {
@@ -692,6 +706,72 @@ const PropertyDetailPage = () => {
         </div>
 
       </div>
+
+      {/* Tour Confirmation Modal */}
+      {tourConfirmationModalOpen && confirmedTour && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="relative w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 text-center space-y-6 shadow-2xl animate-in zoom-in-95">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
+              <CheckCircle2 className="w-9 h-9" />
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest">
+                Tour Booking Confirmed
+              </span>
+              <h3 className="text-xl font-extrabold text-slate-900">
+                Inspection Walkthrough Reserved
+              </h3>
+              <p className="text-xs text-slate-500">
+                A confirmation spec sheet and calendar invite have been reserved for your visit.
+              </p>
+            </div>
+
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-left text-xs space-y-2">
+              <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                <span className="text-slate-500 font-medium">Pass Reference:</span>
+                <span className="font-mono font-bold text-emerald-600 text-sm">
+                  {confirmedTour.confirmationCode}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Property:</span>
+                <span className="font-semibold text-slate-900 text-right truncate max-w-[200px]">
+                  {confirmedTour.propertyTitle}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Schedule:</span>
+                <span className="font-semibold text-slate-900">
+                  {confirmedTour.date} at {confirmedTour.time}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Format:</span>
+                <span className="font-semibold text-emerald-700">
+                  {confirmedTour.tourType}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Guest:</span>
+                <span className="font-semibold text-slate-900">
+                  {confirmedTour.guestName} ({confirmedTour.contactMethod})
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2">
+              <button
+                type="button"
+                onClick={() => setTourConfirmationModalOpen(false)}
+                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition cursor-pointer"
+              >
+                Done • View Property Spec
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox Modal */}
       <ImageLightbox

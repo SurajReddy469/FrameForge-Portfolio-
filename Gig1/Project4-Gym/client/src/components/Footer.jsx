@@ -115,15 +115,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} FitPulse Athletic Club. Built by FrameForge Studio.</p>
           <div className="flex items-center gap-4">
-            <a
-              href="https://github.com/SurajReddy469/FrameForge-Portfolio-"
-              target="_blank"
-              rel="noreferrer"
-              className="text-red-400 hover:text-red-300 font-semibold"
-            >
-              GitHub Source ↗
-            </a>
-            <span>•</span>
+            
             <Link to="/login" className="hover:text-slate-400">Staff Portal</Link>
             <span>•</span>
             <Link to="/memberships" className="hover:text-slate-400">Terms & Class Rules</Link>

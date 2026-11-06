@@ -1,7 +1,10 @@
 import React from 'react';
 import { ArrowUpRight, TrendingUp, Sparkles, ExternalLink } from 'lucide-react';
 
+import { useNavigate } from 'react-router-dom';
+
 export default function ProjectCard({ project, onSelect }) {
+  const navigate = useNavigate();
   return (
     <div
       onClick={() => onSelect(project)}
@@ -86,6 +89,20 @@ export default function ProjectCard({ project, onSelect }) {
             </span>
           )}
         </div>
+
+        {/* Explicit Clickable Action */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onSelect) onSelect(project);
+            else navigate(`/projects/${project.id || project._id}`);
+          }}
+          className="w-full mt-4 py-2.5 px-4 rounded-xl bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+        >
+          <span>Explore Case Study & Spec Sheet</span>
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </button>
       </div>
     </div>
   );

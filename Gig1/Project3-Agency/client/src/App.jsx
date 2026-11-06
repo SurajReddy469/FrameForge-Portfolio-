@@ -8,6 +8,7 @@ import ScopeEstimatorModal from './components/ScopeEstimatorModal';
 
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectDetailPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
@@ -36,6 +37,10 @@ export default function App() {
                 <Route
                   path="/projects"
                   element={<ProjectsPage onOpenEstimator={() => setIsEstimatorOpen(true)} />}
+                />
+                <Route
+                  path="/projects/:id"
+                  element={<ProjectDetailPage onOpenEstimator={() => setIsEstimatorOpen(true)} />}
                 />
                 <Route
                   path="/services"

@@ -6,7 +6,7 @@ import { useToast } from '../context/ToastContext';
 const DishDetailModal = ({ dish, onClose }) => {
   const [quantity, setQuantity] = useState(1);
   const [specialInstructions, setSpecialInstructions] = useState('');
-  const { addToCart } = useCart();
+  const { addToCart, openCart } = useCart();
   const { addToast } = useToast();
 
   if (!dish) return null;
@@ -18,6 +18,7 @@ const DishDetailModal = ({ dish, onClose }) => {
     addToCart(dish, quantity, specialInstructions);
     addToast(`Added ${quantity}x "${dish.title}" to bag`, 'success');
     onClose();
+    openCart();
   };
 
   return (

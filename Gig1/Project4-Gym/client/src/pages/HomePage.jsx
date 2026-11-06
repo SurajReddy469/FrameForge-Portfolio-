@@ -180,34 +180,58 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-red-600/10 border border-red-500/20 text-red-400 flex items-center justify-center">
-                <Dumbbell className="w-6 h-6" />
+            <div className="rounded-2xl bg-slate-950/80 border border-slate-800 overflow-hidden group hover:border-red-500/40 transition">
+              <div className="h-44 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80" alt="Eleiko Barbell Turf" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-red-600/90 text-white flex items-center justify-center shadow-md">
+                    <Dumbbell className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Eleiko Barbell Turf</h3>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-white">Eleiko Barbell Turf</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Olympic lifting platforms, calibrated steel plates, Rogue power racks, and shock-absorbent drop zones engineered for heavy deadlifts and clean-and-jerks.
-              </p>
+              <div className="p-5">
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Olympic lifting platforms, calibrated steel plates, Rogue power racks, and shock-absorbent drop zones engineered for heavy deadlifts and clean-and-jerks.
+                </p>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-amber-600/10 border border-amber-500/20 text-amber-400 flex items-center justify-center">
-                <Zap className="w-6 h-6" />
+            <div className="rounded-2xl bg-slate-950/80 border border-slate-800 overflow-hidden group hover:border-amber-500/40 transition">
+              <div className="h-44 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="HIIT & Combat Annex" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-amber-600/90 text-white flex items-center justify-center shadow-md">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">HIIT & Combat Annex</h3>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-white">HIIT & Combat Annex</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Assault air bikes, Concept2 rowers, ski ergs, and heavy punch bags for brutal heart-rate conditioning, explosive speed, and combat endurance.
-              </p>
+              <div className="p-5">
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Assault air bikes, Concept2 rowers, ski ergs, and heavy punch bags for brutal heart-rate conditioning, explosive speed, and combat endurance.
+                </p>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-600/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <HeartPulse className="w-6 h-6" />
+            <div className="rounded-2xl bg-slate-950/80 border border-slate-800 overflow-hidden group hover:border-emerald-500/40 transition">
+              <div className="h-44 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=800&q=80" alt="Mobility & Recovery Lounge" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-600/90 text-white flex items-center justify-center shadow-md">
+                    <HeartPulse className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-bold text-white">Mobility & Recovery Lounge</h3>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-white">Mobility & Recovery Lounge</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Infrared saunas, cold plunge tubs, Normatec compression boots, and heated bamboo flooring for deep fascial release and accelerated nervous system recovery.
-              </p>
+              <div className="p-5">
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Infrared saunas, cold plunge tubs, Normatec compression boots, and heated bamboo flooring for deep fascial release and accelerated nervous system recovery.
+                </p>
+              </div>
             </div>
           </div>
         </div>

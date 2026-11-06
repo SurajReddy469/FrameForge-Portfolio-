@@ -63,11 +63,15 @@ export default function BookAppointmentPage() {
                     }`}
                   >
                     <div
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-teal-500 text-slate-950 font-bold' : 'bg-slate-700 text-slate-300'
+                      className={`w-9 h-9 rounded-lg overflow-hidden flex items-center justify-center shrink-0 ${
+                        isSelected ? 'border border-teal-400' : 'border border-slate-700'
                       }`}
                     >
-                      <User className="w-5 h-5" />
+                      {doc.avatar ? (
+                        <img src={doc.avatar} alt={doc.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-5 h-5" />
+                      )}
                     </div>
                     <div className="overflow-hidden">
                       <div className="font-bold text-xs truncate">{doc.name}</div>
@@ -84,8 +88,12 @@ export default function BookAppointmentPage() {
             <div className="md:col-span-2 bg-slate-800/80 border border-slate-700 rounded-3xl p-6 sm:p-8 space-y-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-700">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center shadow-inner">
-                    <User className="w-9 h-9" />
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden bg-teal-500/20 text-teal-300 border border-teal-500/30 flex items-center justify-center shadow-inner shrink-0">
+                    {selectedDoctor.avatar ? (
+                      <img src={selectedDoctor.avatar} alt={selectedDoctor.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-9 h-9" />
+                    )}
                   </div>
                   <div>
                     <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-500/10 text-teal-300 border border-teal-500/20 mb-1">

@@ -92,17 +92,8 @@ const Footer = () => {
                   <span>💬 WhatsApp Order Chat</span>
                 </a>
               </li>
-              <li className="pt-2">
-                <a
-                  href="https://github.com/SurajReddy469/FrameForge-Portfolio-"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-semibold"
-                >
-                  <Code2 className="w-4 h-4" />
-                  View GitHub Source
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+              <li className="pt-2 text-xs text-slate-400">
+                <span>RERA Registered Luxury Advisory</span>
               </li>
             </ul>
           </div>
