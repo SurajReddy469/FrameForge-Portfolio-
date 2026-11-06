@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Award, Check, Sparkles, ArrowRight, ShieldCheck, Flame, X, Dumbbell } from 'lucide-react';
-import { planApi } from '../services/api';
+import { planApi, INITIAL_PLANS } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 export default function MembershipsPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [plans, setPlans] = useState([]);
+  const [plans, setPlans] = useState(INITIAL_PLANS);
 
   useEffect(() => {
     const fetchPlans = async () => {
       try {
         const res = await planApi.getPlans();
         const list = Array.isArray(res?.data) ? res.data : (res?.plans || []);
-        setPlans(list);
+        if (list && list.length > 0) {
+          setPlans(list);
+        }
       } catch (err) {
         console.warn('Fallback plans loaded');
       }

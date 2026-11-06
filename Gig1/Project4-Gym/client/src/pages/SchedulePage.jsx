@@ -2,32 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { Search, Filter, Calendar, Flame, Clock, Dumbbell, Sparkles } from 'lucide-react';
 import ClassCard from '../components/ClassCard';
 import ClassBookingModal from '../components/ClassBookingModal';
-import { classApi } from '../services/api';
+import { classApi, INITIAL_CLASSES } from '../services/api';
 
 const DAYS = ['All', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const CATEGORIES = ['All', 'CrossFit', 'Yoga', 'HIIT', 'Spin', 'Boxing', 'Strength'];
 const INTENSITIES = ['All', 'Extreme', 'High', 'Medium'];
 
 export default function SchedulePage() {
-  const [classes, setClasses] = useState([]);
-  const [filteredClasses, setFilteredClasses] = useState([]);
+  const [classes, setClasses] = useState(() => {
+    try {
+      const raw = localStorage.getItem('fitpulse_classes');
+      return raw ? JSON.parse(raw) : INITIAL_CLASSES;
+    } catch {
+      return INITIAL_CLASSES;
+    }
+  });
+  const [filteredClasses, setFilteredClasses] = useState(() => {
+    try {
+      const raw = localStorage.getItem('fitpulse_classes');
+      return raw ? JSON.parse(raw) : INITIAL_CLASSES;
+    } catch {
+      return INITIAL_CLASSES;
+    }
+  });
   const [dayFilter, setDayFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [intensityFilter, setIntensityFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [selectedClass, setSelectedClass] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchClasses = async () => {
-    setLoading(true);
     try {
       const res = await classApi.getClasses();
       const list = Array.isArray(res?.data) ? res.data : (res?.classes || []);
-      setClasses(list);
-      setFilteredClasses(list);
+      if (list && list.length > 0) {
+        setClasses(list);
+      }
     } catch (err) {
-      console.warn('Fallback classes loaded');
+      console.warn('Using local fallback classes', err);
+      setClasses(prev => prev && prev.length > 0 ? prev : INITIAL_CLASSES);
     } finally {
       setLoading(false);
     }

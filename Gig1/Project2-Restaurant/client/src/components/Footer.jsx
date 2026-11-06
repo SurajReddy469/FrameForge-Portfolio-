@@ -73,6 +73,9 @@ const Footer = () => {
                 <span>concierge@gourmethaven.com</span>
               </a>
             </div>
+            <div className="text-[11px] text-amber-400/80 bg-stone-900 border border-stone-800 rounded-lg p-2.5 mt-2">
+              Notice: GourmetHaven is a fictional dining concept for portfolio demonstration. Address and phone are illustrative sample data.
+            </div>
           </div>
 
           {/* Quick Links & Accreditations */}

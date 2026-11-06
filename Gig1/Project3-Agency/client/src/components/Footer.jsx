@@ -111,7 +111,10 @@ export default function Footer({ onOpenEstimator }) {
             </li>
             <li className="flex items-center gap-2 text-xs text-emerald-400 pt-1">
               <ShieldCheck className="w-4 h-4" />
-              <span>ISO 27001 Certified & SOC-2 Compliant Delivery</span>
+              <span>Enterprise-Grade MERN Architecture & Secure Code Delivery</span>
+            </li>
+            <li className="text-[11px] text-slate-400 bg-slate-900 border border-slate-800 rounded-lg p-2.5 mt-2">
+              Notice: ApexMedia is a fictional digital engineering agency demo. Case studies and metrics represent sample portfolio work.
             </li>
           </ul>
         </div>

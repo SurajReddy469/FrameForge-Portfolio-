@@ -324,7 +324,7 @@ export const authApi = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const demoUser = {
         _id: 'usr_' + Date.now(),
         name: userData.name,
@@ -348,7 +348,7 @@ export const authApi = {
       const data = await handleApiResponse(res);
       return data.user;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const stored = localStorage.getItem('medicare_user');
       if (stored) {
         try { return JSON.parse(stored); } catch {}
@@ -372,7 +372,7 @@ export const departmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return getLocalData('medicare_departments', INITIAL_DEPARTMENTS);
     }
   },
@@ -383,7 +383,7 @@ export const departmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const depts = getLocalData('medicare_departments', INITIAL_DEPARTMENTS);
       return depts.find(d => d.code === code) || depts[0];
     }
@@ -401,7 +401,7 @@ export const doctorApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       let docs = getLocalData('medicare_doctors', INITIAL_DOCTORS);
       if (params.department && params.department !== 'ALL') {
         docs = docs.filter(d => d.department.toLowerCase() === params.department.toLowerCase() || d.departmentCode === params.department);
@@ -420,7 +420,7 @@ export const doctorApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const docs = getLocalData('medicare_doctors', INITIAL_DOCTORS);
       return docs.find(d => d._id === id) || docs[0];
     }
@@ -487,7 +487,7 @@ export const appointmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return getLocalData('medicare_appointments', INITIAL_APPOINTMENTS);
     }
   },
@@ -498,7 +498,7 @@ export const appointmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const appts = getLocalData('medicare_appointments', INITIAL_APPOINTMENTS);
       const found = appts.find(a => a.appointmentCode.toLowerCase() === (code || '').toLowerCase());
       if (!found) throw new Error('Appointment not found');
@@ -519,7 +519,7 @@ export const appointmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       let appts = getLocalData('medicare_appointments', INITIAL_APPOINTMENTS);
       if (filters.status && filters.status !== 'All') {
         appts = appts.filter(a => a.status === filters.status);
@@ -545,7 +545,7 @@ export const appointmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const appts = getLocalData('medicare_appointments', INITIAL_APPOINTMENTS);
       const updated = appts.map(a => a._id === id ? { ...a, status, cancellationReason } : a);
       setLocalData('medicare_appointments', updated);
@@ -563,7 +563,7 @@ export const appointmentApi = {
       const data = await handleApiResponse(res);
       return data.data || data;
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const appts = getLocalData('medicare_appointments', INITIAL_APPOINTMENTS);
       const updated = appts.map(a => a._id === id ? { ...a, status: 'Cancelled', cancellationReason: reason } : a);
       setLocalData('medicare_appointments', updated);

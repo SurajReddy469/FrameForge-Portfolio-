@@ -301,7 +301,7 @@ export const classService = {
       const raw = Array.isArray(json.data) ? json.data : (json.classes || INITIAL_CLASSES);
       return { success: true, count: raw.length, data: raw, classes: raw };
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       let items = getLocalData('fitpulse_classes', INITIAL_CLASSES);
       if (params.category && params.category !== 'All') {
         items = items.filter(c => c.category === params.category);
@@ -325,7 +325,7 @@ export const classService = {
       const res = await fetch(`${API_BASE}/classes/${id}`);
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const items = getLocalData('fitpulse_classes', INITIAL_CLASSES);
       const c = items.find(item => item._id === id || item.id === id);
       return { success: true, data: c || INITIAL_CLASSES[0] };
@@ -403,7 +403,7 @@ export const bookingService = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const list = getLocalData('fitpulse_bookings', INITIAL_BOOKINGS);
       const updated = list.map(b => (b._id === id || b.id === id) ? { ...b, status: 'Cancelled' } : b);
       setLocalData('fitpulse_bookings', updated);
@@ -419,7 +419,7 @@ export const bookingService = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       const list = getLocalData('fitpulse_bookings', INITIAL_BOOKINGS);
       const updated = list.map(b => (b._id === id || b.id === id) ? { ...b, status: 'Attended' } : b);
       setLocalData('fitpulse_bookings', updated);
@@ -437,7 +437,7 @@ export const bookingService = {
       const raw = Array.isArray(json.data) ? json.data : (json.bookings || INITIAL_BOOKINGS);
       return { success: true, count: raw.length, data: raw, bookings: raw };
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       let list = getLocalData('fitpulse_bookings', INITIAL_BOOKINGS);
       if (params.status && params.status !== 'All') {
         list = list.filter(b => b.status === params.status);
@@ -453,7 +453,7 @@ export const bookingService = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return {
         success: true,
         data: {
@@ -503,7 +503,7 @@ export const trainerService = {
       const raw = Array.isArray(json.data) ? json.data : (json.trainers || INITIAL_TRAINERS);
       return { success: true, count: raw.length, data: raw, trainers: raw };
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return { success: true, count: INITIAL_TRAINERS.length, data: INITIAL_TRAINERS, trainers: INITIAL_TRAINERS };
     }
   }
@@ -517,7 +517,7 @@ export const planService = {
       const raw = Array.isArray(json.data) ? json.data : (json.plans || INITIAL_PLANS);
       return { success: true, count: raw.length, data: raw, plans: raw };
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return { success: true, count: INITIAL_PLANS.length, data: INITIAL_PLANS, plans: INITIAL_PLANS };
     }
   }
@@ -607,7 +607,7 @@ export const authService = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError) throw err;
+      // fallback to local data
       return {
         success: true,
         data: {

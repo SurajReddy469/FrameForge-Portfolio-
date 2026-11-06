@@ -46,6 +46,14 @@ const HomePage = () => {
     fetchFeatured();
   }, []);
 
+  const displayedProperties = React.useMemo(() => {
+    let list = initialMockProperties;
+    if (searchPurpose && searchPurpose !== 'All') {
+      list = initialMockProperties.filter(p => p.purpose === searchPurpose);
+    }
+    return list;
+  }, [searchPurpose]);
+
   const handleHeroSearch = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
@@ -260,7 +268,7 @@ const HomePage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.slice(0, 6).map((property) => <PropertyCard key={property._id} property={property} />)}
+            {displayedProperties.map((property) => <PropertyCard key={property._id} property={property} />)}
           </div>
         )}
       </section>

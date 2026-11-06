@@ -140,7 +140,7 @@ export default function ProjectDetailPage({ onOpenEstimator }) {
             <span>The Engineered Solution</span>
           </div>
           <p className="text-sm text-slate-300 leading-relaxed">
-            {project.solution || 'Engineered an ultra-resilient, event-driven web platform with automated CI/CD validation, high-throughput caching layers, and SOC-2 compliance.'}
+            {project.solution || 'Engineered an ultra-resilient, event-driven web platform with automated CI/CD validation, high-throughput caching layers, and automated security best practices.'}
           </p>
         </div>
       </div>

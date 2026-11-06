@@ -96,20 +96,20 @@ export default function HomePage({ onOpenEstimator }) {
           {/* Proof Badges / KPI Strip */}
           <div className="mt-16 pt-10 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-white">120+</p>
-              <p className="text-xs text-slate-400 mt-0.5">Production Apps Shipped</p>
+              <p className="text-2xl sm:text-3xl font-black text-white">MERN</p>
+              <p className="text-xs text-slate-400 mt-0.5">Full-Stack Stack</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-emerald-400">99.98%</p>
-              <p className="text-xs text-slate-400 mt-0.5">SLA Uptime Standard</p>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-400">100%</p>
+              <p className="text-xs text-slate-400 mt-0.5">Automated Test Suites</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-blue-400">$48M+</p>
-              <p className="text-xs text-slate-400 mt-0.5">Client Revenue Influenced</p>
+              <p className="text-2xl sm:text-3xl font-black text-blue-400">Dual-Engine</p>
+              <p className="text-xs text-slate-400 mt-0.5">In-Memory Resilience</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-indigo-400">4.99 / 5</p>
-              <p className="text-xs text-slate-400 mt-0.5">Client Satisfaction Score</p>
+              <p className="text-2xl sm:text-3xl font-black text-indigo-400">Demo</p>
+              <p className="text-xs text-slate-400 mt-0.5">Sample Case Studies</p>
             </div>
           </div>
         </div>

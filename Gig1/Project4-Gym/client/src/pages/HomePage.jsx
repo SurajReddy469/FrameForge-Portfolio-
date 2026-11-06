@@ -88,7 +88,7 @@ export default function HomePage() {
 
           {/* Subtext */}
           <p className="mt-6 text-base sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            Experience Olympic-standard equipment, heart-rate synchronized HIIT, and science-backed class programming designed to crush plateaus and elevate athletic conditioning.
+            Experience Professional athletic equipment, heart-rate synchronized HIIT, and science-backed class programming designed to crush plateaus and elevate athletic conditioning.
           </p>
 
           {/* Action CTAs */}
@@ -125,7 +125,7 @@ export default function HomePage() {
             </div>
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
               <p className="text-2xl sm:text-3xl font-black text-emerald-400">100%</p>
-              <p className="text-xs text-slate-400 mt-1">Certified CSCS / NASM Coaches</p>
+              <p className="text-xs text-slate-400 mt-1">Experienced Athletic Coaches</p>
             </div>
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function HomePage() {
               </div>
               <div className="p-5">
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Olympic lifting platforms, calibrated steel plates, Rogue power racks, and shock-absorbent drop zones engineered for heavy deadlifts and clean-and-jerks.
+                  Performance lifting platforms, calibrated steel plates, Rogue power racks, and shock-absorbent drop zones engineered for heavy deadlifts and clean-and-jerks.
                 </p>
               </div>
             </div>

@@ -54,7 +54,7 @@ const HomePage = () => {
           {/* Michelin Accolade Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stone-900/90 border border-amber-500/40 text-amber-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md shadow-xl animate-fade-in">
             <Award className="w-4 h-4 text-amber-400" />
-            <span>Award of Excellence 2024–2026</span>
+            <span>Artisanal Dining Concept • Technical Demo Project</span>
             <span className="text-stone-500">•</span>
             <span className="text-stone-300">Hyderabad Sanctuary</span>
           </div>
@@ -93,7 +93,7 @@ const HomePage = () => {
           <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-6 border-t border-stone-800/80 max-w-4xl mx-auto text-stone-300">
             <div>
               <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">4.9 / 5</span>
-              <span className="text-xs uppercase tracking-wider text-stone-400">Over 1,200 Reviews</span>
+              <span className="text-xs uppercase tracking-wider text-stone-400">Sample Concept Ratings</span>
             </div>
             <div>
               <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">100%</span>
@@ -131,7 +131,7 @@ const HomePage = () => {
                 </div>
                 <div>
                   <h4 className="font-serif-luxury text-stone-100 font-bold text-base">24+ Years</h4>
-                  <p className="text-xs text-stone-400">Michelin-star culinary mastery</p>
+                  <p className="text-xs text-stone-400">Artisan culinary craft & pastry design</p>
                 </div>
               </div>
             </div>

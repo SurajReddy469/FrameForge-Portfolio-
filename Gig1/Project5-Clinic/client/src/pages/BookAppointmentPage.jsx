@@ -1,26 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { doctorApi, departmentApi } from '../services/api';
+import { doctorApi, departmentApi, INITIAL_DOCTORS } from '../services/api';
 import AppointmentModal from '../components/AppointmentModal';
 import AppointmentSlipModal from '../components/AppointmentSlipModal';
 import { Calendar, User, ShieldCheck, HeartPulse, Clock, Sparkles } from 'lucide-react';
 
 export default function BookAppointmentPage() {
-  const [doctors, setDoctors] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [doctors, setDoctors] = useState(() => {
+    try {
+      const stored = localStorage.getItem('medicare_doctors');
+      return stored ? JSON.parse(stored) : INITIAL_DOCTORS;
+    } catch {
+      return INITIAL_DOCTORS;
+    }
+  });
+  const [selectedDoctor, setSelectedDoctor] = useState(() => {
+    try {
+      const stored = localStorage.getItem('medicare_doctors');
+      const list = stored ? JSON.parse(stored) : INITIAL_DOCTORS;
+      return list[0] || INITIAL_DOCTORS[0];
+    } catch {
+      return INITIAL_DOCTORS[0];
+    }
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmedAppointment, setConfirmedAppointment] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         const data = await doctorApi.getAll();
-        setDoctors(data);
-        if (data.length > 0) {
-          setSelectedDoctor(data[0]);
+        if (Array.isArray(data) && data.length > 0) {
+          setDoctors(data);
+          setSelectedDoctor(prev => prev ? (data.find(d => d._id === prev._id) || data[0]) : data[0]);
         }
       } catch (e) {
-        console.error('Failed to load doctors', e);
+        console.warn('Using local fallback clinic doctors', e);
+        setDoctors(INITIAL_DOCTORS);
+        setSelectedDoctor(prev => prev || INITIAL_DOCTORS[0]);
       } finally {
         setLoading(false);
       }

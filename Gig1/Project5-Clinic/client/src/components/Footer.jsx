@@ -23,7 +23,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-2 text-xs text-teal-400/90 bg-teal-950/40 p-2.5 rounded-lg border border-teal-800/40">
               <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>HIPAA-compliant encrypted medical intake</span>
+              <span>Fictional Healthcare Entity • Technical Demonstration Only</span>
             </div>
           </div>
 
@@ -120,7 +120,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs gap-4">
-          <p>© {new Date().getFullYear()} MediCare Plus CarePoint Clinic. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MediCare Plus CarePoint Clinic. Fictional medical center concept created for FrameForge technical portfolio.</p>
           <div className="flex items-center gap-4 text-slate-400">
             <span>Demo Patient Intake Portal</span>
             <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>

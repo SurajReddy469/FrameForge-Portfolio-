@@ -106,6 +106,9 @@ export default function Footer() {
               <ShieldCheck className="w-4 h-4" />
               <span>Illustrative Athletic Club • Technical Demonstration</span>
             </li>
+            <li className="text-[11px] text-slate-400 bg-slate-900 border border-slate-800 rounded-lg p-2 mt-2">
+              Notice: FitPulse is a fictional athletic club created for technical demonstration. Locations and phone numbers are illustrative sample data.
+            </li>
           </ul>
         </div>
       </div>

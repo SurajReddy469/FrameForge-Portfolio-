@@ -699,7 +699,7 @@ const PropertyDetailPage = () => {
             )}
 
             <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 text-center">
-              Zero-spam guarantee • Direct confirmation by licensed agent.
+              Sample Property Data • Fictional Real Estate Entity for Technical Demonstration.
             </div>
 
           </div>

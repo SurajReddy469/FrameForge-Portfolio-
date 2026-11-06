@@ -44,7 +44,7 @@ const TIERS = [
     budget: '$15,000+',
     turnaround: '10 – 16 Weeks',
     badge: 'Scale-Up Pod',
-    desc: 'Mission-critical distributed architectures, custom AI/LLM orchestration, and strict SOC-2 compliance.',
+    desc: 'Mission-critical distributed architectures, custom AI/LLM orchestration, and strict security and input-validation best practices.',
     features: [
       'Everything in Growth Accelerator',
       'Dedicated Senior Engineering Pod (3-4 devs)',

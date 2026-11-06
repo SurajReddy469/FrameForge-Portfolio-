@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { User, Award, Star, Clock, CheckCircle2, ShieldCheck, Mail, Calendar } from 'lucide-react';
-import { trainerApi } from '../services/api';
+import { trainerApi, INITIAL_TRAINERS } from '../services/api';
 
 export default function TrainersPage() {
-  const [trainers, setTrainers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [trainers, setTrainers] = useState(INITIAL_TRAINERS);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTrainers = async () => {
       try {
         const res = await trainerApi.getTrainers();
         const list = Array.isArray(res?.data) ? res.data : (res?.trainers || []);
-        setTrainers(list);
+        if (list && list.length > 0) {
+          setTrainers(list);
+        }
       } catch (err) {
         console.warn('Fallback trainers loaded');
       } finally {

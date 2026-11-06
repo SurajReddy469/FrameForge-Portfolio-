@@ -93,7 +93,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="pt-2 text-xs text-slate-400">
-                <span>Sample Property Data • Illustrative Demo</span>
+                <div className="text-[11px] text-emerald-400/90 bg-slate-800/90 border border-slate-700/80 rounded-lg p-2.5 mt-1">Notice: UrbanNest is an illustrative real estate demo with sample properties. All listings, specs, and prices are fictional technical demonstrations.</div>
               </li>
             </ul>
           </div>

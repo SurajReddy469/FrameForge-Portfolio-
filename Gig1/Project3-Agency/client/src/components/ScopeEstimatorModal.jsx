@@ -9,7 +9,7 @@ const PLATFORM_OPTIONS = [
   { id: 'saas', name: 'B2B SaaS Platform / Multi-Tenant', base: 8500, time: '8-12 wks', desc: 'Multi-tenant architecture, subscription billing, team management, analytics.' },
   { id: 'ecommerce', name: 'E-Commerce / Custom Marketplace', base: 7000, time: '6-8 wks', desc: 'Catalog, cart, multi-gateway payments, inventory sync, order dispatch.' },
   { id: 'mobile', name: 'Cross-Platform Mobile Application', base: 9000, time: '8-10 wks', desc: 'React Native / Flutter, offline sync, push notifications, native integrations.' },
-  { id: 'enterprise', name: 'Enterprise Cloud System & Microservices', base: 14000, time: '12-16 wks', desc: 'High-concurrency microservices, SOC-2 readiness, CI/CD pipeline, monitoring.' },
+  { id: 'enterprise', name: 'Enterprise Cloud System & Microservices', base: 14000, time: '12-16 wks', desc: 'High-concurrency microservices, enterprise security architecture, CI/CD pipeline, monitoring.' },
 ];
 
 const FEATURE_OPTIONS = [
