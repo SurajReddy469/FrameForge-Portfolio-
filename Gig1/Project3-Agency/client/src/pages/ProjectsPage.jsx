@@ -108,7 +108,7 @@ export default function ProjectsPage({ onOpenEstimator }) {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
-            <Award className="w-4 h-4" /> Production Showcase
+            <Award className="w-4 h-4" /> Illustrative Showcase
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
             Case Studies & Architecture

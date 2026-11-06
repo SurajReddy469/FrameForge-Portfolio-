@@ -117,12 +117,12 @@ export default function HomePage() {
               <div className="text-xs text-slate-400 font-medium">Specialized Departments</div>
             </div>
             <div className="bg-slate-800/40 border border-slate-800 p-5 rounded-2xl text-center">
-              <div className="text-2xl sm:text-3xl font-black text-teal-400 mb-1">15+</div>
-              <div className="text-xs text-slate-400 font-medium">Board Physicians</div>
+              <div className="text-2xl sm:text-3xl font-black text-teal-400 mb-1">6</div>
+              <div className="text-xs text-slate-400 font-medium">Sample Doctor Profiles</div>
             </div>
             <div className="bg-slate-800/40 border border-slate-800 p-5 rounded-2xl text-center">
-              <div className="text-2xl sm:text-3xl font-black text-cyan-400 mb-1">99.4%</div>
-              <div className="text-xs text-slate-400 font-medium">On-Time Appointments</div>
+              <div className="text-2xl sm:text-3xl font-black text-cyan-400 mb-1">Demo</div>
+              <div className="text-xs text-slate-400 font-medium">Appointment Workflows</div>
             </div>
             <div className="bg-slate-800/40 border border-slate-800 p-5 rounded-2xl text-center">
               <div className="text-2xl sm:text-3xl font-black text-white mb-1">24/7</div>
@@ -318,16 +318,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Verified Patient Testimonials Section */}
+      {/* Illustrative Patient Testimonials Section */}
       <section className="bg-slate-900/40 border-y border-slate-800 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">Patient Experiences</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">Illustrative Sample Content</span>
             <h2 className="text-3xl font-extrabold text-white tracking-tight">
-              Verified Patient Testimonials
+              Example Patient Feedback (Fictional)
             </h2>
             <p className="text-xs text-slate-400 mt-2">
-              Over 14,000 successful consultations and clinical treatments completed with a 99.4% on-time record.
+              Fictional testimonials shown to demonstrate this interface. They do not represent real patients or clinical outcomes.
             </p>
           </div>
 

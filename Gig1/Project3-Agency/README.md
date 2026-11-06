@@ -1,7 +1,7 @@
 # ApexMedia — Digital Product Studio & Enterprise Client Portal
 > **Portfolio 1 • Gig 1: Custom Web Application Development • Project 3 of 5**  
 > **Brand & Engineering Lead:** FrameForge (Full-Stack MERN Specialist, India)  
-> **Architecture Score:** **10.0 / 10** across Security, Architectural Resilience, Performance, UI Polish, and Automated Verification.
+> **Architecture Highlights:** Security hardening, in-memory resilience, algorithmic scope calculation, and automated verification suites.
 
 ---
 
@@ -11,6 +11,7 @@
 ---
 
 ## 🚀 Live Services & Architecture Ports
+- **Live Vercel Production:** 🔗 [frameforge-apexmedia.vercel.app](https://frameforge-apexmedia.vercel.app/)
 - **Backend API:** `http://localhost:5002` (Health: `http://localhost:5002/api/health`)
 - **Frontend Client:** `http://localhost:5175` (Vite + React 19 + Tailwind CSS)
 - **Concurrent Portfolio Ports:**
@@ -20,18 +21,18 @@
 
 ---
 
-## 🛡️ Production Security & 10/10 Engineering Checklist
+## 🛡️ Production Security & Engineering Checklist
 
-| Dimension | Implementation | Verdict |
+| Dimension | Implementation | Verification |
 | :--- | :--- | :---: |
-| **RBAC & Authorization** | Public registration strictly assigns role `user`; administrative operations require verified `Bearer` JWT tokens. Zero client-side role injection. | **10 / 10** |
-| **Server-Side Scope Engine** | Authoritative cost calculation in `pricingEstimator.js`; client cannot forge estimates or tamper with pricing tiers. | **10 / 10** |
-| **Rate Limiting & DoS** | Strict window rate limiting on `/api/auth/register`, `/api/auth/login`, and `/api/leads`. | **10 / 10** |
-| **Collision-Resistant Codes** | Collision-retried unique tracking codes (`APEX-LEAD-XXXXXX`) generated via server-side verification loops. | **10 / 10** |
-| **RFC 4180 CSV Export** | RFC 4180 compliant CSV generator with escaped quotes and CRLF line breaks at `/api/leads/export/csv`. | **10 / 10** |
-| **Dual-Engine Persistence** | In-memory runtime fallback alongside MongoDB checking `mongoose.connection.readyState === 1`. 100% test pass rate even if MongoDB is offline. | **10 / 10** |
-| **Automated Test Suite** | 12/12 automated integration tests passing in `< 100ms` via Node.js native test runner (`tests/api.test.js`). | **10 / 10** |
-| **Zero External Avatar PII** | Clean neutral person silhouette SVG badges (`<User />`) everywhere; zero unverified external headshots. | **10 / 10** |
+| **RBAC & Authorization** | Public registration strictly assigns role `user`; administrative operations require verified `Bearer` JWT tokens. Zero client-side role injection. | **Verified** |
+| **Server-Side Scope Engine** | Authoritative cost calculation in `pricingEstimator.js`; client cannot forge estimates or tamper with pricing tiers. | **Verified** |
+| **Rate Limiting & DoS** | Strict window rate limiting on `/api/auth/register`, `/api/auth/login`, and `/api/leads`. | **Verified** |
+| **Collision-Resistant Codes** | Collision-retried unique tracking codes (`APEX-LEAD-XXXXXX`) generated via server-side verification loops. | **Verified** |
+| **RFC 4180 CSV Export** | RFC 4180 compliant CSV generator with escaped quotes and CRLF line breaks at `/api/leads/export/csv`. | **Verified** |
+| **Dual-Engine Persistence** | In-memory runtime fallback alongside MongoDB checking `mongoose.connection.readyState === 1`. Consistent route tests pass even if MongoDB is offline. | **Verified** |
+| **Automated Test Suite** | 14 automated integration tests passing in `< 100ms` via Node.js native test runner (`tests/api.test.js`). | **Verified** |
+| **Zero External Avatar PII** | Clean neutral person silhouette SVG badges (`<User />`) everywhere; zero unverified external headshots. | **Verified** |
 
 ---
 

@@ -1,5 +1,6 @@
 # MediCare Plus – CarePoint Clinical Appointment & Patient Intake Platform
-> **FrameForge Portfolio Flagship — Gig 1: Full-Stack MERN Application Development (Project 5)**
+> **FrameForge Portfolio Flagship — Gig 1: Full-Stack MERN Application Development (Project 5)**  
+> 🌐 **Live Vercel Production:** 🔗 [frameforge-medicare.vercel.app](https://frameforge-medicare.vercel.app/)
 
 ![MediCare Plus Header](https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80)
 
@@ -7,16 +8,16 @@
 
 ## 🏥 1. Executive Summary & Value Proposition
 
-**MediCare Plus** is an enterprise-grade clinical management and physician scheduling platform designed for modern medical centers, specialist polyclinics, and hospital departments. Built strictly on the **MERN** stack (MongoDB, Express, React, Node.js) styled with **Tailwind CSS**, MediCare Plus solves the most critical issues facing healthcare appointment systems: **double-booking conflicts**, **lengthy manual waiting room paperwork**, **unauthorized role escalation**, and **patient record leakage**.
+**MediCare Plus** is a clinical management and physician scheduling demonstration platform designed for outpatient medical practices and polyclinics. Built on the **MERN** stack (MongoDB, Express, React, Node.js) styled with **Tailwind CSS**, MediCare Plus showcases solutions for key scheduling challenges: **slot collision prevention**, **digital intake questionnaires**, **role-based authorization**, and **audited CSV export**. *(Note: MediCare Plus is an illustrative technical portfolio demonstration, not a certified clinical device or EHR system).*
 
 ### 🌟 Core Capabilities
 - **Atomic Conflict-Free Appointment Engine:** Real-time slot locking prevents simultaneous double-bookings for the same physician, date, and time slot.
-- **2-Step Digital Intake (HIPAA-Aligned):** Captures chief complaints, duration of symptoms, and medical history prior to arrival, reducing on-site check-in wait times by up to 25 minutes.
+- **2-Step Digital Intake Demonstration:** Captures sample chief complaints, duration of symptoms, and history prior to arrival.
 - **Cryptographic Confirmation Pass:** Generates collision-resistant verification codes (`CARE-APPT-XXXXXX`) with digital slip generator and browser print-to-PDF support.
 - **Reception Desk Dashboard:** Staff desk interface with real-time status transitions (`Confirmed` ➔ `Checked-In` ➔ `Completed` ➔ `Cancelled`) and fast-action check-in timestamps.
 - **RFC 4180 CSV Export:** Audited clinical appointment data export with sanitized fields, escaping, and patient confidentiality preservation.
 - **Zero Role Escalation Security:** Strict server-side validation ensuring public patient registration cannot be escalated to doctor or admin roles.
-- **Dual-Engine Offline Resilience:** High-availability architecture with an intelligent fallback store that keeps the application 100% interactive and fully functional even when local database daemons are offline.
+- **Dual-Engine Offline Resilience:** High-availability architecture with an intelligent fallback store that keeps the application interactive with simulated local state even when database daemons are offline.
 
 ---
 
@@ -24,6 +25,7 @@
 
 | Layer | Technology | Dedicated Port / Protocol |
 | :--- | :--- | :--- |
+| **Live Production** | Vercel Serverless Edge CDN | [frameforge-medicare.vercel.app](https://frameforge-medicare.vercel.app/) |
 | **Frontend SPA** | React 18, Vite 5, Tailwind CSS, Lucide Icons, Canvas Confetti | `http://localhost:5177` |
 | **Backend REST API** | Node.js, Express, JWT, BcryptJS, Express-Rate-Limit, Supertest | `http://localhost:5004` |
 | **Database** | MongoDB & Mongoose (with automated dual-engine fallback) | `mongodb://127.0.0.1:27017/medicare_plus_db` |
@@ -69,7 +71,7 @@
 
 ## 🧪 5. Automated Verification Test Suite
 
-MediCare Plus includes an automated test suite verifying all 13 core production guarantees (auth security, atomic slot collision prevention, role authorization, and RFC 4180 CSV export):
+MediCare Plus includes an automated test suite verifying all 13 core production assertions (auth security, atomic slot collision prevention, role authorization, and RFC 4180 CSV export):
 
 ```bash
 cd Gig1/Project5-Clinic/server

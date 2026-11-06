@@ -5,9 +5,10 @@ A full-stack fine dining restaurant demo built with MongoDB, Express, React, and
 
 ---
 
-## 🌟 Live Demo Ports & Quick Access
-- **Frontend Web Application**: [http://localhost:5174/](http://localhost:5174/)
-- **Backend REST API**: [http://localhost:5001/api/health](http://localhost:5001/api/health)
+## 🌟 Live Demo & Quick Access
+- **Live Vercel Production**: 🔗 [frameforge-gourmethaven.vercel.app](https://frameforge-gourmethaven.vercel.app/)
+- **Local Web Application**: [http://localhost:5174/](http://localhost:5174/)
+- **Local REST API**: [http://localhost:5001/api/health](http://localhost:5001/api/health)
 *(Project 1 - UrbanNest continues to run concurrently on ports 5000 / 5173)*
 
 ---

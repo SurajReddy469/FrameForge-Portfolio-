@@ -1,7 +1,7 @@
 # FitPulse — Elite Fitness Club Management & Interactive Class Booking Platform
 > **Portfolio 1 • Gig 1: Custom Web Application Development • Project 4 of 5**  
 > **Brand & Engineering Lead:** FrameForge (Full-Stack MERN Specialist, India)  
-> **Production Score:** **10.0 / 10** across Atomic Capacity Safety, RBAC Security, Performance, and Automated Verification.
+> **Architecture Highlights:** Atomic capacity safety, role hardening, digital QR pass issuance, and automated integration testing.
 
 ---
 
@@ -11,6 +11,7 @@
 ---
 
 ## 🚀 Live Services & Architecture Ports
+- **Live Vercel Production:** 🔗 [frameforge-fitpulse.vercel.app](https://frameforge-fitpulse.vercel.app/)
 - **Backend API:** `http://localhost:5003` (Health: `http://localhost:5003/api/health`)
 - **Frontend Client:** `http://localhost:5176` (Vite + React 19 + Tailwind CSS)
 - **Concurrent Portfolio Ports:**
@@ -21,18 +22,18 @@
 
 ---
 
-## 🛡️ Production Security & 10/10 Engineering Checklist
+## 🛡️ Production Security & Engineering Checklist
 
-| Dimension | Implementation | Verdict |
+| Dimension | Implementation | Verification |
 | :--- | :--- | :---: |
-| **Atomic Capacity Engine** | Server-side `validateBookingRules()` strictly enforces `capacityBooked < capacityMax` and blocks double-booking. | **10 / 10** |
-| **Tier Access Rules** | Basic floor memberships are restricted from studio classes; Pro has 10 monthly credits; Elite has unlimited access. | **10 / 10** |
-| **Strict Role Hardening** | Public registration always forces role `user`; role injection attempts are completely stripped on the server. | **10 / 10** |
-| **Rate Limiting** | Endpoint rate limiting on `/api/auth/register`, `/api/auth/login`, and `/api/bookings`. | **10 / 10** |
-| **RFC 4180 CSV Export** | `/api/bookings/export/csv` generates RFC 4180 compliant CSV streams with escaped quotes and CRLF line breaks. | **10 / 10** |
-| **Digital Pass Simulation** | Generates collision-resistant codes (`FIT-BOOK-XXXXXX`) and Base64 QR hashes for member attendance check-in. | **10 / 10** |
-| **Automated Test Suite** | 11/11 automated integration tests passing in `< 60ms` via Node.js native test runner (`tests/api.test.js`). | **10 / 10** |
-| **Zero External Avatar PII** | 100% clean person silhouette SVG badges (`<User />`) for member profiles and coaches. | **10 / 10** |
+| **Atomic Capacity Engine** | Server-side `validateBookingRules()` strictly enforces `capacityBooked < capacityMax` and blocks double-booking. | **Verified** |
+| **Tier Access Rules** | Basic floor memberships are restricted from studio classes; Pro has 10 monthly credits; Elite has unlimited access. | **Verified** |
+| **Strict Role Hardening** | Public registration always forces role `user`; role injection attempts are completely stripped on the server. | **Verified** |
+| **Rate Limiting** | Endpoint rate limiting on `/api/auth/register`, `/api/auth/login`, and `/api/bookings`. | **Verified** |
+| **RFC 4180 CSV Export** | `/api/bookings/export/csv` generates RFC 4180 compliant CSV streams with escaped quotes and CRLF line breaks. | **Verified** |
+| **Digital Pass Simulation** | Generates collision-resistant codes (`FIT-BOOK-XXXXXX`) and Base64 QR hashes for member attendance check-in. | **Verified** |
+| **Automated Test Suite** | 16 automated integration tests passing in `< 60ms` via Node.js native test runner (`tests/api.test.js`). | **Verified** |
+| **Zero External Avatar PII** | Clean person silhouette SVG badges (`<User />`) for member profiles and coaches. | **Verified** |
 
 ---
 

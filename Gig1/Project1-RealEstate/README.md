@@ -2,6 +2,9 @@
 
 > **FrameForge Portfolio Showcase – Gig 1: Full-Stack Website Development**  
 > Modern luxury real estate portal engineered with React, Node.js, Express, and MongoDB.
+>
+> 🌐 **Live Production:** [frameforge-hub.vercel.app/properties](https://frameforge-hub.vercel.app/properties) *(Mirror: [frame-forge-portfolio.vercel.app](https://frame-forge-portfolio.vercel.app))*  
+> 🏛️ **FrameForge Hub:** [frameforge-hub.vercel.app](https://frameforge-hub.vercel.app)
 
 ---
 
@@ -20,7 +23,7 @@ Real estate firms, property developers, and independent brokers need a high-conv
 - **Printable Property Spec Sheet:** 1-Click clean print/PDF brochure generator for executive buyers.
 - **Admin Lead CRM Analytics & CSV Export:** Search, filter, and export customer leads to CSV/Excel, with 1-click WhatsApp reply actions from the dashboard table.
 - Secure, role-based Admin Control Center (JWT + bcrypt) for real-time listing CRUD and lead status management.
-- Built-in resilient demo fallback ensuring 100% testability even without a local MongoDB service.
+- Built-in resilient demo fallback ensuring offline testability even without a local MongoDB service.
 
 ---
 

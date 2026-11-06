@@ -245,7 +245,7 @@ export default function HomePage() {
             Meet the FitPulse Coaching Staff
           </h2>
           <p className="text-xs text-slate-400 mt-2">
-            Every coach possesses collegiate or international athletic backgrounds with verified collegiate certifications.
+            Sample coach profiles and class data demonstrate the studio experience. Credentials and membership details should be verified for each real deployment.
           </p>
         </div>
 

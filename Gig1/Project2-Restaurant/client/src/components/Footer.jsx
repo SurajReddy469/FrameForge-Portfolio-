@@ -108,7 +108,7 @@ const Footer = () => {
           <div className="flex items-center gap-4 text-stone-400">
             <span>Demo Data • Illustrative Project</span>
             <span>•</span>
-            <span>Jubilee Hills Sample Location</span>
+            <span>Fictional Restaurant • Sample Location</span>
           </div>
         </div>
       </div>

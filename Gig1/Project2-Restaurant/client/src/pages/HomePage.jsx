@@ -51,10 +51,10 @@ const HomePage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 pt-10">
-          {/* Michelin Accolade Pill */}
+          {/* Illustrative project label */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-stone-900/90 border border-amber-500/40 text-amber-300 text-xs font-semibold uppercase tracking-widest backdrop-blur-md shadow-xl animate-fade-in">
             <Award className="w-4 h-4 text-amber-400" />
-            <span>Artisanal Dining Concept • Technical Demo Project</span>
+            <span>Fictional Restaurant • Technical Demo Project</span>
             <span className="text-stone-500">•</span>
             <span className="text-stone-300">Hyderabad Sanctuary</span>
           </div>

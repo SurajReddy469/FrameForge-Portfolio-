@@ -336,10 +336,10 @@ export default function PortfolioHubPage() {
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 5 Live Deployed Demos
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Dual-Engine Offline Resilience
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Interactive sample workflows
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Automated Test Suites (Jest & Supertest)
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Sample full-stack architecture
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Full Source Code Handover
@@ -519,9 +519,9 @@ export default function PortfolioHubPage() {
                 {/* Right Action & Launch Card */}
                 <div className="lg:col-span-5 bg-slate-50/90 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between space-y-6">
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Live Verification Link</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Interactive Demo Link</span>
                     <p className="text-xs text-slate-600 leading-relaxed">
-                      Click below to test the active user journeys (search, filter, cart, booking modal, or admin credentials).
+                      Explore the sample workflows. Booking, inquiry, ordering, and account actions use demo data; check each app for details.
                     </p>
                   </div>
 
