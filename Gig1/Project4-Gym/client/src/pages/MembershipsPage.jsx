@@ -34,13 +34,13 @@ export default function MembershipsPage() {
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
-          <Award className="w-3.5 h-3.5" /> No Long-Term Contracts • Cancel Anytime
+          <Award className="w-3.5 h-3.5" /> Sample Plans • Demo Only
         </span>
         <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight uppercase">
           Membership Passes
         </h1>
         <p className="text-base text-slate-400 leading-relaxed">
-          Transparent monthly pricing with zero hidden initiation fees. Choose your pass and unlock full studio access.
+          Illustrative membership options for this portfolio demo. Selecting a plan does not start a membership or payment.
         </p>
       </div>
 

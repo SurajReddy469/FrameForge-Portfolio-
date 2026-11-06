@@ -106,7 +106,7 @@ export const INITIAL_DOCTORS = [
     specialization: 'Pediatric Care & Neonatal Development',
     qualifications: 'MD, FAAP – Boston Children’s Hospital',
     experienceYears: 9,
-    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80',
+    avatar: '',
     consultationFee: 85,
     rating: 5.0,
     reviewsCount: 215,

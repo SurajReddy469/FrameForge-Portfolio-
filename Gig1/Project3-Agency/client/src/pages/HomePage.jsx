@@ -238,45 +238,45 @@ export default function HomePage({ onOpenEstimator }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex flex-col justify-between">
             <p className="text-sm text-slate-300 italic leading-relaxed">
-              "ApexMedia architected our multi-tenant SaaS from scratch. We passed external enterprise pen-testing on the first attempt and scaled to \$2.4M ARR without a hiccup."
+              "This illustrative quote demonstrates how a client feedback section could look in a completed project."
             </p>
             <div className="mt-6 flex items-center gap-3 pt-4 border-t border-slate-800/60">
               <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
                 <User className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">Marcus Vance</p>
-                <p className="text-xs text-slate-400">CTO, CloudSphere SaaS (San Francisco)</p>
+                <p className="text-sm font-bold text-white">Sample Client</p>
+                <p className="text-xs text-slate-400">Fictional feedback</p>
               </div>
             </div>
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex flex-col justify-between">
             <p className="text-sm text-slate-300 italic leading-relaxed">
-              "Their team delivered 2 weeks ahead of schedule. The server-side pricing engine and automated pipeline saved us hundreds of engineering hours."
+              "This fictional example shows a short testimonial layout for the sample agency site."
             </p>
             <div className="mt-6 flex items-center gap-3 pt-4 border-t border-slate-800/60">
               <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
                 <User className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">Elena Rostova</p>
-                <p className="text-xs text-slate-400">Head of Product, Omnichannel FinTech</p>
+                <p className="text-sm font-bold text-white">Sample Client</p>
+                <p className="text-xs text-slate-400">Fictional feedback</p>
               </div>
             </div>
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 flex flex-col justify-between">
             <p className="text-sm text-slate-300 italic leading-relaxed">
-              "The most transparent, professional MERN stack agency I have worked with. High-touch communication and rigorous code quality across every PR."
+              "This sample quote is placeholder portfolio content, not a review from a real customer."
             </p>
             <div className="mt-6 flex items-center gap-3 pt-4 border-t border-slate-800/60">
               <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 shrink-0">
                 <User className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">David Thorne</p>
-                <p className="text-xs text-slate-400">Managing Director, Horizon Media</p>
+                <p className="text-sm font-bold text-white">Sample Client</p>
+                <p className="text-xs text-slate-400">Fictional feedback</p>
               </div>
             </div>
           </div>

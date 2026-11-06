@@ -68,12 +68,11 @@ export default function DoctorsPage() {
       {/* Header */}
       <div className="mb-10 text-center sm:text-left">
         <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">
-          Clinical Specialists Directory
+          Sample Specialist Profiles • Technical Demo
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Find Your Physician</h1>
         <p className="text-sm text-slate-400 mt-2 max-w-2xl">
-          Browse certified doctors across specialized medical fields. Schedule direct consultations
-          with real-time slot reservation.
+          Browse fictional provider profiles and explore the simulated appointment flow. This is not a real clinic or medical service.
         </p>
       </div>
 

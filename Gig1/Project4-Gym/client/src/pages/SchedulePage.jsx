@@ -123,13 +123,13 @@ export default function SchedulePage() {
             Interactive Class Schedule
           </h1>
           <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">
-            Live capacity tracking with simulated studio pass reservation. Filter by training discipline, day of the week, or coach.
+            Sample weekly timetable with simulated reservations. Filter by training discipline, day of the week, or coach.
           </p>
         </div>
 
         <div className="flex items-center gap-2 p-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-slate-300">Atomic Capacity Reservation Active</span>
+          <span className="text-slate-300">Sample Reservation Flow</span>
         </div>
       </div>
 

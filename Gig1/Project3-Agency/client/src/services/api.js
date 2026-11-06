@@ -15,8 +15,8 @@ export const INITIAL_PROJECTS = [
     challenge: 'FinScale was struggling with legacy monolithic infrastructure, resulting in 4.2-second ledger latency and high transaction abandonment rates for tier-1 hedge funds.',
     solution: 'Architected an event-driven micro-frontend MERN platform utilizing WebSocket streaming, Redis cluster caching, and automated SOC2-compliant audit pipelines.',
     metrics: [
-      { label: '$2.4M', description: 'Monthly Pipeline ARR Unlocked' },
-      { label: '14ms', description: 'Global Execution Latency (down from 4.2s)' },
+      { label: 'Sample', description: 'Illustrative pipeline metric' },
+      { label: 'Sample', description: 'Illustrative execution metric' },
       { label: '99.99%', description: 'Uptime SLA Maintained' }
     ],
     coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',

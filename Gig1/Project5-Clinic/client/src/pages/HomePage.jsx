@@ -71,7 +71,7 @@ export default function HomePage() {
           <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-300 text-xs font-bold tracking-wide uppercase mb-6">
               <ShieldCheck className="w-4 h-4 text-teal-400" />
-              <span>Certified Healthcare Network • CarePoint Center</span>
+              <span>Fictional Clinic • Technical Demo Only</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
@@ -82,8 +82,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
-              Book consultations with world-class medical specialists, avoid waiting rooms with
-              precision time-slot reservations, and manage your health records in one secure portal.
+              Explore sample provider profiles and an illustrative appointment flow. This site is not a real clinic and is not for medical care.
             </p>
 
             {/* Quick Search Bar */}
@@ -186,7 +185,7 @@ export default function HomePage() {
               <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">
                 Available Specialists
               </span>
-              <h2 className="text-3xl font-extrabold text-white">Board-Certified Physicians</h2>
+              <h2 className="text-3xl font-extrabold text-white">Sample Physician Profiles</h2>
             </div>
             <Link
               to="/doctors"

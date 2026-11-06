@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+const configuredFiverrUrl = import.meta.env.VITE_FIVERR_PROFILE_URL;
+const FIVERR_PROFILE_URL = configuredFiverrUrl && !/^https:\/\/www\.fiverr\.com\/?$/i.test(configuredFiverrUrl)
+  ? configuredFiverrUrl
+  : 'https://www.fiverr.com/sellers/frameforgehq/';
 import {
   Code2,
   Layers,
@@ -302,7 +307,15 @@ export default function PortfolioHubPage() {
     },
     {
       q: 'Are the five demo applications real commercial businesses?',
-      a: 'No. They are fully working, interactive technical demonstrations built under the FrameForge engineering standard to demonstrate full-stack MERN architecture, responsive UI craft, real-time filtering, database relationships, and booking workflows. All listings, menus, doctors, and reviews use sample demo data.'
+      a: 'No. They are sample technical demonstrations. Listings, menus, doctors, reviews, client names, and metrics are illustrative; some payment, booking, and inquiry steps are simulated. Each demo page identifies its sample content and flow limitations.'
+    },
+    {
+      q: 'What should I send before placing an order?',
+      a: 'Send a short project brief, target users, required pages and roles, reference links or designs, preferred technology or integrations, and any existing content. We can then confirm scope, milestones, delivery dates, pricing, and revision rounds in the Fiverr order before work begins.'
+    },
+    {
+      q: 'How do revisions and scope changes work?',
+      a: 'Revision rounds and acceptance criteria should be written into the Fiverr order before the project starts. Revisions apply to the agreed scope; new pages, integrations, or workflows are discussed and approved as a scope change before implementation.'
     }
   ];
 
@@ -349,11 +362,13 @@ export default function PortfolioHubPage() {
           {/* Primary Action Buttons */}
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="#quote"
+              href={FIVERR_PROFILE_URL}
+              target="_blank"
+              rel="noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/20 transition-all hover:scale-105 cursor-pointer"
             >
               <Send className="w-4 h-4" />
-              <span>Request a Project Quote</span>
+              <span>Message Me on Fiverr</span>
             </a>
             <a
               href="#demos"
@@ -519,7 +534,7 @@ export default function PortfolioHubPage() {
                 {/* Right Action & Launch Card */}
                 <div className="lg:col-span-5 bg-slate-50/90 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between space-y-6">
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Interactive Demo Link</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Case Study Demo</span>
                     <p className="text-xs text-slate-600 leading-relaxed">
                       Explore the sample workflows. Booking, inquiry, ordering, and account actions use demo data; check each app for details.
                     </p>
@@ -740,7 +755,7 @@ export default function PortfolioHubPage() {
             <span className="text-xs font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 inline-block">04</span>
             <h3 className="text-base font-bold text-slate-900">Quality Review & Automated Testing</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Core endpoints, authentication routes, and transaction calculations are verified with automated test suites. Cross-browser and mobile responsive audits are completed.
+              Testing scope is agreed for each project. These sample applications illustrate selected flows and are not a claim that every route or device has been audited.
             </p>
           </div>
 
@@ -772,7 +787,7 @@ export default function PortfolioHubPage() {
             Transparent Deliverable Tiers
           </h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Scope is defined in concrete deliverables rather than vague promises. Pricing and turnaround timelines can be tailored to your specific project needs.
+            Scope is defined in concrete deliverables. Confirm price, delivery date, milestones, and revision rounds in your Fiverr order before work begins.
           </p>
         </div>
 
@@ -807,19 +822,17 @@ export default function PortfolioHubPage() {
             </div>
 
             <a
-              href="#quote"
+              href={FIVERR_PROFILE_URL}
+              target="_blank"
+              rel="noreferrer"
               className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider text-center border border-slate-300 transition"
             >
-              Select Starter Scope
+              Discuss Starter Scope on Fiverr
             </a>
           </div>
 
           {/* Standard Tier (Highlighted) */}
           <div className="rounded-3xl bg-white border-2 border-emerald-600 p-8 flex flex-col justify-between space-y-6 relative shadow-xl shadow-emerald-600/10">
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white shadow-sm">
-              Most Popular for Full-Stack MVPs
-            </div>
-
             <div className="space-y-4 pt-2">
               <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
                 Standard Tier
@@ -848,10 +861,12 @@ export default function PortfolioHubPage() {
             </div>
 
             <a
-              href="#quote"
+              href={FIVERR_PROFILE_URL}
+              target="_blank"
+              rel="noreferrer"
               className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-md shadow-emerald-600/30 transition hover:scale-[1.02]"
             >
-              Select Standard Scope
+              Discuss Full-Stack Scope on Fiverr
             </a>
           </div>
 
@@ -879,16 +894,18 @@ export default function PortfolioHubPage() {
                   <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Custom Admin Dashboard & Lead CRM</li>
                   <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> CSV Export & Searchable Data Tables</li>
                   <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Complex Business Logic & Calculators</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> 14 Days Post-Delivery Support</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Post-Delivery Support Defined in the Order</li>
                 </ul>
               </div>
             </div>
 
             <a
-              href="#quote"
+              href={FIVERR_PROFILE_URL}
+              target="_blank"
+              rel="noreferrer"
               className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider text-center border border-slate-300 transition"
             >
-              Select Premium Scope
+              Discuss Platform Scope on Fiverr
             </a>
           </div>
 
@@ -1115,12 +1132,12 @@ export default function PortfolioHubPage() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
-                      href="https://www.fiverr.com/inbox"
+                      href={FIVERR_PROFILE_URL}
                       target="_blank"
                       rel="noreferrer"
                       className="flex items-center justify-center gap-2 p-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/20 transition cursor-pointer"
                     >
-                      <span>💬 Message & Order on Fiverr</span>
+                    <span>💬 View Fiverr Profile & Message</span>
                     </a>
                     <a
                       href="#demos"
@@ -1132,6 +1149,11 @@ export default function PortfolioHubPage() {
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 text-center leading-relaxed">
                     Demo clarification: these applications use sample data. Some payment, notification, booking, and pass flows are simulations and do not create real transactions or appointments.
                   </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-slate-700 space-y-2">
+                  <p className="font-bold text-slate-900">Helpful project brief</p>
+                  <p>Share your goals, target users, pages and roles, reference designs, required integrations, and existing content. Confirm deliverables, milestones, price, delivery date, and revision rounds in your Fiverr order before work starts.</p>
                 </div>
 
               </form>

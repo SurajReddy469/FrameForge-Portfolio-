@@ -28,7 +28,7 @@ const Footer = () => {
               <div className="pt-1 flex flex-wrap items-center gap-2 text-xs">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Accepting Custom Projects
+                  Sample project portfolio
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
                   Sample project portfolio
@@ -85,11 +85,11 @@ const Footer = () => {
               <ul className="space-y-3 text-xs text-slate-600">
                 <li className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="font-medium text-slate-800">Real project inquiries via Fiverr</span>
+                  <a href="https://www.fiverr.com/sellers/frameforgehq/" target="_blank" rel="noreferrer" className="font-medium text-slate-800 hover:text-emerald-700">Message me on Fiverr</a>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Use Fiverr messaging for project inquiries</span>
+                  <a href="https://www.fiverr.com/sellers/frameforgehq/" target="_blank" rel="noreferrer" className="hover:text-emerald-700">View Fiverr profile</a>
                 </li>
                 <li className="pt-1">
                   <a

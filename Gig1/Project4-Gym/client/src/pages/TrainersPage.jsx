@@ -28,7 +28,7 @@ export default function TrainersPage() {
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
-          <Award className="w-3.5 h-3.5" /> Collegiate & Master-Level Coaching
+          <Award className="w-3.5 h-3.5" /> Sample Coach Profiles
         </span>
         <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight uppercase">
           Elite Coaching Roster
@@ -78,7 +78,7 @@ export default function TrainersPage() {
 
               {/* Certifications checklist */}
               <div className="mt-6 space-y-2 pt-4 border-t border-slate-800/80">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Verified Certifications:</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Illustrative Credentials:</p>
                 <div className="flex flex-wrap gap-2">
                   {(coach.certifications || []).map((cert, idx) => (
                     <span

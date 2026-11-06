@@ -124,7 +124,7 @@ export default function HomePage() {
               <p className="text-xs text-slate-400 mt-1">Member Rating Average</p>
             </div>
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-emerald-400">Certified</p>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-400">Sample</p>
               <p className="text-xs text-slate-400 mt-1">Experienced Athletic Coaches</p>
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function HomePage() {
               Today’s High-Demand Sessions
             </h2>
             <p className="text-sm text-slate-400 mt-1">
-              Atomic capacity management ensures classes are never overcrowded. Reserve early to lock your turf spot.
+              This demo illustrates class-capacity checks and simulated reservations using sample schedule data.
             </p>
           </div>
           <Link
