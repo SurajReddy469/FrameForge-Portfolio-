@@ -123,10 +123,10 @@ const DishDetailModal = ({ dish, onClose }) => {
               </span>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <span className="text-stone-400 block text-[11px]">Kitchen Guarantee</span>
+              <span className="text-stone-400 block text-[11px]">Kitchen Standard</span>
               <span className="text-emerald-400 font-medium flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                Fresh Farm Sourced
+                Artisanal Ingredients
               </span>
             </div>
           </div>

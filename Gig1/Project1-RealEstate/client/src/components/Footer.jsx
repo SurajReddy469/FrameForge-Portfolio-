@@ -31,7 +31,7 @@ const Footer = () => {
                   Accepting Custom Projects
                 </span>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
-                  Fiverr Verified Standard
+                  Sample project portfolio
                 </span>
               </div>
             </div>
@@ -85,23 +85,23 @@ const Footer = () => {
               <ul className="space-y-3 text-xs text-slate-600">
                 <li className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="font-medium text-slate-800">Direct Inquiries via Quote Form Below</span>
+                  <span className="font-medium text-slate-800">Real project inquiries via Fiverr</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Available for Global Freelance via Fiverr</span>
+                  <span>Use Fiverr messaging for project inquiries</span>
                 </li>
                 <li className="pt-1">
                   <a
                     href="#quote"
                     className="inline-flex items-center gap-1.5 text-xs text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200"
                   >
-                    <span>⚡ Request a Custom Project Quote</span>
+                    <span>⚡ Preview the quote form demo</span>
                   </a>
                 </li>
                 <li className="pt-1">
                   <div className="text-[11px] text-slate-500 bg-slate-50 border border-slate-200 rounded-lg p-2.5 leading-relaxed">
-                    Notice: All five applications are sandboxed technical demonstrations with sample catalog data and simulated workflows.
+                    Notice: All five applications are technical demonstrations with sample data and simulated workflows. The quote form does not send submissions.
                   </div>
                 </li>
               </ul>

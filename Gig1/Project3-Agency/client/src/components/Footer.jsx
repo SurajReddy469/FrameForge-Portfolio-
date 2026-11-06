@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowUpRight, Globe, Code2, Terminal, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Code2, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 
 export default function Footer({ onOpenEstimator }) {
   return (
@@ -59,12 +59,6 @@ export default function Footer({ onOpenEstimator }) {
             <a href="https://github.com/SurajReddy469/FrameForge-Portfolio-" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="GitHub Repository">
               <Code2 className="w-4 h-4" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="Platform">
-              <Globe className="w-4 h-4" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-700 transition-colors" title="Terminal">
-              <Terminal className="w-4 h-4" />
-            </a>
           </div>
         </div>
 
@@ -95,23 +89,23 @@ export default function Footer({ onOpenEstimator }) {
 
         {/* Global Delivery Hubs */}
         <div>
-          <h4 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">Global Operations</h4>
+          <h4 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">Demo Contact Details</h4>
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-2.5">
               <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-              <span>San Francisco • London • Hyderabad</span>
+              <span>Sample locations only</span>
             </li>
             <li className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>hello@apexmedia.agency</span>
+              <span>Sample email only</span>
             </li>
             <li className="flex items-center gap-2.5">
               <Phone className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>+1 (415) 890-APEX</span>
+              <span>Sample phone only</span>
             </li>
             <li className="flex items-center gap-2 text-xs text-emerald-400 pt-1">
               <ShieldCheck className="w-4 h-4" />
-              <span>Enterprise-Grade MERN Architecture & Secure Code Delivery</span>
+              <span>Illustrative MERN application demo</span>
             </li>
             <li className="text-[11px] text-slate-400 bg-slate-900 border border-slate-800 rounded-lg p-2.5 mt-2">
               Notice: ApexMedia is a fictional digital engineering agency demo. Case studies and metrics represent sample portfolio work.
@@ -125,9 +119,9 @@ export default function Footer({ onOpenEstimator }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} ApexMedia Digital Product Agency. Built by ApexMedia Studio.</p>
           <div className="flex items-center gap-6">
-            <span className="text-slate-400">Strictly Non-Disclosure (NDA) Protected Delivery</span>
+            <span className="text-slate-400">Sample portfolio project</span>
             <span>•</span>
-            <span className="text-slate-400">100% SLA Guarantee</span>
+            <span className="text-slate-400">No service-level guarantee is implied</span>
           </div>
         </div>
       </div>

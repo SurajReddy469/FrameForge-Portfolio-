@@ -13,8 +13,6 @@ import {
   ExternalLink,
   Award,
   Zap,
-  Globe,
-  Terminal,
   User,
 } from 'lucide-react';
 import ProjectCard from '../components/ProjectCard';
@@ -25,7 +23,6 @@ export default function HomePage({ onOpenEstimator }) {
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [services, setServices] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -43,8 +40,6 @@ export default function HomePage({ onOpenEstimator }) {
         }
       } catch (err) {
         console.warn('Using offline mock for home data');
-      } finally {
-        if (isMounted) setLoading(false);
       }
     };
     loadHomeData();
@@ -100,8 +95,8 @@ export default function HomePage({ onOpenEstimator }) {
               <p className="text-xs text-slate-400 mt-0.5">Full-Stack Stack</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-emerald-400">100%</p>
-              <p className="text-xs text-slate-400 mt-0.5">Automated Test Suites</p>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-400">Demo</p>
+              <p className="text-xs text-slate-400 mt-0.5">Sample Test Project</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 text-center">
               <p className="text-2xl sm:text-3xl font-black text-blue-400">Dual-Engine</p>
@@ -120,20 +115,20 @@ export default function HomePage({ onOpenEstimator }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
-              <Award className="w-4 h-4" /> Verified Portfolio
+              <Award className="w-4 h-4" /> Illustrative Portfolio
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
               Featured Case Studies
             </h2>
             <p className="text-sm text-slate-400 mt-1">
-              Real-world products engineered for high performance, scale, and multi-million dollar outcomes.
+              Sample project concepts illustrating product architecture and engineering patterns. Names, metrics, and outcomes are fictional demo content.
             </p>
           </div>
           <Link
             to="/projects"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors"
           >
-            <span>View All Case Studies ({featuredProjects.length > 0 ? '6+' : 'Loading...'})</span>
+            <span>Browse Case Studies</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -159,7 +154,7 @@ export default function HomePage({ onOpenEstimator }) {
               Core Technical Capabilities
             </h2>
             <p className="text-sm text-slate-400 mt-2">
-              Every deliverable is written according to clean-code standards, verified with automated tests, and tuned for enterprise compliance.
+              These demonstrations show example engineering practices. Testing, security, and compliance requirements are defined and verified for each real project.
             </p>
           </div>
 
@@ -196,36 +191,36 @@ export default function HomePage({ onOpenEstimator }) {
         </div>
       </section>
 
-      {/* Production Standards Banner (10/10 Architecture) */}
+      {/* Example engineering practices */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 p-8 sm:p-12 relative overflow-hidden">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
-              <ShieldCheck className="w-4 h-4" /> 100% Security & Code Quality Guarantee
+              <ShieldCheck className="w-4 h-4" /> Security & Code Quality Practices
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Why Global Founders Choose ApexMedia Engineering
+              Engineering Practices Shown in This Demo
             </h3>
             <p className="mt-3 text-sm text-slate-300 leading-relaxed">
-              We eliminate technical debt before it begins. Our platforms ship with comprehensive automated test suites, zero hardcoded credentials, strict RBAC authorization, and automated CI/CD pipelines.
+              This sample project illustrates automated checks, server-side role authorization, and a deployment workflow. Production controls depend on each client’s requirements and infrastructure.
             </p>
           </div>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 mb-2" />
-              <h4 className="text-sm font-bold text-white">Full Test Coverage</h4>
-              <p className="text-xs text-slate-400 mt-1">Automated unit, integration, and security checks via Jest & Supertest.</p>
+              <h4 className="text-sm font-bold text-white">Automated API Tests</h4>
+              <p className="text-xs text-slate-400 mt-1">Example API tests cover selected routes and behaviors.</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 mb-2" />
-              <h4 className="text-sm font-bold text-white">Zero Privilege Leakage</h4>
-              <p className="text-xs text-slate-400 mt-1">Rigid server-side authorization matrices protecting all customer data.</p>
+              <h4 className="text-sm font-bold text-white">Role-Based Access</h4>
+              <p className="text-xs text-slate-400 mt-1">The demo includes server-side role checks for protected routes.</p>
             </div>
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800/80">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 mb-2" />
-              <h4 className="text-sm font-bold text-white">Fixed-Price Scopes</h4>
-              <p className="text-xs text-slate-400 mt-1">Clear deliverables and milestones guaranteed with no surprise invoices.</p>
+              <h4 className="text-sm font-bold text-white">Scoped Milestones</h4>
+              <p className="text-xs text-slate-400 mt-1">Agree on deliverables, milestones, and pricing before work begins.</p>
             </div>
           </div>
         </div>
@@ -234,9 +229,9 @@ export default function HomePage({ onOpenEstimator }) {
       {/* Client Testimonials - Neutral Silhouette Avatar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-10">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Verified Client Experiences</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Illustrative Sample Content</span>
           <h2 className="text-3xl font-extrabold text-white tracking-tight mt-1">
-            Trusted by Venture Founders Worldwide
+            Example Client Feedback (Fictional)
           </h2>
         </div>
 

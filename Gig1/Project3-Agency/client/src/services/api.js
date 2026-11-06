@@ -116,7 +116,7 @@ export const INITIAL_PROJECTS = [
     solution: 'Crafted an atomic design system with automated Figma-to-React token pipelines, WCAG AAA accessibility, and dark/light ambient tokens.',
     metrics: [
       { label: '3.5x', description: 'Faster Engineering Sprint Velocity' },
-      { label: '100%', description: 'WCAG 2.2 AAA Accessibility Conformance' },
+      { label: 'AAA', description: 'WCAG 2.2 Target Conformance Spec' },
       { label: '14 Apps', description: 'Standardized on One Design Core' }
     ],
     coverImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80',

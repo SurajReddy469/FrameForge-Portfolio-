@@ -60,7 +60,7 @@ export default function ContactPage({ onOpenEstimator }) {
           Initiate Your Project Brief
         </h1>
         <p className="text-base text-slate-400 leading-relaxed">
-          Direct communication with senior engineers—no sales middlemen. Receive an architectural proposal and delivery schedule within 4 business hours.
+          Explore an illustrative agency intake flow. This fictional demo does not provide a real consultation or response-time commitment.
         </p>
       </div>
 
@@ -68,9 +68,9 @@ export default function ContactPage({ onOpenEstimator }) {
         {/* Left: Contact Info & Value Props */}
         <div className="lg:col-span-5 space-y-8">
           <div className="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
-            <h3 className="text-xl font-bold text-white">Global Engineering Studios</h3>
+            <h3 className="text-xl font-bold text-white">Illustrative Agency Details</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Operating with synchronized overlapping timezones across North America, Europe, and Asia for continuous 24-hour sprint velocity.
+              The locations and contact details below are fictional sample content for this portfolio demonstration.
             </p>
 
             <div className="space-y-4 text-xs text-slate-300">
@@ -109,8 +109,8 @@ export default function ContactPage({ onOpenEstimator }) {
               <div className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-emerald-400 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">SLA Response Window</p>
-                  <p className="text-emerald-400 font-semibold">&lt; 4 Business Hours Guaranteed</p>
+                  <p className="font-semibold text-white">Demo Response</p>
+                  <p className="text-emerald-400 font-semibold">No response-time commitment</p>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function ContactPage({ onOpenEstimator }) {
             <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl">
               <h3 className="text-xl font-bold text-white mb-2">Project Consultation Intake</h3>
               <p className="text-xs text-slate-400 mb-8">
-                Fill out your high-level project parameters. All submissions are encrypted and reviewed by our Principal Engineer.
+                Fictional portfolio demo. Use sample details only; submissions may be recorded in the demo lead workflow, but no real proposal or email response is sent.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -281,9 +281,9 @@ export default function ContactPage({ onOpenEstimator }) {
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <div>
-                <h3 className="text-2xl font-black text-white">Consultation Intake Confirmed</h3>
+                <h3 className="text-2xl font-black text-white">Demo Inquiry Recorded</h3>
                 <p className="text-xs text-slate-300 mt-2 max-w-md mx-auto">
-                  Your project brief has been assigned a priority tracking code in our CRM:
+                  This sample inquiry was added to the demo workflow where the API is available. No real consultation was requested:
                 </p>
                 <div className="mt-4 inline-block px-5 py-2 rounded-xl bg-slate-950 border border-emerald-500/40 text-emerald-400 font-mono text-base font-bold">
                   {submittedLead.leadCode}

@@ -106,7 +106,7 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
   const handleLeadSubmit = async (e) => {
     e.preventDefault();
     if (!leadForm.name || !leadForm.email) {
-      showToast('Please provide your name and email to receive the proposal.', 'warning');
+      showToast('Please provide sample name and email details to preview the demo flow.', 'warning');
       return;
     }
 
@@ -131,7 +131,7 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
 
       const created = res?.lead || res?.data?.lead || res?.data || { leadCode: 'APEX-LEAD-SUCCESS', email: leadForm.email };
       setLeadSuccess(created);
-      showToast('Authoritative Scope Proposal created! Our principal engineer will reach out within 4 business hours.', 'success');
+      showToast('Demo inquiry recorded. No proposal or email was sent.', 'success');
     } catch (err) {
       showToast('Failed to submit estimate proposal. Please check inputs.', 'error');
     } finally {
@@ -161,7 +161,7 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
                 </span>
               </h2>
               <p className="text-xs text-slate-400">
-                Transparent client-facing scoping model with verified engineering deliverables.
+                Illustrative scoping model. Final requirements, pricing, and delivery plans are agreed for each real project.
               </p>
             </div>
           </div>
@@ -265,8 +265,8 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
                 {!leadSuccess ? (
                   <>
                     <div>
-                      <h3 className="text-base font-bold text-white">Delivery Timeline & Formal Proposal</h3>
-                      <p className="text-xs text-slate-400">Specify urgency to calculate SLA staffing pods and reserve our engineering sprint.</p>
+                      <h3 className="text-base font-bold text-white">Delivery Timeline & Demo Inquiry</h3>
+                      <p className="text-xs text-slate-400">Choose a sample timeline to preview how project scope options can be collected.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -291,8 +291,11 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
                     {/* Contact Intake */}
                     <form onSubmit={handleLeadSubmit} className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 space-y-3">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                        Lock In This Estimate & Request Strategy Blueprint
+                        Preview Demo Inquiry
                       </h4>
+                      <p className="text-[11px] text-amber-300" role="note">
+                        Fictional portfolio demo: use sample details only. The inquiry may be recorded in the demo lead workflow; no real proposal or email response is sent.
+                      </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <label className="block text-[11px] font-medium text-slate-400 mb-1">Your Full Name *</label>
@@ -364,16 +367,16 @@ export default function ScopeEstimatorModal({ isOpen, onClose }) {
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">Scope Assessment Registered!</h3>
+                      <h3 className="text-xl font-bold text-white">Demo Inquiry Recorded</h3>
                       <p className="text-xs text-slate-300 mt-1">
-                        Your intake reference code has been verified and routed to ApexMedia leadership:
+                        A sample inquiry was added to this demo workflow where the API is available. No proposal or email was sent. Reference:
                       </p>
                       <p className="inline-block mt-3 px-4 py-1.5 rounded-lg bg-slate-950 font-mono text-sm font-bold text-emerald-400 border border-emerald-500/40">
                         {leadSuccess.leadCode}
                       </p>
                     </div>
                     <p className="text-xs text-slate-400 max-w-md mx-auto">
-                      A copy of the verified scope and architecture checklist was queued for delivery to <strong className="text-white">{leadSuccess.email}</strong>.
+                      ApexMedia is a fictional portfolio demo. Do not enter real personal, company, or project-confidential information here.
                     </p>
                     <div className="pt-2">
                       <button

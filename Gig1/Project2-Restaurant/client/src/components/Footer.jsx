@@ -70,7 +70,7 @@ const Footer = () => {
               </div>
               <a href="mailto:concierge@gourmethaven.com" className="flex items-center gap-2 text-stone-300 hover:text-amber-400 transition-colors">
                 <Mail className="w-3.5 h-3.5 text-amber-500" />
-                <span>concierge@gourmethaven.com</span>
+                <span>demo-concierge@gourmethaven.com (Demo)</span>
               </a>
             </div>
             <div className="text-[11px] text-amber-400/80 bg-stone-900 border border-stone-800 rounded-lg p-2.5 mt-2">

@@ -100,12 +100,12 @@ export default function ProjectDetailPage({ onOpenEstimator }) {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
       </div>
 
-      {/* Verified Business Impact Metrics */}
+      {/* Illustrative demo metrics */}
       {project.metrics && project.metrics.length > 0 && (
         <div className="space-y-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
             <Award className="w-4 h-4 text-emerald-400" />
-            <span>Verified Production Impact</span>
+            <span>Illustrative Demo Metrics</span>
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {project.metrics.map((m, idx) => (

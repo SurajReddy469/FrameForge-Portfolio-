@@ -114,7 +114,7 @@ export default function ProjectsPage({ onOpenEstimator }) {
             Case Studies & Architecture
           </h1>
           <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">
-            Explore verified engineering case studies delivered across the MERN stack ecosystem, with quantitative business outcomes and architecture breakdowns.
+            Explore illustrative project concepts and architecture breakdowns. Client names and business outcomes shown here are sample demo content, not verified client results.
           </p>
         </div>
 
@@ -170,7 +170,7 @@ export default function ProjectsPage({ onOpenEstimator }) {
 
       {/* Projects Grid */}
       {loading ? (
-        <div className="py-20 text-center text-slate-400 text-sm">Loading verified case studies...</div>
+        <div className="py-20 text-center text-slate-400 text-sm">Loading sample case studies...</div>
       ) : filteredProjects.length === 0 ? (
         <div className="py-20 text-center rounded-2xl bg-slate-900/40 border border-slate-800/80">
           <p className="text-base font-semibold text-white">No matching case studies found.</p>

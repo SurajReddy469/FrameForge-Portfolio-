@@ -112,8 +112,8 @@ export default function HomePage() {
           {/* Proof of Performance Strip */}
           <div className="mt-16 pt-10 border-t border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-white">60+</p>
-              <p className="text-xs text-slate-400 mt-1">Weekly Studio Classes</p>
+              <p className="text-2xl sm:text-3xl font-black text-white">8</p>
+              <p className="text-xs text-slate-400 mt-1">Weekly Studio Sessions</p>
             </div>
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
               <p className="text-2xl sm:text-3xl font-black text-red-400">24 / 7</p>
@@ -124,7 +124,7 @@ export default function HomePage() {
               <p className="text-xs text-slate-400 mt-1">Member Rating Average</p>
             </div>
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-              <p className="text-2xl sm:text-3xl font-black text-emerald-400">100%</p>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-400">Certified</p>
               <p className="text-xs text-slate-400 mt-1">Experienced Athletic Coaches</p>
             </div>
           </div>
@@ -317,7 +317,7 @@ export default function HomePage() {
 
           <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
             <p className="text-sm text-slate-300 italic leading-relaxed">
-              "Hands down the cleanest, best-managed conditioning facility in the city. The studio capacity enforcement guarantees you never fight for weights or space."
+              "Sample Member Review: Cleanest, best-managed conditioning facility. The studio capacity enforcement ensures comfortable training space without overcrowding."
             </p>
             <div className="mt-6 flex items-center gap-3 pt-4 border-t border-slate-800">
               <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-red-400 shrink-0">

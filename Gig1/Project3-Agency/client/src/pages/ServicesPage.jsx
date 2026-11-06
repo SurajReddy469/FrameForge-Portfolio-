@@ -51,7 +51,7 @@ const TIERS = [
       'AI & LLM Integration (RAG, Gemini/OpenAI)',
       'Redis Caching & Queue Worker Clusters',
       'Zero-Trust Security & Penetration Testing',
-      'Enterprise SLA Guarantee (99.98% Uptime)',
+      'Reliability targets agreed for the production scope',
       'Full IP Ownership & Patent Assignment',
       '90-Day VIP Engineering Retainer',
     ],
@@ -86,7 +86,10 @@ export default function ServicesPage({ onOpenEstimator }) {
           Capabilities & Engagements
         </h1>
         <p className="text-base text-slate-400 leading-relaxed">
-          Predictable timelines, milestone-based payments, and authoritative deliverables. No vague hourly billing—only verified outcomes.
+          Example service scopes with illustrative pricing and timelines. Final requirements, schedule, and price are agreed for each real project.
+        </p>
+        <p className="text-xs text-amber-300" role="note">
+          Prices, delivery windows, guarantees, and service descriptions on this page are sample demo content, not a live offer.
         </p>
       </div>
 
@@ -214,7 +217,7 @@ export default function ServicesPage({ onOpenEstimator }) {
             <Clock className="w-8 h-8 text-cyan-400" />
             <h3 className="text-base font-bold text-white">Delivery SLA & IP Transfer</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              100% intellectual property assignment upon milestone completion, comprehensive developer documentation, clean git commits, and post-launch warranties.
+              Repository handover, developer documentation, and any post-launch support are defined in the project agreement.
             </p>
           </div>
         </div>

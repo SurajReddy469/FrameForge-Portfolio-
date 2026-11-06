@@ -233,7 +233,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Choose Doctor & Slot</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Filter by specialty or department, pick your preferred physician, and select a guaranteed, conflict-free consultation time slot.
+              Filter by specialty or department, pick your preferred physician, and select an available, conflict-checked consultation time slot.
             </p>
           </div>
 

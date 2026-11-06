@@ -96,7 +96,7 @@ const HomePage = () => {
               <span className="text-xs uppercase tracking-wider text-stone-400">Sample Concept Ratings</span>
             </div>
             <div>
-              <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">100%</span>
+              <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">12+</span>
               <span className="text-xs uppercase tracking-wider text-stone-400">Curated Demo Dishes</span>
             </div>
             <div>

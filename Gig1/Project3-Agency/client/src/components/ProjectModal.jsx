@@ -54,12 +54,12 @@ export default function ProjectModal({ project, onClose, onOpenEstimator }) {
           {project.metrics && project.metrics.length > 0 && (
             <div>
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-emerald-400" /> Verified Business Impact
+                <Award className="w-4 h-4 text-emerald-400" /> Illustrative Demo Metrics
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {project.metrics.map((metric, idx) => {
                   const statVal = metric.value || metric.label;
-                  const statLabel = metric.description || (metric.value ? metric.label : 'Verified Outcome');
+                  const statLabel = metric.description || (metric.value ? metric.label : 'Sample Outcome');
                   return (
                     <div key={idx} className="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
                       <p className="text-xs text-slate-400">{statLabel}</p>

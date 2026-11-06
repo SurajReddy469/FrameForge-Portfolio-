@@ -28,7 +28,6 @@ export default function PortfolioHubPage() {
     email: '',
     projectType: 'Real Estate / Marketplace',
     timeline: '2 - 4 Weeks',
-    budgetTier: 'Standard Full-Stack ($450–$750)',
     deliverables: ['Responsive Frontend', 'REST API Backend', 'Database Design'],
     message: ''
   });
@@ -62,20 +61,8 @@ export default function PortfolioHubPage() {
     setSubmitting(true);
     setTimeout(() => {
       const refCode = 'FRAME-QUOTE-' + Math.floor(100000 + Math.random() * 900000);
-      const submission = {
-        ...quoteForm,
-        refCode,
-        createdAt: new Date().toISOString()
-      };
-
-      try {
-        const saved = JSON.parse(localStorage.getItem('frameforge_quotes') || '[]');
-        localStorage.setItem('frameforge_quotes', JSON.stringify([submission, ...saved]));
-      } catch (err) {
-        console.warn('LocalStorage unavailable', err);
-      }
-
-      setQuoteSuccess(submission);
+      // Front-end demo only: do not persist personal data or imply an inquiry was sent.
+      setQuoteSuccess({ ...quoteForm, refCode });
       setSubmitting(false);
     }, 600);
   };
@@ -173,7 +160,7 @@ export default function PortfolioHubPage() {
       tagline: 'Physician credential profiles, real-time availability calendar, and intake slips.',
       purpose: 'Built to illustrate conflict-free scheduling and multi-step intake questionnaires for outpatient medical practices. (Illustrative demonstration — not for real clinical care).',
       features: [
-        'Physician directory with verified photographic portraits and departmental filters',
+        'Sample physician profiles with departmental filters and illustrative portraits',
         'Real-time availability calendar with open time slots on every date',
         'Two-step digital symptom intake questionnaire with input validation',
         'Cryptographic appointment confirmation slip generator (CARE-APPT-XXXXXX)',
@@ -283,7 +270,7 @@ export default function PortfolioHubPage() {
         'Navigate to /book to view all 6 specialist doctors and consultation rates.',
         'Select a doctor and click "Choose Date & Pick Time Slot" to view real-time open slots.',
         'Complete the 2-step digital intake questionnaire with symptom details.',
-        'Generate and view the verified clinical intake slip (CARE-APPT-XXXXXX).'
+        'Generate and view a sample appointment slip (CARE-APPT-XXXXXX).'
       ],
       adminSteps: [
         'Sign in with desk staff credentials (admin@medicare.clinic / admin123).',
@@ -307,7 +294,7 @@ export default function PortfolioHubPage() {
     },
     {
       q: 'What is included in the final delivery handover?',
-      a: 'You receive 100% full ownership of the clean Git repository, environment variable templates (.env.example), deployed production links on your hosting account (Vercel, Railway, Render, or AWS), database seed scripts, and a step-by-step setup documentation guide.'
+      a: 'You receive full intellectual property ownership of the clean Git repository, environment variable templates (.env.example), deployed production links on your hosting account (Vercel, Railway, Render, or AWS), database seed scripts, and a step-by-step setup documentation guide.'
     },
     {
       q: 'Can you integrate third-party services like Stripe, SendGrid, or Cloudinary?',
@@ -389,7 +376,7 @@ export default function PortfolioHubPage() {
             What I Deliver in Every Application
           </h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            No empty buzzwords or unverified claims. Every deliverable is clearly scoped, modularly coded, and rigorously tested before handover.
+            These are examples of common deliverables. The final scope, implementation, and verification plan are agreed for each project.
           </p>
         </div>
 
@@ -570,7 +557,7 @@ export default function PortfolioHubPage() {
 
                   <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-200 flex items-center justify-between">
                     <span>Clean Source Code in Repo</span>
-                    <span className="text-emerald-700 font-semibold">Verified Route Tests</span>
+                    <span className="text-emerald-700 font-semibold">Demo Flow Examples</span>
                   </div>
                 </div>
               </div>
@@ -589,7 +576,7 @@ export default function PortfolioHubPage() {
             Interactive Walkthroughs & User Journeys
           </h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Follow verified test paths for both the customer experience and the role-protected management view across each application.
+            Follow suggested demo paths for the customer experience and management views. The projects use illustrative data.
           </p>
         </div>
 
@@ -635,7 +622,7 @@ export default function PortfolioHubPage() {
                 <div className="rounded-2xl bg-slate-50 border border-slate-200/80 p-6 space-y-4">
                   <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm border-b border-slate-200 pb-3">
                     <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">1</span>
-                    <span>Verified Customer Flow</span>
+                    <span>Example Customer Flow</span>
                   </div>
                   <ul className="space-y-3 text-xs text-slate-700">
                     {item.customerSteps.map((step, sIdx) => (
@@ -769,7 +756,7 @@ export default function PortfolioHubPage() {
             <span className="text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 inline-block">06</span>
             <h3 className="text-base font-bold text-slate-900">Clean Handover & Support</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              You receive 100% intellectual property ownership of the repository, environment documentation, database seed scripts, and post-delivery revision assistance.
+              You receive complete intellectual property ownership of the repository, environment documentation, database seed scripts, and post-delivery revision assistance.
             </p>
           </div>
         </div>
@@ -802,10 +789,9 @@ export default function PortfolioHubPage() {
                 Ideal for validating product concepts, investor pitch prototypes, or single-page landing workflows with interactive mock data.
               </p>
 
-              {/* Editable placeholder */}
-              <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
-                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">$200 – $350 • 3–5 Business Days</span>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+                <span className="font-semibold text-slate-800 block">Pricing & delivery:</span>
+                <span>Agreed after reviewing the requested scope.</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -840,13 +826,12 @@ export default function PortfolioHubPage() {
               </span>
               <h3 className="text-xl font-bold text-slate-900">Full-Stack Web Application</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Complete production application with persistent database, authenticated user accounts, and validated inquiry/booking forms.
+                Full-stack application scope with a database, authenticated accounts, and validated inquiry or booking forms.
               </p>
 
-              {/* Editable placeholder */}
-              <div className="p-3 bg-emerald-50/70 rounded-xl border border-dashed border-emerald-300 text-xs text-slate-700">
-                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">$500 – $850 • 7–10 Business Days</span>
+              <div className="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200 text-xs text-slate-700">
+                <span className="font-semibold text-slate-800 block">Pricing & delivery:</span>
+                <span>Agreed after reviewing the requested scope.</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -881,10 +866,9 @@ export default function PortfolioHubPage() {
                 Full-scale web platform featuring multi-role RBAC, administrator analytics dashboards, complex scheduling, or marketplace dynamics.
               </p>
 
-              {/* Editable placeholder */}
-              <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
-                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">$1,100 – $1,800+ • 14–21 Business Days</span>
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+                <span className="font-semibold text-slate-800 block">Pricing & delivery:</span>
+                <span>Agreed after reviewing the requested scope.</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -970,28 +954,27 @@ export default function PortfolioHubPage() {
                 Request a Custom Full-Stack Quote
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Tell me about your product requirements, target timeline, and deliverables. You will receive an itemized proposal breakdown and estimate within 24 business hours.
+                Describe your project requirements, target timeline, and deliverables. This portfolio form is a front-end demo and does not send or store your submission. Use Fiverr messaging for a real inquiry.
               </p>
             </div>
 
             {quoteSuccess ? (
               <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-4 shadow-sm">
                 <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
-                <h3 className="text-2xl font-bold text-slate-900">Quote Request Received!</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Demo Preview Created</h3>
                 <p className="text-xs text-emerald-800">
-                  Your project scope was logged. Your verification reference number is:
+                  This sample confirmation was generated in your browser only. No inquiry was sent. Demo reference:
                 </p>
                 <div className="inline-block px-4 py-2 rounded-xl bg-white font-mono text-sm font-black text-emerald-700 border border-emerald-300 shadow-xs">
                   {quoteSuccess.refCode}
                 </div>
                 <div className="text-left bg-white p-4 rounded-xl text-xs space-y-1.5 text-slate-700 max-w-md mx-auto border border-emerald-200 shadow-xs">
-                  <p><strong>Contact:</strong> {quoteSuccess.name} ({quoteSuccess.email})</p>
                   <p><strong>Project Type:</strong> {quoteSuccess.projectType}</p>
                   <p><strong>Target Timeline:</strong> {quoteSuccess.timeline}</p>
                   <p><strong>Selected Deliverables:</strong> {quoteSuccess.deliverables.join(', ')}</p>
                 </div>
                 <p className="text-xs text-slate-600">
-                  You can also message me directly on Fiverr or via the configuration points below.
+                  For a real project inquiry, use the Fiverr message link below. This demo reference is not delivered to FrameForge.
                 </p>
                 <button
                   onClick={() => setQuoteSuccess(null)}
@@ -1006,7 +989,7 @@ export default function PortfolioHubPage() {
                 {/* Contact row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Your Full Name *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Sample Name (Demo Only) *</label>
                     <input
                       type="text"
                       required
@@ -1018,7 +1001,7 @@ export default function PortfolioHubPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Work Email Address *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Sample Email (Demo Only) *</label>
                     <input
                       type="email"
                       required
@@ -1117,19 +1100,18 @@ export default function PortfolioHubPage() {
                   className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? (
-                    <span>Logging Quote Scope...</span>
+                    <span>Generating Demo Preview...</span>
                   ) : (
                     <>
                       <Send className="w-4 h-4" />
-                      <span>Submit Quote Inquiry (Instant Reference Pass)</span>
+                    <span>Preview Demo Quote (Not Sent)</span>
                     </>
                   )}
                 </button>
 
-                {/* Configuration notice for owner */}
                 <div className="pt-4 border-t border-slate-200 space-y-3">
                   <p className="text-xs font-bold text-slate-800 uppercase tracking-wider text-center">
-                    Prefer Direct Messaging? Connect Instantly:
+                    Ready to discuss a real project?
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
@@ -1148,7 +1130,7 @@ export default function PortfolioHubPage() {
                     </a>
                   </div>
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 text-center leading-relaxed">
-                    Demo Clarification: The 5 showcased applications are technical demonstrations featuring sample data, simulated payments, and mock appointment/pass generation to showcase full-stack architecture without live financial transactions.
+                    Demo clarification: these applications use sample data. Some payment, notification, booking, and pass flows are simulations and do not create real transactions or appointments.
                   </div>
                 </div>
 

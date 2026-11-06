@@ -237,7 +237,7 @@ export default function LoginPage() {
         {/* Security badge */}
         <div className="pt-2 text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Strict RBAC Security Matrix • 100% Verified Production Stack</span>
+          <span>Role-Based Access Control • Demo Sandbox Evaluation Stack</span>
         </div>
       </div>
     </div>

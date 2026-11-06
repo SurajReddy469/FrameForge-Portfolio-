@@ -104,15 +104,15 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-teal-400 mt-1 shrink-0" />
-                <p>Medical Arts Plaza, Suite 400<br />742 Evergreen Terrace, Metropolis</p>
+                <p>CarePoint Plaza (Demo Spec)<br />742 Medical Arts Corridor</p>
               </div>
               <div className="flex items-center gap-2.5">
                 <PhoneCall className="w-4 h-4 text-teal-400 shrink-0" />
-                <span>+1 (555) 019-CARE</span>
+                <span className="text-slate-400 text-xs">Simulated Desk (Demo Only)</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-teal-400 shrink-0" />
-                <span>appointments@medicare.clinic</span>
+                <span className="text-slate-400 text-xs">demo-intake@medicare.clinic</span>
               </div>
             </div>
           </div>

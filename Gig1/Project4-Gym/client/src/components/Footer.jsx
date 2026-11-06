@@ -81,11 +81,11 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <Phone className="w-3.5 h-3.5 text-red-400 shrink-0" />
-              <span>+1 (555) 019-PULSE</span>
+              <span>Simulated Front Desk (Demo Only)</span>
             </li>
             <li className="flex items-center gap-2">
               <Mail className="w-3.5 h-3.5 text-red-400 shrink-0" />
-              <span>concierge@fitpulse.gym</span>
+              <span>demo-concierge@fitpulse.gym</span>
             </li>
           </ul>
         </div>
