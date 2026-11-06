@@ -40,6 +40,9 @@ export const AuthProvider = ({ children }) => {
       const userData = res.data || res.user || res;
       if (userData && (userData._id || userData.token || userData.email)) {
         setUser(userData);
+        try {
+          localStorage.setItem('apex_user', JSON.stringify(userData));
+        } catch {}
         if (userData.token) {
           localStorage.setItem('apex_token', userData.token);
         }
@@ -65,6 +68,9 @@ export const AuthProvider = ({ children }) => {
       const registeredData = res.data || res.user || res;
       if (registeredData && (registeredData._id || registeredData.token)) {
         setUser(registeredData);
+        try {
+          localStorage.setItem('apex_user', JSON.stringify(registeredData));
+        } catch {}
         if (registeredData.token) {
           localStorage.setItem('apex_token', registeredData.token);
         }

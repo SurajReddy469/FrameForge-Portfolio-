@@ -19,20 +19,20 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setLoading(true);
     try {
       if (isRegister) {
         await register(formData.name, formData.email, formData.password, formData.company);
         showToast('Account registered successfully! Welcome to ApexMedia.', 'success');
-        navigate('/');
+        navigate('/projects');
       } else {
         const loggedInUser = await login(formData.email, formData.password);
         showToast(`Welcome back, ${loggedInUser.name || 'Member'}!`, 'success');
         if (loggedInUser.role === 'admin') {
           navigate('/admin');
         } else {
-          navigate('/');
+          navigate('/projects');
         }
       }
     } catch (err) {
@@ -42,13 +42,27 @@ export default function LoginPage() {
     }
   };
 
-  const fillQuickDemo = (email, password) => {
-    setFormData({
-      ...formData,
+  const fillQuickDemo = async (email, password) => {
+    setFormData(prev => ({
+      ...prev,
       email,
       password,
-    });
+    }));
     setIsRegister(false);
+    setLoading(true);
+    try {
+      const loggedInUser = await login(email, password);
+      showToast(`Welcome back, ${loggedInUser.name || 'Member'}!`, 'success');
+      if (loggedInUser.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/projects');
+      }
+    } catch (err) {
+      showToast(err.message || 'Authentication failed. Please check credentials.', 'error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

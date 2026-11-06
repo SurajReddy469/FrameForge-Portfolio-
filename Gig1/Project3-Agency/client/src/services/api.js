@@ -601,8 +601,10 @@ export const authService = {
       });
       return await handleApiResponse(res);
     } catch (err) {
-      if (err.isHttpError && err.status === 401 && !credentials.email?.includes('apexmedia.com')) throw err;
-      if (credentials.email === 'admin@apexmedia.com' && credentials.password === 'admin123') {
+      const email = (credentials.email || '').trim().toLowerCase();
+      const password = (credentials.password || '').trim();
+      if (err.isHttpError && err.status === 401 && !email.includes('apexmedia.com')) throw err;
+      if (email === 'admin@apexmedia.com' && password === 'admin123') {
         return {
           success: true,
           data: {
@@ -616,13 +618,13 @@ export const authService = {
           }
         };
       }
-      if (credentials.email === 'client@apexmedia.com' || credentials.email?.includes('client') || credentials.email?.includes('sarah')) {
+      if (email === 'client@apexmedia.com' || email.includes('client') || email.includes('sarah')) {
         return {
           success: true,
           data: {
             _id: 'client-apex',
             name: 'Sarah Jenkins',
-            email: credentials.email || 'client@apexmedia.com',
+            email: email || 'client@apexmedia.com',
             role: 'user',
             avatar: DEFAULT_AVATAR,
             title: 'VP of Product, FinScale Inc.',
@@ -630,14 +632,14 @@ export const authService = {
           }
         };
       }
-      if (credentials.email && credentials.password) {
+      if (email && password) {
         return {
           success: true,
           data: {
             _id: 'usr_' + Date.now(),
-            name: credentials.email.split('@')[0],
-            email: credentials.email,
-            role: credentials.email.includes('admin') ? 'admin' : 'user',
+            name: email.split('@')[0],
+            email: email,
+            role: email.includes('admin') ? 'admin' : 'user',
             avatar: DEFAULT_AVATAR,
             title: 'Product Director',
             token: 'mock-jwt-demo-token'
