@@ -45,50 +45,50 @@ const Navbar = () => {
 
   if (isHub) {
     // -------------------------------------------------------------
-    // FRAMEFORGE PORTFOLIO HUB NAVBAR
+    // FRAMEFORGE PORTFOLIO HUB NAVBAR (LIGHT THEME)
     // -------------------------------------------------------------
     return (
-      <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 transition-all text-slate-200">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 transition-all text-slate-800 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             
             {/* Brand Logo */}
             <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform font-black">
-                <Layers className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform font-black">
+                <Layers className="w-5 h-5 text-white stroke-[2.5]" />
               </div>
               <div>
-                <span className="text-xl font-black tracking-tight text-white group-hover:text-emerald-400 transition-colors">
-                  FRAME<span className="text-emerald-400">FORGE</span>
+                <span className="text-xl font-black tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
+                  FRAME<span className="text-emerald-600">FORGE</span>
                 </span>
-                <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   Full-Stack Web Engineering
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
-              <a href="#demos" className="hover:text-emerald-400 transition-colors">5 Live Demos</a>
-              <a href="#deliverables" className="hover:text-emerald-400 transition-colors">Deliverables</a>
-              <a href="#workflow" className="hover:text-emerald-400 transition-colors">How I Work</a>
-              <a href="#services" className="hover:text-emerald-400 transition-colors">Service Tiers</a>
-              <a href="#faq" className="hover:text-emerald-400 transition-colors">FAQ</a>
+            <nav className="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-600">
+              <a href="#demos" className="hover:text-emerald-700 transition-colors">5 Live Demos</a>
+              <a href="#deliverables" className="hover:text-emerald-700 transition-colors">Deliverables</a>
+              <a href="#workflow" className="hover:text-emerald-700 transition-colors">How I Work</a>
+              <a href="#services" className="hover:text-emerald-700 transition-colors">Service Tiers</a>
+              <a href="#faq" className="hover:text-emerald-700 transition-colors">FAQ</a>
 
               {/* Demo Quick Jump */}
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setDemoMenuOpen(!demoMenuOpen)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white cursor-pointer transition"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 cursor-pointer transition shadow-xs"
                 >
                   <span>Select Demo</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
                 </button>
 
                 {demoMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl py-2 z-50">
-                    <div className="px-3 py-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-800">
+                  <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white border border-slate-200 shadow-xl py-2 z-50">
+                    <div className="px-3 py-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
                       Live Deployed Demos
                     </div>
                     {demoList.map((d) => (
@@ -97,7 +97,7 @@ const Navbar = () => {
                           key={d.name}
                           to={d.path}
                           onClick={() => setDemoMenuOpen(false)}
-                          className="block px-3 py-2 text-xs text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition"
+                          className="block px-3 py-2 text-xs text-slate-700 hover:text-emerald-700 hover:bg-slate-50 transition"
                         >
                           {d.name}
                         </Link>
@@ -108,7 +108,7 @@ const Navbar = () => {
                           target="_blank"
                           rel="noreferrer"
                           onClick={() => setDemoMenuOpen(false)}
-                          className="block px-3 py-2 text-xs text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition"
+                          className="block px-3 py-2 text-xs text-slate-700 hover:text-emerald-700 hover:bg-slate-50 transition"
                         >
                           {d.name} ↗
                         </a>
@@ -123,7 +123,7 @@ const Navbar = () => {
             <div className="hidden sm:flex items-center gap-3">
               <a
                 href="#quote"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/30 transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/20 transition-all hover:scale-105"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Request a Quote</span>
@@ -134,7 +134,7 @@ const Navbar = () => {
             <div className="flex md:hidden items-center">
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900"
+                className="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                 aria-label="Toggle Navigation Menu"
               >
                 {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -146,46 +146,46 @@ const Navbar = () => {
 
         {/* Mobile Hub Drawer */}
         {mobileOpen && (
-          <div className="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-4 shadow-2xl">
+          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 shadow-xl text-slate-800">
             <div className="flex flex-col space-y-2 text-sm font-semibold">
               <a
                 href="#demos"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 5 Live Demos
               </a>
               <a
                 href="#deliverables"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 Deliverables
               </a>
               <a
                 href="#workflow"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 How I Work
               </a>
               <a
                 href="#services"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 Service Tiers
               </a>
               <a
                 href="#faq"
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 FAQ
               </a>
             </div>
 
-            <div className="pt-3 border-t border-slate-800 space-y-2">
+            <div className="pt-3 border-t border-slate-200 space-y-2">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block px-3">
                 Live Demos:
               </span>
@@ -195,7 +195,7 @@ const Navbar = () => {
                     key={d.name}
                     to={d.path}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-1.5 text-xs text-slate-300 hover:text-emerald-400"
+                    className="block px-3 py-1.5 text-xs text-slate-700 hover:text-emerald-700"
                   >
                     {d.name}
                   </Link>
@@ -206,7 +206,7 @@ const Navbar = () => {
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-1.5 text-xs text-slate-300 hover:text-emerald-400"
+                    className="block px-3 py-1.5 text-xs text-slate-700 hover:text-emerald-700"
                   >
                     {d.name} ↗
                   </a>
@@ -214,11 +214,11 @@ const Navbar = () => {
               ))}
             </div>
 
-            <div className="pt-3 border-t border-slate-800">
+            <div className="pt-3 border-t border-slate-200">
               <a
                 href="#quote"
                 onClick={() => setMobileOpen(false)}
-                className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-sm"
+                className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider shadow-sm"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Request a Quote</span>

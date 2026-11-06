@@ -97,9 +97,10 @@ export default function PortfolioHubPage() {
       techStack: ['React 19', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS v4'],
       demoUrl: '/properties',
       internalRoute: true,
-      badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
       icon: Building2,
-      accentColor: 'text-emerald-400'
+      accentColor: 'text-emerald-600',
+      iconBg: 'bg-emerald-50 border-emerald-200'
     },
     {
       id: 'gourmethaven',
@@ -117,9 +118,10 @@ export default function PortfolioHubPage() {
       techStack: ['React 19', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS v4'],
       demoUrl: 'https://frameforge-gourmethaven.vercel.app/',
       internalRoute: false,
-      badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+      badgeColor: 'bg-amber-50 text-amber-800 border-amber-200',
       icon: UtensilsCrossed,
-      accentColor: 'text-amber-400'
+      accentColor: 'text-amber-600',
+      iconBg: 'bg-amber-50 border-amber-200'
     },
     {
       id: 'apexmedia',
@@ -137,9 +139,10 @@ export default function PortfolioHubPage() {
       techStack: ['React 18', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS v3'],
       demoUrl: 'https://frameforge-apexmedia.vercel.app/',
       internalRoute: false,
-      badgeColor: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+      badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
       icon: Briefcase,
-      accentColor: 'text-blue-400'
+      accentColor: 'text-blue-600',
+      iconBg: 'bg-blue-50 border-blue-200'
     },
     {
       id: 'fitpulse',
@@ -157,9 +160,10 @@ export default function PortfolioHubPage() {
       techStack: ['React 18', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS v3'],
       demoUrl: 'https://frameforge-fitpulse.vercel.app/',
       internalRoute: false,
-      badgeColor: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+      badgeColor: 'bg-rose-50 text-rose-800 border-rose-200',
       icon: Dumbbell,
-      accentColor: 'text-rose-400'
+      accentColor: 'text-rose-600',
+      iconBg: 'bg-rose-50 border-rose-200'
     },
     {
       id: 'medicare',
@@ -177,9 +181,10 @@ export default function PortfolioHubPage() {
       techStack: ['React 18', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS v3'],
       demoUrl: 'https://frameforge-medicare.vercel.app/',
       internalRoute: false,
-      badgeColor: 'bg-teal-500/10 text-teal-400 border-teal-500/20',
+      badgeColor: 'bg-teal-50 text-teal-800 border-teal-200',
       icon: HeartPulse,
-      accentColor: 'text-teal-400'
+      accentColor: 'text-teal-600',
+      iconBg: 'bg-teal-50 border-teal-200'
     }
   ];
 
@@ -207,42 +212,42 @@ export default function PortfolioHubPage() {
   ];
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen selection:bg-emerald-600 selection:text-white">
+    <div className="bg-slate-50 text-slate-800 min-h-screen selection:bg-emerald-600 selection:text-white font-sans">
       
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-slate-800/80">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-950/30 via-slate-950 to-slate-950 pointer-events-none" />
+      {/* 1. HERO SECTION (CRISP LIGHT THEME) */}
+      <section className="relative pt-20 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-slate-200/90 bg-gradient-to-b from-emerald-50/60 via-slate-50 to-white">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/50 via-transparent to-transparent pointer-events-none" />
         
         <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-100/80 text-emerald-800 border border-emerald-300 shadow-xs backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
             <span>FrameForge Engineering • Custom Full-Stack Web Development</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.12]">
+          <h1 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
             Custom Full-Stack Web Applications <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700">
               Built for Production & Scale.
             </span>
           </h1>
 
-          <p className="max-w-3xl mx-auto text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
+          <p className="max-w-3xl mx-auto text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
             I design and engineer custom full-stack web platforms using <strong>React, Node.js, Express, and MongoDB/PostgreSQL</strong>. Explore 5 live interactive demos below, inspect our clean component architecture, and request a tailored quote for your next product launch.
           </p>
 
           {/* Core Trust Badges */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-400">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 5 Live Deployed Demos
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-700">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 5 Live Deployed Demos
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Dual-Engine Offline Resilience
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Dual-Engine Offline Resilience
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 100% Automated Test Suites
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 100% Automated Test Suites
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Full Source Code Handover
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Full Source Code Handover
             </span>
           </div>
 
@@ -250,105 +255,109 @@ export default function PortfolioHubPage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#quote"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/25 transition-all hover:scale-105"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/20 transition-all hover:scale-105 cursor-pointer"
             >
               <Send className="w-4 h-4" />
               <span>Request a Project Quote</span>
             </a>
             <a
               href="#demos"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm transition-all hover:scale-105"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-sm shadow-xs transition-all hover:scale-105 cursor-pointer"
             >
               <span>Explore 5 Live Demos</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-slate-600" />
             </a>
           </div>
         </div>
       </section>
 
       {/* 2. CONCRETE DELIVERABLES SECTION */}
-      <section id="deliverables" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+      <section id="deliverables" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Concrete Full-Stack Scope</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Concrete Full-Stack Scope
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             What I Deliver in Every Application
           </h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
+          <p className="text-sm text-slate-600 leading-relaxed">
             No empty buzzwords or unverified claims. Every deliverable is clearly scoped, modularly coded, and rigorously tested before handover.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-200">
               <Layers className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Responsive Frontend Interface</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Responsive Frontend Interface</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Mobile-first, high-performance UI created with modern React and Tailwind CSS. Clean component breakdown, interactive states, accessible inputs, and keyboard navigation.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center border border-teal-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-teal-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center border border-teal-200">
               <Server className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Modular REST / API Backend</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Modular REST / API Backend</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Express.js & Node.js server architecture with controller-service separation, schema validation middleware, rate limiting, and structured error responses.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center border border-blue-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-blue-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-200">
               <Database className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Database Design & Modeling</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Database Design & Modeling</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Schema design for MongoDB (Mongoose) or PostgreSQL (Prisma/pg). Optimized query indexing, relational data references, and atomic transaction protection.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-indigo-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center border border-indigo-200">
               <Lock className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Authentication & Role-Based Access</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Authentication & Role-Based Access</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Secure user authentication using hashed credentials (bcrypt) and signed JWT tokens. Granular multi-role RBAC (Customer, Staff, Manager, Admin) preventing privilege leaks.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-cyan-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center border border-cyan-200">
               <Rocket className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Cloud Deployment & SSL Setup</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Cloud Deployment & SSL Setup</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Full deployment to Vercel, Render, Railway, or AWS. Environment secrets configuration, automated CI/CD continuous deployment from Git, and custom domain linking.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/40 transition-all space-y-3">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-md hover:border-amber-500/50 transition-all space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
               <Code2 className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-white">Full Source Code Handover</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="text-base font-bold text-slate-900">Full Source Code Handover</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Clean, well-commented Git repository transfer with complete intellectual property ownership. Comprehensive README setup instructions, .env.example, and seed data.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 3. 5 LIVE DEMO SHOWCASE CARDS */}
-      <section id="demos" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+      {/* 3. 5 LIVE DEMO SHOWCASE CARDS (LIGHT ELEGANCE) */}
+      <section id="demos" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Interactive Demonstrations</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Interactive Demonstrations
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Explore 5 Deployed Full-Stack Applications
           </h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
+          <p className="text-sm text-slate-600 leading-relaxed">
             Every demo below is a fully functional, live-deployed application with persistent data handling, responsive layouts, and verified booking or inquiry user journeys.
           </p>
         </div>
@@ -359,40 +368,40 @@ export default function PortfolioHubPage() {
             return (
               <div
                 key={p.id}
-                className="rounded-3xl bg-slate-900/70 border border-slate-800 p-6 sm:p-8 hover:border-slate-700 transition-all shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+                className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-8 hover:border-slate-300 transition-all shadow-sm hover:shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
               >
                 {/* Left Overview Column */}
                 <div className="lg:col-span-7 space-y-4">
                   <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="text-xs font-bold text-slate-400 font-mono">Demo 0{idx + 1}</span>
+                    <span className="text-xs font-bold text-slate-500 font-mono">Demo 0{idx + 1}</span>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${p.badgeColor}`}>
                       {p.industry}
                     </span>
-                    <span className="text-[11px] font-medium text-slate-500 bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700">
+                    <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
                       Sample Data • Illustrative Project
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${p.iconBg}`}>
                       <IconComponent className={`w-5 h-5 ${p.accentColor}`} />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                       {p.title}
                     </h3>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    <strong>Purpose:</strong> {p.purpose}
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <strong className="text-slate-800">Purpose:</strong> {p.purpose}
                   </p>
 
                   {/* Features list */}
                   <div className="space-y-2 pt-1">
-                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Key Working Capabilities:</span>
-                    <ul className="space-y-1.5 text-xs text-slate-300">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Key Working Capabilities:</span>
+                    <ul className="space-y-1.5 text-xs text-slate-700">
                       {p.features.map((feat, fIdx) => (
                         <li key={fIdx} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -404,7 +413,7 @@ export default function PortfolioHubPage() {
                     {p.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700"
+                        className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200"
                       >
                         {tech}
                       </span>
@@ -413,10 +422,10 @@ export default function PortfolioHubPage() {
                 </div>
 
                 {/* Right Action & Launch Card */}
-                <div className="lg:col-span-5 bg-slate-950/80 rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-6">
+                <div className="lg:col-span-5 bg-slate-50/90 rounded-2xl p-6 border border-slate-200 flex flex-col justify-between space-y-6">
                   <div className="space-y-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Live Verification Link</span>
-                    <p className="text-xs text-slate-400 leading-relaxed">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Live Verification Link</span>
+                    <p className="text-xs text-slate-600 leading-relaxed">
                       Click below to test the active user journeys (search, filter, cart, booking modal, or admin credentials).
                     </p>
                   </div>
@@ -426,14 +435,14 @@ export default function PortfolioHubPage() {
                       <>
                         <Link
                           to={p.demoUrl}
-                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02]"
+                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02]"
                         >
                           <span>Launch UrbanNest Catalog</span>
                           <ArrowRight className="w-4 h-4" />
                         </Link>
                         <Link
                           to="/demo/urbannest"
-                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs border border-slate-700 transition-all"
+                          className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs border border-slate-300 shadow-xs transition-all"
                         >
                           <span>UrbanNest Marketplace Homepage</span>
                         </Link>
@@ -443,7 +452,7 @@ export default function PortfolioHubPage() {
                         href={p.demoUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02]"
+                        className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02]"
                       >
                         <span>Launch Live Demo Application</span>
                         <ExternalLink className="w-4 h-4" />
@@ -451,9 +460,9 @@ export default function PortfolioHubPage() {
                     )}
                   </div>
 
-                  <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                  <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-200 flex items-center justify-between">
                     <span>Clean Source Code in Repo</span>
-                    <span className="text-emerald-400 font-medium">100% Passing Tests</span>
+                    <span className="text-emerald-700 font-semibold">100% Passing Tests</span>
                   </div>
                 </div>
               </div>
@@ -463,76 +472,80 @@ export default function PortfolioHubPage() {
       </section>
 
       {/* 4. HOW I WORK SECTION */}
-      <section id="workflow" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+      <section id="workflow" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Structured Engineering Process</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Structured Engineering Process
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             How I Work — From Discovery to Handover
           </h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
+          <p className="text-sm text-slate-600 leading-relaxed">
             Transparent, milestone-based full-stack delivery so you stay in complete control of timeline, budget, and features.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-emerald-400">01</span>
-            <h3 className="text-base font-bold text-white">Discovery & Scope Definition</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 inline-block">01</span>
+            <h3 className="text-base font-bold text-slate-900">Discovery & Scope Definition</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               We review your user journeys, wireframes, and business rules. I provide an itemized deliverables breakdown so expectations are aligned before coding begins.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-teal-400">02</span>
-            <h3 className="text-base font-bold text-white">Architecture & Schema Design</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md border border-teal-200 inline-block">02</span>
+            <h3 className="text-base font-bold text-slate-900">Architecture & Schema Design</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               I draft database models, API endpoint contracts, authentication flow, and component hierarchy to avoid costly rework later in development.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-cyan-400">03</span>
-            <h3 className="text-base font-bold text-white">Iterative Development & Staging</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-cyan-700 bg-cyan-50 px-2.5 py-1 rounded-md border border-cyan-200 inline-block">03</span>
+            <h3 className="text-base font-bold text-slate-900">Iterative Development & Staging</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               I build the frontend and backend simultaneously, providing live testable staging links at each milestone so you can interact with working features.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-blue-400">04</span>
-            <h3 className="text-base font-bold text-white">Quality Review & Automated Testing</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 inline-block">04</span>
+            <h3 className="text-base font-bold text-slate-900">Quality Review & Automated Testing</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               Core endpoints, authentication routes, and transaction calculations are verified with automated test suites. Cross-browser and mobile responsive audits are completed.
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-indigo-400">05</span>
-            <h3 className="text-base font-bold text-white">Cloud Deployment & Production Verification</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200 inline-block">05</span>
+            <h3 className="text-base font-bold text-slate-900">Cloud Deployment & Production Verification</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               We connect your production database and deploy frontend/API with SSL encryption, environment secrets, and automated continuous deployment (CI/CD).
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-            <span className="text-xs font-mono font-bold text-amber-400">06</span>
-            <h3 className="text-base font-bold text-white">Clean Handover & Support</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+          <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-3">
+            <span className="text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 inline-block">06</span>
+            <h3 className="text-base font-bold text-slate-900">Clean Handover & Support</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
               You receive 100% intellectual property ownership of the repository, environment documentation, database seed scripts, and post-delivery revision assistance.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 5. SERVICE TIERS & PACKAGES (CLEAR DELIVERABLES + PLACEHOLDERS) */}
-      <section id="services" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+      {/* 5. SERVICE TIERS & PACKAGES */}
+      <section id="services" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
         <div className="text-center max-w-3xl mx-auto mb-14 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Fiverr Service Packages</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Fiverr Service Packages
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Transparent Deliverable Tiers
           </h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
+          <p className="text-sm text-slate-600 leading-relaxed">
             Scope is defined in concrete deliverables rather than vague promises. Pricing and turnaround timelines can be tailored to your specific project needs.
           </p>
         </div>
@@ -540,117 +553,117 @@ export default function PortfolioHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           
           {/* Starter Tier */}
-          <div className="rounded-3xl bg-slate-900/60 border border-slate-800 p-8 flex flex-col justify-between space-y-6">
+          <div className="rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-between space-y-6 shadow-sm hover:shadow-md transition-all">
             <div className="space-y-4">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                 Starter Tier
               </span>
-              <h3 className="text-xl font-bold text-white">Frontend MVP Prototype</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">Frontend MVP Prototype</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Ideal for validating product concepts, investor pitch prototypes, or single-page landing workflows with interactive mock data.
               </p>
 
               {/* Editable placeholder */}
-              <div className="p-3 bg-slate-950 rounded-xl border border-dashed border-slate-700 text-xs text-slate-400">
-                <span className="font-semibold text-slate-200 block">Investment & Timeline:</span>
-                <span className="text-emerald-400">[Owner Input: e.g. $150 – $250 • 3–5 Days]</span>
+              <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
+                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
+                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $150 – $250 • 3–5 Days]</span>
               </div>
 
               <div className="space-y-2 pt-2">
-                <span className="text-xs font-bold uppercase text-slate-400">Included Deliverables:</span>
-                <ul className="space-y-2 text-xs text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Responsive React + Tailwind CSS UI</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Mobile, Tablet & Desktop Layouts</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Interactive Mock Datasets & State</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Cloud Deployment (Vercel)</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Source Code Handover via GitHub</li>
+                <span className="text-xs font-bold uppercase text-slate-600">Included Deliverables:</span>
+                <ul className="space-y-2 text-xs text-slate-700">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Responsive React + Tailwind CSS UI</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Mobile, Tablet & Desktop Layouts</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Interactive Mock Datasets & State</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Cloud Deployment (Vercel)</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Source Code Handover via GitHub</li>
                 </ul>
               </div>
             </div>
 
             <a
               href="#quote"
-              className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center transition"
+              className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider text-center border border-slate-300 transition"
             >
               Select Starter Scope
             </a>
           </div>
 
           {/* Standard Tier (Highlighted) */}
-          <div className="rounded-3xl bg-slate-900 border-2 border-emerald-500/80 p-8 flex flex-col justify-between space-y-6 relative shadow-2xl shadow-emerald-500/10">
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-500 text-slate-950 shadow">
+          <div className="rounded-3xl bg-white border-2 border-emerald-600 p-8 flex flex-col justify-between space-y-6 relative shadow-xl shadow-emerald-600/10">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white shadow-sm">
               Most Popular for Full-Stack MVPs
             </div>
 
             <div className="space-y-4 pt-2">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
                 Standard Tier
               </span>
-              <h3 className="text-xl font-bold text-white">Full-Stack Web Application</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">Full-Stack Web Application</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Complete production application with persistent database, authenticated user accounts, and validated inquiry/booking forms.
               </p>
 
               {/* Editable placeholder */}
-              <div className="p-3 bg-slate-950 rounded-xl border border-dashed border-emerald-500/50 text-xs text-slate-400">
-                <span className="font-semibold text-slate-200 block">Investment & Timeline:</span>
-                <span className="text-emerald-400 font-bold">[Owner Input: e.g. $450 – $750 • 7–10 Days]</span>
+              <div className="p-3 bg-emerald-50/70 rounded-xl border border-dashed border-emerald-300 text-xs text-slate-700">
+                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
+                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $450 – $750 • 7–10 Days]</span>
               </div>
 
               <div className="space-y-2 pt-2">
-                <span className="text-xs font-bold uppercase text-slate-400">Included Deliverables:</span>
-                <ul className="space-y-2 text-xs text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Everything in Starter Tier</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Node.js / Express.js REST API</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> MongoDB / PostgreSQL Database</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> User Authentication (JWT + bcrypt)</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Contact / Booking Intake with Validation</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Automated Test Suite on Key Routes</li>
+                <span className="text-xs font-bold uppercase text-slate-600">Included Deliverables:</span>
+                <ul className="space-y-2 text-xs text-slate-700">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Everything in Starter Tier</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Node.js / Express.js REST API</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> MongoDB / PostgreSQL Database</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> User Authentication (JWT + bcrypt)</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Contact / Booking Intake with Validation</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Automated Test Suite on Key Routes</li>
                 </ul>
               </div>
             </div>
 
             <a
               href="#quote"
-              className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-lg shadow-emerald-600/30 transition hover:scale-[1.02]"
+              className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider text-center shadow-md shadow-emerald-600/30 transition hover:scale-[1.02]"
             >
               Select Standard Scope
             </a>
           </div>
 
           {/* Premium Tier */}
-          <div className="rounded-3xl bg-slate-900/60 border border-slate-800 p-8 flex flex-col justify-between space-y-6">
+          <div className="rounded-3xl bg-white border border-slate-200 p-8 flex flex-col justify-between space-y-6 shadow-sm hover:shadow-md transition-all">
             <div className="space-y-4">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                 Premium Tier
               </span>
-              <h3 className="text-xl font-bold text-white">Custom Multi-Role Platform</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-xl font-bold text-slate-900">Custom Multi-Role Platform</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Full-scale web platform featuring multi-role RBAC, administrator analytics dashboards, complex scheduling, or marketplace dynamics.
               </p>
 
               {/* Editable placeholder */}
-              <div className="p-3 bg-slate-950 rounded-xl border border-dashed border-slate-700 text-xs text-slate-400">
-                <span className="font-semibold text-slate-200 block">Investment & Timeline:</span>
-                <span className="text-emerald-400">[Owner Input: e.g. $950 – $1,500+ • 14–21 Days]</span>
+              <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
+                <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
+                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $950 – $1,500+ • 14–21 Days]</span>
               </div>
 
               <div className="space-y-2 pt-2">
-                <span className="text-xs font-bold uppercase text-slate-400">Included Deliverables:</span>
-                <ul className="space-y-2 text-xs text-slate-300">
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Everything in Standard Tier</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Multi-Role RBAC (Admin, Staff, Client)</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Custom Admin Dashboard & Lead CRM</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> CSV Export & Searchable Data Tables</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> Complex Business Logic & Calculators</li>
-                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /> 14 Days Post-Delivery Support</li>
+                <span className="text-xs font-bold uppercase text-slate-600">Included Deliverables:</span>
+                <ul className="space-y-2 text-xs text-slate-700">
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Everything in Standard Tier</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Multi-Role RBAC (Admin, Staff, Client)</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Custom Admin Dashboard & Lead CRM</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> CSV Export & Searchable Data Tables</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> Complex Business Logic & Calculators</li>
+                  <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" /> 14 Days Post-Delivery Support</li>
                 </ul>
               </div>
             </div>
 
             <a
               href="#quote"
-              className="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider text-center transition"
+              className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider text-center border border-slate-300 transition"
             >
               Select Premium Scope
             </a>
@@ -660,13 +673,15 @@ export default function PortfolioHubPage() {
       </section>
 
       {/* 6. CONCISE FAQ SECTION */}
-      <section id="faq" className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-800/80">
+      <section id="faq" className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
         <div className="text-center mb-12 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Frequently Asked Questions</span>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Frequently Asked Questions
+          </span>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
             Client FAQ
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-600">
             Clear answers about communication, technical scope, delivery, and commercial handover.
           </p>
         </div>
@@ -677,22 +692,22 @@ export default function PortfolioHubPage() {
             return (
               <div
                 key={index}
-                className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden transition-all"
+                className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-xs transition-all"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(isOpen ? null : index)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-white hover:text-emerald-400 transition cursor-pointer"
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-slate-900 hover:text-emerald-700 transition cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   {isOpen ? (
-                    <ChevronUp className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <ChevronUp className="w-4 h-4 text-emerald-600 shrink-0" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-slate-500 shrink-0" />
+                    <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
                   )}
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-slate-800/60 pt-3">
+                  <div className="px-5 pb-5 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-3 bg-slate-50/60">
                     {faq.a}
                   </div>
                 )}
@@ -702,44 +717,46 @@ export default function PortfolioHubPage() {
         </div>
       </section>
 
-      {/* 7. INTERACTIVE "REQUEST A QUOTE" CONSULTATION FORM */}
+      {/* 7. INTERACTIVE "REQUEST A QUOTE" CONSULTATION FORM (LIGHT THEME) */}
       <section id="quote" className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-slate-900 border border-slate-800 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="rounded-3xl bg-white border border-slate-200 p-8 sm:p-12 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 space-y-8">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Direct Consultation</span>
-              <h2 className="text-3xl font-black text-white tracking-tight">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+                Direct Consultation
+              </span>
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">
                 Request a Custom Full-Stack Quote
               </h2>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Tell me about your product requirements, target timeline, and deliverables. You will receive an itemized proposal breakdown and estimate within 24 business hours.
               </p>
             </div>
 
             {quoteSuccess ? (
-              <div className="p-8 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-center space-y-4">
-                <CheckCircle2 className="w-14 h-14 text-emerald-400 mx-auto" />
-                <h3 className="text-2xl font-bold text-white">Quote Request Received!</h3>
-                <p className="text-xs text-emerald-300">
+              <div className="p-8 rounded-2xl bg-emerald-50 border border-emerald-200 text-center space-y-4 shadow-sm">
+                <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
+                <h3 className="text-2xl font-bold text-slate-900">Quote Request Received!</h3>
+                <p className="text-xs text-emerald-800">
                   Your project scope was logged. Your verification reference number is:
                 </p>
-                <div className="inline-block px-4 py-2 rounded-xl bg-slate-950 font-mono text-sm font-black text-emerald-400 border border-emerald-500/30">
+                <div className="inline-block px-4 py-2 rounded-xl bg-white font-mono text-sm font-black text-emerald-700 border border-emerald-300 shadow-xs">
                   {quoteSuccess.refCode}
                 </div>
-                <div className="text-left bg-slate-950 p-4 rounded-xl text-xs space-y-1.5 text-slate-300 max-w-md mx-auto border border-slate-800">
+                <div className="text-left bg-white p-4 rounded-xl text-xs space-y-1.5 text-slate-700 max-w-md mx-auto border border-emerald-200 shadow-xs">
                   <p><strong>Contact:</strong> {quoteSuccess.name} ({quoteSuccess.email})</p>
                   <p><strong>Project Type:</strong> {quoteSuccess.projectType}</p>
                   <p><strong>Target Timeline:</strong> {quoteSuccess.timeline}</p>
                   <p><strong>Selected Deliverables:</strong> {quoteSuccess.deliverables.join(', ')}</p>
                 </div>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-600">
                   You can also message me directly on Fiverr or via the configuration points below.
                 </p>
                 <button
                   onClick={() => setQuoteSuccess(null)}
-                  className="mt-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition"
+                  className="mt-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider cursor-pointer transition shadow-sm"
                 >
                   Submit Another Project Scope
                 </button>
@@ -750,26 +767,26 @@ export default function PortfolioHubPage() {
                 {/* Contact row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Your Full Name *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Your Full Name *</label>
                     <input
                       type="text"
                       required
                       placeholder="e.g. Alex Morgan"
                       value={quoteForm.name}
                       onChange={(e) => setQuoteForm({ ...quoteForm, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Work Email Address *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Work Email Address *</label>
                     <input
                       type="email"
                       required
                       placeholder="alex@company.com"
                       value={quoteForm.email}
                       onChange={(e) => setQuoteForm({ ...quoteForm, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition"
                     />
                   </div>
                 </div>
@@ -777,11 +794,11 @@ export default function PortfolioHubPage() {
                 {/* Project niche & Timeline row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Project Industry / Format</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Project Industry / Format</label>
                     <select
                       value={quoteForm.projectType}
                       onChange={(e) => setQuoteForm({ ...quoteForm, projectType: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 transition cursor-pointer"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition cursor-pointer"
                     >
                       <option value="Real Estate / Marketplace">Real Estate / Marketplace Platform</option>
                       <option value="Restaurant / Food Ordering">Restaurant / Online Ordering & Reservations</option>
@@ -793,11 +810,11 @@ export default function PortfolioHubPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Target Delivery Timeline</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1.5">Target Delivery Timeline</label>
                     <select
                       value={quoteForm.timeline}
                       onChange={(e) => setQuoteForm({ ...quoteForm, timeline: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 transition cursor-pointer"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition cursor-pointer"
                     >
                       <option value="Sprint Delivery (1 - 2 Weeks)">Sprint Delivery (1 - 2 Weeks)</option>
                       <option value="Standard Sprint (2 - 4 Weeks)">Standard Sprint (2 - 4 Weeks)</option>
@@ -809,7 +826,7 @@ export default function PortfolioHubPage() {
 
                 {/* Deliverables checklist */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-2">Required Deliverables (Select all that apply)</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-2">Required Deliverables (Select all that apply)</label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                     {[
                       'Responsive Frontend',
@@ -830,12 +847,12 @@ export default function PortfolioHubPage() {
                           onClick={() => toggleDeliverable(item)}
                           className={`p-2.5 rounded-xl border text-left text-xs font-medium transition cursor-pointer flex items-center justify-between ${
                             isSelected
-                              ? 'bg-emerald-500/10 border-emerald-500 text-emerald-300'
-                              : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                              ? 'bg-emerald-50 border-emerald-600 text-emerald-900 font-semibold shadow-xs'
+                              : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-100'
                           }`}
                         >
                           <span>{item}</span>
-                          {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />}
+                          {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />}
                         </button>
                       );
                     })}
@@ -844,13 +861,13 @@ export default function PortfolioHubPage() {
 
                 {/* Project Brief */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">Project Overview & Specific Features</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">Project Overview & Specific Features</label>
                   <textarea
                     rows={3}
                     placeholder="Briefly describe what you are building, any reference websites, key user roles, or custom workflows needed..."
                     value={quoteForm.message}
                     onChange={(e) => setQuoteForm({ ...quoteForm, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-emerald-500 transition"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 transition"
                   />
                 </div>
 
@@ -858,7 +875,7 @@ export default function PortfolioHubPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? (
                     <span>Logging Quote Scope...</span>
@@ -871,11 +888,11 @@ export default function PortfolioHubPage() {
                 </button>
 
                 {/* Configuration notice for owner */}
-                <div className="pt-2 p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px] text-slate-400 space-y-1">
-                  <p className="font-semibold text-slate-300">Direct Contact Configuration Points for Owner:</p>
-                  <p>• Fiverr Profile / Gig Chat: <span className="font-mono text-emerald-400">VITE_FIVERR_PROFILE_URL</span> (Set in client .env)</p>
-                  <p>• Direct Monitored Email: <span className="font-mono text-emerald-400">VITE_CONTACT_EMAIL</span></p>
-                  <p>• WhatsApp Business: <span className="font-mono text-emerald-400">VITE_BUSINESS_WHATSAPP</span></p>
+                <div className="pt-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
+                  <p className="font-semibold text-slate-800">Direct Contact Configuration Points for Owner:</p>
+                  <p>• Fiverr Profile / Gig Chat: <span className="font-mono text-emerald-700 font-semibold">VITE_FIVERR_PROFILE_URL</span> (Set in client .env)</p>
+                  <p>• Direct Monitored Email: <span className="font-mono text-emerald-700 font-semibold">VITE_CONTACT_EMAIL</span></p>
+                  <p>• WhatsApp Business: <span className="font-mono text-emerald-700 font-semibold">VITE_BUSINESS_WHATSAPP</span></p>
                 </div>
 
               </form>
