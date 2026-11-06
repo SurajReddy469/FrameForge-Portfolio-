@@ -37,6 +37,7 @@ export default function PortfolioHubPage() {
 
   // FAQ accordion state
   const [openFaq, setOpenFaq] = useState(0);
+  const [activeWalkthrough, setActiveWalkthrough] = useState(0);
 
   // Deliverables toggle helper
   const toggleDeliverable = (item) => {
@@ -185,6 +186,113 @@ export default function PortfolioHubPage() {
       icon: HeartPulse,
       accentColor: 'text-teal-600',
       iconBg: 'bg-teal-50 border-teal-200'
+    }
+  ];
+
+  const walkthroughs = [
+    {
+      id: 'urbannest',
+      name: '1. UrbanNest',
+      title: 'UrbanNest — Luxury PropTech Marketplace',
+      industry: 'PropTech & Marketplace',
+      tagline: 'Multi-city search filtering, live mortgage EMI calculator, and viewing tour pass generation.',
+      customerSteps: [
+        'Open /properties to test live Buy (4) vs. Rent (2) filtering and metro location tags.',
+        'Select Skyline Penthouse (/properties/prop-101) to interact with the Mortgage & EMI installment calculator.',
+        'Complete the Schedule Private Tour form to generate a simulated inspection pass with reference code (UN-TOUR-XXXXXX).'
+      ],
+      adminSteps: [
+        'Open /login and click "Fill Admin Credentials" (admin@urbannest.com / admin123).',
+        'Navigate to /admin dashboard to inspect total portfolio valuation, active inventory, and inbound tour leads.',
+        'Transition tour lead workflow status from Pending to Contacted.'
+      ],
+      highlight: 'Reactive multi-city filtering, atomic comparison matrix, and role-protected broker CRM.',
+      customerUrl: '/properties',
+      adminUrl: '/login',
+      internal: true
+    },
+    {
+      id: 'gourmethaven',
+      name: '2. GourmetHaven',
+      title: 'GourmetHaven — Fine Dining & Artisanal Takeaway',
+      industry: 'Hospitality & FoodTech',
+      tagline: 'Dietary-curated menu, slide-out cart drawer with promo validation, and table reservations.',
+      customerSteps: [
+        'Browse /menu to filter dishes by dietary tags (Vegetarian, Halal, Gluten-Free, Chef Specials).',
+        'Add dishes to the slide-over cart drawer and test promo discount codes (e.g. WELCOME10 or CHEF20).',
+        'Submit a table reservation on /reserve specifying guest party size and seating zone.'
+      ],
+      adminSteps: [
+        'Navigate to /login and click "Fill Staff/Chef" credentials (admin@gourmethaven.com / admin123).',
+        'Inspect the reservations schedule queue and live kitchen takeaway orders.'
+      ],
+      highlight: 'Slide-over cart state with server-side tax/discount calculation and responsive drawer animation.',
+      customerUrl: 'https://frameforge-gourmethaven.vercel.app/menu',
+      adminUrl: 'https://frameforge-gourmethaven.vercel.app/login',
+      internal: false
+    },
+    {
+      id: 'apexmedia',
+      name: '3. ApexMedia',
+      title: 'ApexMedia — Digital Product Agency & CRM',
+      industry: 'B2B Consultancy & Services',
+      tagline: 'Algorithmic project budget estimator, case study spec sheets, and CSV lead pipeline.',
+      customerSteps: [
+        'Launch the Scope & Budget Estimator on the homepage and select your target platform architecture.',
+        'Toggle feature add-ons (Auth, Stripe Payments, Admin CRM) to watch real-time investment calculation.',
+        'Submit inquiry to receive an instant proposal reference tracking pass.'
+      ],
+      adminSteps: [
+        'Open /login and authenticate as Admin Principal (admin@apexmedia.com / admin123).',
+        'Navigate the Client Pipeline CRM and advance lead stages (New -> In Review -> Proposal Sent -> Won).',
+        'Export pipeline data with 1-click RFC 4180 CSV export.'
+      ],
+      highlight: 'Algorithmic scope calculator, lead pipeline stage management, and client-side CSV parsing.',
+      customerUrl: 'https://frameforge-apexmedia.vercel.app/',
+      adminUrl: 'https://frameforge-apexmedia.vercel.app/login',
+      internal: false
+    },
+    {
+      id: 'fitpulse',
+      name: '4. FitPulse',
+      title: 'FitPulse — Athletic Club & Studio Management',
+      industry: 'Health & Wellness SaaS',
+      tagline: 'Weekly timetable schedule across all 7 days, atomic capacity locks, and QR entry passes.',
+      customerSteps: [
+        'Browse /schedule to view all 8 sessions spanning Monday through Sunday across 6 disciplines.',
+        'Click "Reserve Studio Spot" on CrossFit MetCon to lock capacity and confirm reservation.',
+        'Receive instant digital entry pass with scannable QR access code (FIT-BOOK-XXXXXX).',
+        'Open /my-bookings to verify remaining class passes and pass deductions.'
+      ],
+      adminSteps: [
+        'Log in with staff credentials (admin@fitpulse.gym / admin123).',
+        'Monitor live studio roster capacities and member check-in verification logs.'
+      ],
+      highlight: 'Atomic spot reservation preventing overbooking, dynamic capacity bars, and QR code SVG generation.',
+      customerUrl: 'https://frameforge-fitpulse.vercel.app/schedule',
+      adminUrl: 'https://frameforge-fitpulse.vercel.app/login',
+      internal: false
+    },
+    {
+      id: 'medicare',
+      name: '5. MediCare Plus',
+      title: 'MediCare Plus — CarePoint Clinic & Doctor Directory',
+      industry: 'Healthcare Technical Demo',
+      tagline: 'Physician credential profiles, real-time availability calendar, and printable intake slips.',
+      customerSteps: [
+        'Navigate to /book to view all 6 specialist doctors and consultation rates.',
+        'Select a doctor and click "Choose Date & Pick Time Slot" to view real-time open slots.',
+        'Complete the 2-step digital intake questionnaire with symptom details.',
+        'Generate and view the verified clinical intake slip (CARE-APPT-XXXXXX).'
+      ],
+      adminSteps: [
+        'Sign in with desk staff credentials (admin@medicare.clinic / admin123).',
+        'Open receptionist calendar overview to update attendance triage status (Scheduled -> Checked In -> Completed).'
+      ],
+      highlight: 'Multi-doctor calendar slot conflict resolution, multi-step intake validation, and printable confirmation slips.',
+      customerUrl: 'https://frameforge-medicare.vercel.app/book',
+      adminUrl: 'https://frameforge-medicare.vercel.app/login',
+      internal: false
     }
   ];
 
@@ -358,7 +466,7 @@ export default function PortfolioHubPage() {
             Explore 5 Deployed Full-Stack Applications
           </h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            Every demo below is a fully functional, live-deployed application with persistent data handling, responsive layouts, and verified booking or inquiry user journeys.
+            Each application below is an interactive technical demonstration built with React and Node.js to showcase responsive UI craft, state handling, and simulated booking or inquiry user journeys.
           </p>
         </div>
 
@@ -469,6 +577,137 @@ export default function PortfolioHubPage() {
             );
           })}
         </div>
+      </section>
+
+      {/* INTERACTIVE APPLICATION WALKTHROUGHS SECTION */}
+      <section id="walkthroughs" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-slate-200/90">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 inline-block">
+            Step-by-Step Flow Audits
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Interactive Walkthroughs & User Journeys
+          </h2>
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Follow verified test paths for both the customer experience and the role-protected management view across each application.
+          </p>
+        </div>
+
+        {/* Project Selector Tabs */}
+        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-4 scrollbar-none mb-8">
+          {walkthroughs.map((w, idx) => (
+            <button
+              key={w.id}
+              onClick={() => setActiveWalkthrough(idx)}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition cursor-pointer ${
+                activeWalkthrough === idx
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
+              }`}
+            >
+              {w.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Selected Walkthrough Card */}
+        {(() => {
+          const item = walkthroughs[activeWalkthrough];
+          return (
+            <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-10 shadow-sm space-y-8">
+              <div className="border-b border-slate-100 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 mb-2 inline-block">
+                    {item.industry}
+                  </span>
+                  <h3 className="text-2xl font-black text-slate-900 tracking-tight">{item.title}</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1">{item.tagline}</p>
+                </div>
+                <div className="text-xs text-slate-500 bg-slate-50 border border-slate-200 p-3 rounded-xl max-w-xs">
+                  <span className="font-bold text-slate-700 block mb-0.5">Key Technical Craft:</span>
+                  <span>{item.highlight}</span>
+                </div>
+              </div>
+
+              {/* Two Column Steps: Customer Flow vs Admin Flow */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Customer Flow Column */}
+                <div className="rounded-2xl bg-slate-50 border border-slate-200/80 p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm border-b border-slate-200 pb-3">
+                    <span className="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-black">1</span>
+                    <span>Verified Customer Flow</span>
+                  </div>
+                  <ul className="space-y-3 text-xs text-slate-700">
+                    {item.customerSteps.map((step, sIdx) => (
+                      <li key={sIdx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{step}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pt-2">
+                    {item.internal ? (
+                      <Link
+                        to={item.customerUrl}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs"
+                      >
+                        <span>Test Customer Flow</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={item.customerUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs"
+                      >
+                        <span>Test Customer Flow</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Admin Management Column */}
+                <div className="rounded-2xl bg-slate-50 border border-slate-200/80 p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-slate-800 font-bold text-sm border-b border-slate-200 pb-3">
+                    <span className="w-6 h-6 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center text-xs font-black">2</span>
+                    <span>Role-Protected Admin & Staff View</span>
+                  </div>
+                  <ul className="space-y-3 text-xs text-slate-700">
+                    {item.adminSteps.map((step, sIdx) => (
+                      <li key={sIdx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{step}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pt-2">
+                    {item.internal ? (
+                      <Link
+                        to={item.adminUrl}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition shadow-xs"
+                      >
+                        <span>Test Admin Credentials</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    ) : (
+                      <a
+                        href={item.adminUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition shadow-xs"
+                      >
+                        <span>Test Admin Credentials</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
       </section>
 
       {/* 4. HOW I WORK SECTION */}
@@ -892,28 +1131,20 @@ export default function PortfolioHubPage() {
                   <p className="text-xs font-bold text-slate-800 uppercase tracking-wider text-center">
                     Prefer Direct Messaging? Connect Instantly:
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <a
                       href="https://www.fiverr.com/inbox"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition shadow-xs cursor-pointer"
+                      className="flex items-center justify-center gap-2 p-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/20 transition cursor-pointer"
                     >
-                      <span>💬 Chat on Fiverr</span>
+                      <span>💬 Message & Order on Fiverr</span>
                     </a>
                     <a
-                      href="mailto:support@frameforge.dev?subject=FrameForge%20Full-Stack%20Project%20Inquiry"
-                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
+                      href="#demos"
+                      className="flex items-center justify-center gap-2 p-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-bold text-xs uppercase tracking-wider transition cursor-pointer"
                     >
-                      <span>✉️ Email support@frameforge.dev</span>
-                    </a>
-                    <a
-                      href="https://wa.me/919876543210?text=Hi%20FrameForge,%20I'm%20interested%20in%20a%20custom%20full-stack%20web%20application"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition shadow-xs cursor-pointer"
-                    >
-                      <span>📱 WhatsApp Direct</span>
+                      <span>🔍 Explore Live Demos & Code</span>
                     </a>
                   </div>
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 text-center leading-relaxed">

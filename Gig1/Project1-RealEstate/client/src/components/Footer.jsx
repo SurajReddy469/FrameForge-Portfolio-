@@ -85,25 +85,23 @@ const Footer = () => {
               <ul className="space-y-3 text-xs text-slate-600">
                 <li className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="font-medium text-slate-800">support@frameforge.dev</span>
+                  <span className="font-medium text-slate-800">Direct Inquiries via Quote Form Below</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Global Remote Freelance</span>
+                  <span>Available for Global Freelance via Fiverr</span>
                 </li>
                 <li className="pt-1">
                   <a
-                    href="https://wa.me/919876543210?text=Hi%20FrameForge,%20I'm%20interested%20in%20a%20custom%20full-stack%20web%20application"
-                    target="_blank"
-                    rel="noreferrer"
+                    href="#quote"
                     className="inline-flex items-center gap-1.5 text-xs text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200"
                   >
-                    <span>💬 WhatsApp Project Chat</span>
+                    <span>⚡ Request a Custom Project Quote</span>
                   </a>
                 </li>
                 <li className="pt-1">
                   <div className="text-[11px] text-slate-500 bg-slate-50 border border-slate-200 rounded-lg p-2.5 leading-relaxed">
-                    Notice: All 5 showcase applications feature sample demo data to illustrate real-world architecture.
+                    Notice: All five applications are sandboxed technical demonstrations with sample catalog data and simulated workflows.
                   </div>
                 </li>
               </ul>
@@ -204,21 +202,14 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>support@frameforge.dev</span>
+                <span>Inquiries managed via tour request form</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>India (Global Freelance)</span>
               </li>
-              <li className="pt-1">
-                <a
-                  href="https://wa.me/919876543210?text=Hi%20FrameForge,%20I'm%20interested%20in%20a%20custom%20real%20estate%20platform%20like%20UrbanNest"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-semibold"
-                >
-                  <span>💬 WhatsApp Order Chat</span>
-                </a>
+              <li className="pt-1 text-xs text-slate-400">
+                <span>Direct inquiries available on Fiverr order chat</span>
               </li>
               <li className="pt-2 text-xs text-slate-400">
                 <div className="text-[11px] text-emerald-400/90 bg-slate-800/90 border border-slate-700/80 rounded-lg p-2.5 mt-1">Notice: UrbanNest is an illustrative real estate demo with sample properties. All listings, specs, and prices are fictional technical demonstrations.</div>

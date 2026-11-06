@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { reservationService } from '../services/api';
 import { useToast } from '../context/ToastContext';
 
-const BUSINESS_WHATSAPP = (import.meta.env.VITE_BUSINESS_WHATSAPP || '919876543210').replace(/\D/g, '');
+const BUSINESS_WHATSAPP = import.meta.env.VITE_BUSINESS_WHATSAPP ? import.meta.env.VITE_BUSINESS_WHATSAPP.replace(/\D/g, '') : null;
 
 const ReservationsPage = () => {
   const { addToast } = useToast();

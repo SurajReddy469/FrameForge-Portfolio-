@@ -64,10 +64,10 @@ const Footer = () => {
               Hyderabad, Telangana 500033
             </p>
             <div className="pt-2 space-y-1.5 text-sm">
-              <a href="tel:+919876543210" className="flex items-center gap-2 text-stone-300 hover:text-amber-400 transition-colors">
-                <Phone className="w-3.5 h-3.5 text-amber-500" />
-                <span>+91 98765 43210</span>
-              </a>
+              <div className="flex items-center gap-2 text-stone-400">
+                <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span>Table reservations managed online</span>
+              </div>
               <a href="mailto:concierge@gourmethaven.com" className="flex items-center gap-2 text-stone-300 hover:text-amber-400 transition-colors">
                 <Mail className="w-3.5 h-3.5 text-amber-500" />
                 <span>concierge@gourmethaven.com</span>

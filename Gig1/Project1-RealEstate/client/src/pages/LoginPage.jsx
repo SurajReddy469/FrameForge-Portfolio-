@@ -96,6 +96,7 @@ const LoginPage = () => {
               Fill User
             </button>
           </div>
+          <p className="text-[10px] text-slate-400 text-center leading-tight pt-1">Demo sandbox accounts for portfolio testing only. No access to live customer data.</p>
         </div>
 
         {/* Tab switch */}

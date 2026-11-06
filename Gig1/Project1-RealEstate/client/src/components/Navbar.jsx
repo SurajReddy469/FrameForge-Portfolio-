@@ -70,6 +70,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-600">
               <a href="#demos" className="hover:text-emerald-700 transition-colors">5 Live Demos</a>
+              <a href="#walkthroughs" className="hover:text-emerald-700 transition-colors">Walkthroughs</a>
               <a href="#deliverables" className="hover:text-emerald-700 transition-colors">Deliverables</a>
               <a href="#workflow" className="hover:text-emerald-700 transition-colors">How I Work</a>
               <a href="#services" className="hover:text-emerald-700 transition-colors">Service Tiers</a>
@@ -154,6 +155,13 @@ const Navbar = () => {
                 className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
               >
                 5 Live Demos
+              </a>
+              <a
+                href="#walkthroughs"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-100"
+              >
+                Walkthroughs
               </a>
               <a
                 href="#deliverables"

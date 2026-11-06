@@ -40,7 +40,7 @@ import {
   User
 } from 'lucide-react';
 
-const BUSINESS_WHATSAPP = (import.meta.env.VITE_BUSINESS_WHATSAPP || '919876543210').replace(/\D/g, '');
+const BUSINESS_WHATSAPP = import.meta.env.VITE_BUSINESS_WHATSAPP ? import.meta.env.VITE_BUSINESS_WHATSAPP.replace(/\D/g, '') : null;
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
