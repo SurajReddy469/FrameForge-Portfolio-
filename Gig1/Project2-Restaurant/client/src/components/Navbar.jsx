@@ -86,7 +86,7 @@ const Navbar = ({ onOpenTrackModal }) => {
               className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-stone-950 font-semibold text-xs uppercase tracking-wider shadow-lg shadow-amber-900/30 transition-all cursor-pointer hover:shadow-amber-500/20 hover:scale-[1.02]"
             >
               <Calendar className="w-4 h-4" />
-              <span>Book Table</span>
+              <span>Reserve Table</span>
             </Link>
 
             {/* User Account / Profile Menu */}

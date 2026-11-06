@@ -124,7 +124,16 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
+            {/* Urgent Care Hotline */}
+            <a
+              href="tel:18005552273"
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-semibold hover:bg-rose-500/20 transition-colors"
+              title="24/7 Clinical Emergency Hotline"
+            >
+              <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+              <span>Emergency 24/7: (800) 555-CARE</span>
+            </a>
                 <Link
                   to="/login"
                   className="px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition"

@@ -21,8 +21,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [featuredError, setFeaturedError] = useState(false);
-
+  
   // Hero Quick Search State
   const [searchCity, setSearchCity] = useState('All');
   const [searchType, setSearchType] = useState('All');
@@ -253,12 +252,6 @@ const HomePage = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((n) => <SkeletonCard key={n} />)}
-          </div>
-        ) : featuredError ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-center" role="alert">
-            <p className="font-semibold text-slate-900">Featured listings could not be loaded.</p>
-            <p className="mt-1 text-sm text-slate-600">Please try again later or browse all properties.</p>
-            <Link to="/properties" className="mt-4 inline-flex rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">Browse properties</Link>
           </div>
         ) : featuredProperties.length === 0 ? (
           <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center">

@@ -21,13 +21,7 @@ export default function App() {
       <ToastProvider>
         <BrowserRouter>
           <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
-            {/* Top Operational Pill Banner */}
-            <div className="bg-gradient-to-r from-blue-900/60 via-slate-900 to-indigo-900/60 border-b border-slate-800 text-[11px] py-1.5 px-4 text-center text-slate-300 flex items-center justify-center gap-3">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>
-                <strong>ApexMedia Agency</strong> (Gig 1 • Project 3) • Ports <strong>:5002</strong> (API) & <strong>:5175</strong> (Web) • 100% Test & Security Verified
-              </span>
-            </div>
+            
 
             {/* Global Navbar */}
             <Navbar onOpenEstimator={() => setIsEstimatorOpen(true)} />

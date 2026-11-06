@@ -62,12 +62,12 @@ export default function HomePage({ onOpenEstimator }) {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-6 backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-            <span>MERN Stack Architectural Authority • FrameForge Studio</span>
+            <span>ApexMedia Digital Engineering • Premier B2B Web Consultancy</span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] max-w-5xl mx-auto">
-            Architecting <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Uncompromising</span> Digital Platforms.
+            Engineering <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Next-Gen Web Platforms</span> & Scalable SaaS.
           </h1>
 
           {/* Subtext */}

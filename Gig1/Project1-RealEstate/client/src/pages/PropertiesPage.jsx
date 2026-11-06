@@ -14,9 +14,7 @@ const PropertiesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
-  const [retryKey, setRetryKey] = useState(0);
 
   // Directly derive filters from URL searchParams (single source of truth)
   const filters = useMemo(() => ({
@@ -45,7 +43,6 @@ const PropertiesPage = () => {
 
     const fetchListings = async () => {
       setLoading(true);
-      setLoadError(false);
       try {
         const queryParams = {
           ...filters,
@@ -125,7 +122,7 @@ const PropertiesPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, [filters, sortBy, retryKey]);
+  }, [filters, sortBy]);
 
   const handleReset = () => {
     setSearchParams(new URLSearchParams(), { replace: true });
@@ -247,12 +244,6 @@ const PropertiesPage = () => {
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <SkeletonCard key={n} />
           ))}
-        </div>
-      ) : loadError ? (
-        <div className="text-center py-20 bg-white rounded-3xl border border-rose-200 p-8 space-y-4" role="alert">
-          <h3 className="text-lg font-bold text-slate-900">Properties could not be loaded</h3>
-          <p className="text-sm text-slate-500 max-w-sm mx-auto">Please check your connection and try again.</p>
-          <button onClick={() => setRetryKey((current) => current + 1)} className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">Try again</button>
         </div>
       ) : properties.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 p-8 space-y-4">

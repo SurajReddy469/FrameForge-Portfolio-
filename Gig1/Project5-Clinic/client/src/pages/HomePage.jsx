@@ -259,6 +259,107 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* World-Class Clinical Facilities Showcase */}
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">
+            State-Of-The-Art Medical Center
+          </span>
+          <h2 className="text-3xl font-extrabold text-white">
+            Engineered For Clinical Excellence
+          </h2>
+          <p className="text-xs text-slate-400 mt-2">
+            Equipped with 3T MRI diagnostics, HEPA-filtered surgical suites, and dedicated pediatric healing wards.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="group rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-800/40 hover:border-teal-500/40 transition-all">
+            <div className="h-48 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80"
+                alt="Advanced Diagnostic & MRI Suite"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-5">
+              <h4 className="font-bold text-white text-base">Advanced Diagnostic Imaging Suite</h4>
+              <p className="text-xs text-slate-400 mt-1.5">3T High-Resolution MRI, 128-Slice CT, and real-time hemodynamic analysis.</p>
+            </div>
+          </div>
+
+          <div className="group rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-800/40 hover:border-teal-500/40 transition-all">
+            <div className="h-48 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"
+                alt="Cardiac Intensive & Surgical Care"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-5">
+              <h4 className="font-bold text-white text-base">Cardiac & Surgical Center</h4>
+              <p className="text-xs text-slate-400 mt-1.5">Minimally invasive catheterization labs and 24/7 emergency telemetry monitoring.</p>
+            </div>
+          </div>
+
+          <div className="group rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-800/40 hover:border-teal-500/40 transition-all">
+            <div className="h-48 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80"
+                alt="Pediatric & Family Healing Wing"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-5">
+              <h4 className="font-bold text-white text-base">Pediatric & Family Care Pavilion</h4>
+              <p className="text-xs text-slate-400 mt-1.5">Calming, sensory-friendly clinic spaces designed specifically for children and families.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Verified Patient Testimonials Section */}
+      <section className="bg-slate-900/40 border-y border-slate-800 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-2">Patient Experiences</span>
+            <h2 className="text-3xl font-extrabold text-white tracking-tight">
+              Verified Patient Testimonials
+            </h2>
+            <p className="text-xs text-slate-400 mt-2">
+              Over 14,000 successful consultations and clinical treatments completed with a 99.4% on-time record.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-3">
+              <div className="flex text-amber-400 text-xs gap-1">★★★★★</div>
+              <p className="text-xs text-slate-300 italic">"Dr. Jenkins was exceptionally thorough with my cardiac evaluation. The digital check-in saved 30 minutes in the waiting room."</p>
+              <div className="pt-2 border-t border-slate-700/60">
+                <p className="text-xs font-bold text-white">David K.</p>
+                <p className="text-[11px] text-teal-400">Cardiology Patient • Oct 2026</p>
+              </div>
+            </div>
+            <div className="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-3">
+              <div className="flex text-amber-400 text-xs gap-1">★★★★★</div>
+              <p className="text-xs text-slate-300 italic">"Finding a pediatric slot for my daughter was seamless. Dr. Rostova made her feel completely safe and relaxed."</p>
+              <div className="pt-2 border-t border-slate-700/60">
+                <p className="text-xs font-bold text-white">Sarah M.</p>
+                <p className="text-[11px] text-teal-400">Pediatrics Parent • Nov 2026</p>
+              </div>
+            </div>
+            <div className="p-6 rounded-2xl bg-slate-800/60 border border-slate-700/60 space-y-3">
+              <div className="flex text-amber-400 text-xs gap-1">★★★★★</div>
+              <p className="text-xs text-slate-300 italic">"Direct upfront consultation fees with zero hidden charges. The appointment confirmation ticket on my phone was all I needed."</p>
+              <div className="pt-2 border-t border-slate-700/60">
+                <p className="text-xs font-bold text-white">Rajesh P.</p>
+                <p className="text-[11px] text-teal-400">Orthopedics Patient • Nov 2026</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Appointment Booking Modal */}
       {selectedDoctorForBooking && (
         <AppointmentModal

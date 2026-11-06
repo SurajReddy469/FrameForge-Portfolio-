@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bed, Bath, Move, MapPin, Heart, Scale } from 'lucide-react';
+import { Bed, Bath, Move, MapPin, Heart, Scale, Phone } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCompare } from '../context/CompareContext';
 import { useToast } from '../context/ToastContext';
@@ -144,13 +144,21 @@ const PropertyCard = ({ property }) => {
         </div>
 
         {/* Action Link */}
-        <div className="mt-4">
+        <div className="mt-4 flex items-center gap-2">
           <Link
             to={`/properties/${property._id}`}
-            className="block text-center w-full py-2.5 px-4 text-xs font-bold rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-800 transition-all duration-200 shadow-sm hover:shadow"
+            className="flex-1 text-center py-2.5 px-3 text-xs font-bold rounded-xl bg-slate-100 hover:bg-emerald-600 hover:text-white text-slate-800 transition-all duration-200 shadow-sm hover:shadow"
           >
             Explore Property
           </Link>
+          <a
+            href="tel:+919876543210"
+            className="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 transition-all flex items-center justify-center shrink-0"
+            title="Call Dedicated Agent (+91 98765 43210)"
+            aria-label="Call Agent"
+          >
+            <Phone className="w-4 h-4 text-emerald-600" />
+          </a>
         </div>
 
       </div>

@@ -22,13 +22,7 @@ function App() {
             <Router>
               <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
                 
-                {/* Top Demo Banner for Evaluators */}
-                <div className="bg-slate-950 text-slate-300 text-[11px] py-1.5 px-4 text-center font-medium border-b border-slate-800 flex items-center justify-center gap-2 no-print">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>FrameForge Portfolio Demo • Gig 1: Full-Stack MERN Real Estate Platform</span>
-                  <span className="hidden sm:inline text-slate-500">|</span>
-                  <span className="hidden sm:inline text-slate-400">Demo admin credentials are available on the sign-in page</span>
-                </div>
+                
 
                 <Navbar />
 

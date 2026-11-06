@@ -8,6 +8,7 @@ import { menuService, INITIAL_DISHES } from '../services/api';
 const HomePage = () => {
   const [featuredDishes, setFeaturedDishes] = useState([]);
   const [selectedDish, setSelectedDish] = useState(null);
+  const [dietaryFilter, setDietaryFilter] = useState('All');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -211,7 +212,7 @@ const HomePage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredDishes.map((dish) => (
+            {(dietaryFilter === 'All' ? featuredDishes : featuredDishes.filter(d => dietaryFilter === 'Veg' ? d.dietaryTags?.includes('Vegetarian') : d.dietaryTags?.includes('Chef Signature'))).map((dish) => (
               <MenuItemCard
                 key={dish._id}
                 dish={dish}

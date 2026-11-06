@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 
 const MenuItemCard = ({ dish, onSelectDish }) => {
-  const { items, addToCart } = useCart();
+  const { items, addToCart, openCart } = useCart();
   const { addToast } = useToast();
 
   const cartItem = items.find((i) => i.dish._id === dish._id);
@@ -17,6 +17,7 @@ const MenuItemCard = ({ dish, onSelectDish }) => {
     e.stopPropagation();
     addToCart(dish, 1);
     addToast(`Added "${dish.title}" to culinary bag`, 'success');
+    openCart();
   };
 
   return (
