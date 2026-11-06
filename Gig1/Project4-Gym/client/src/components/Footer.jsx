@@ -104,7 +104,7 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2 text-emerald-400 pt-2 text-[11px]">
               <ShieldCheck className="w-4 h-4" />
-              <span>USAW & CSCS Certified Facility</span>
+              <span>Illustrative Athletic Club • Technical Demonstration</span>
             </li>
           </ul>
         </div>

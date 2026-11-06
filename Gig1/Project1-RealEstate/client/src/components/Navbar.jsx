@@ -3,20 +3,25 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   Building2, 
   Search, 
-  Heart, 
   User, 
   Menu, 
   X, 
   ShieldCheck, 
-  LogOut
+  LogOut,
+  Send,
+  Layers,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, logout, isAdmin, favorites } = useAuth();
+  const [demoMenuOpen, setDemoMenuOpen] = useState(false);
+  const { user, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isHub = location.pathname === '/';
 
   const handleLogout = () => {
     logout();
@@ -24,21 +29,234 @@ const Navbar = () => {
     setMobileOpen(false);
   };
 
-  const navLinks = [
+  const navLinksUrban = [
     { label: 'Explore All', path: '/properties' },
     { label: 'For Sale', path: '/properties?purpose=For+Sale' },
     { label: 'For Rent', path: '/properties?purpose=For+Rent' },
   ];
 
-  const isActive = (path) => location.pathname + location.search === path;
+  const demoList = [
+    { name: '1. UrbanNest (Real Estate)', path: '/properties', internal: true },
+    { name: '2. GourmetHaven (Restaurant)', path: 'https://frameforge-gourmethaven.vercel.app/', internal: false },
+    { name: '3. ApexMedia (Digital Agency)', path: 'https://frameforge-apexmedia.vercel.app/', internal: false },
+    { name: '4. FitPulse (Athletic Studio)', path: 'https://frameforge-fitpulse.vercel.app/', internal: false },
+    { name: '5. MediCare Plus (Clinic)', path: 'https://frameforge-medicare.vercel.app/', internal: false },
+  ];
 
+  if (isHub) {
+    // -------------------------------------------------------------
+    // FRAMEFORGE PORTFOLIO HUB NAVBAR
+    // -------------------------------------------------------------
+    return (
+      <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 transition-all text-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            
+            {/* Brand Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform font-black">
+                <Layers className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+              </div>
+              <div>
+                <span className="text-xl font-black tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+                  FRAME<span className="text-emerald-400">FORGE</span>
+                </span>
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                  Full-Stack Web Engineering
+                </span>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-7 text-xs font-semibold uppercase tracking-wider text-slate-300">
+              <a href="#demos" className="hover:text-emerald-400 transition-colors">5 Live Demos</a>
+              <a href="#deliverables" className="hover:text-emerald-400 transition-colors">Deliverables</a>
+              <a href="#workflow" className="hover:text-emerald-400 transition-colors">How I Work</a>
+              <a href="#services" className="hover:text-emerald-400 transition-colors">Service Tiers</a>
+              <a href="#faq" className="hover:text-emerald-400 transition-colors">FAQ</a>
+
+              {/* Demo Quick Jump */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setDemoMenuOpen(!demoMenuOpen)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white cursor-pointer transition"
+                >
+                  <span>Select Demo</span>
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                </button>
+
+                {demoMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl py-2 z-50">
+                    <div className="px-3 py-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-800">
+                      Live Deployed Demos
+                    </div>
+                    {demoList.map((d) => (
+                      d.internal ? (
+                        <Link
+                          key={d.name}
+                          to={d.path}
+                          onClick={() => setDemoMenuOpen(false)}
+                          className="block px-3 py-2 text-xs text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition"
+                        >
+                          {d.name}
+                        </Link>
+                      ) : (
+                        <a
+                          key={d.name}
+                          href={d.path}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() => setDemoMenuOpen(false)}
+                          className="block px-3 py-2 text-xs text-slate-300 hover:text-emerald-400 hover:bg-slate-800/60 transition"
+                        >
+                          {d.name} ↗
+                        </a>
+                      )
+                    ))}
+                  </div>
+                )}
+              </div>
+            </nav>
+
+            {/* Right Action: Request Quote CTA */}
+            <div className="hidden sm:flex items-center gap-3">
+              <a
+                href="#quote"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-emerald-600/30 transition-all hover:scale-105"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Request a Quote</span>
+              </a>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex md:hidden items-center">
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900"
+                aria-label="Toggle Navigation Menu"
+              >
+                {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Mobile Hub Drawer */}
+        {mobileOpen && (
+          <div className="md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-3 pb-6 space-y-4 shadow-2xl">
+            <div className="flex flex-col space-y-2 text-sm font-semibold">
+              <a
+                href="#demos"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+              >
+                5 Live Demos
+              </a>
+              <a
+                href="#deliverables"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+              >
+                Deliverables
+              </a>
+              <a
+                href="#workflow"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+              >
+                How I Work
+              </a>
+              <a
+                href="#services"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+              >
+                Service Tiers
+              </a>
+              <a
+                href="#faq"
+                onClick={() => setMobileOpen(false)}
+                className="px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-900"
+              >
+                FAQ
+              </a>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800 space-y-2">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block px-3">
+                Live Demos:
+              </span>
+              {demoList.map((d) => (
+                d.internal ? (
+                  <Link
+                    key={d.name}
+                    to={d.path}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-3 py-1.5 text-xs text-slate-300 hover:text-emerald-400"
+                  >
+                    {d.name}
+                  </Link>
+                ) : (
+                  <a
+                    key={d.name}
+                    href={d.path}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-3 py-1.5 text-xs text-slate-300 hover:text-emerald-400"
+                  >
+                    {d.name} ↗
+                  </a>
+                )
+              ))}
+            </div>
+
+            <div className="pt-3 border-t border-slate-800">
+              <a
+                href="#quote"
+                onClick={() => setMobileOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-sm"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>Request a Quote</span>
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // URBANNEST DEMO APPLICATION NAVBAR
+  // -------------------------------------------------------------
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-all">
+      {/* Top Portfolio Return Banner */}
+      <div className="bg-slate-950 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="font-semibold text-slate-200">UrbanNest Live Demo</span>
+            <span className="text-slate-500 hidden sm:inline">• Illustrative PropTech Marketplace</span>
+          </div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            <span>← FrameForge Portfolio Overview</span>
+          </Link>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/demo/urbannest" className="flex items-center gap-3 group">
             <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform">
               <Building2 className="w-6 h-6" />
             </div>
@@ -55,20 +273,20 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              to="/"
+              to="/demo/urbannest"
               className={`text-sm font-semibold transition-colors ${
-                location.pathname === '/' ? 'text-emerald-600 font-bold' : 'text-slate-600 hover:text-slate-900'
+                location.pathname === '/demo/urbannest' ? 'text-emerald-600 font-bold' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Home
+              Marketplace Home
             </Link>
 
-            {navLinks.map((link) => (
+            {navLinksUrban.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 className={`text-sm font-semibold transition-colors ${
-                  isActive(link.path) ? 'text-emerald-600 font-bold' : 'text-slate-600 hover:text-slate-900'
+                  location.pathname + location.search === link.path ? 'text-emerald-600 font-bold' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {link.label}
@@ -127,7 +345,7 @@ const Navbar = () => {
                   to="/login?tab=register"
                   className="px-4 py-2 text-sm font-semibold rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm shadow-emerald-600/30 transition hover:shadow cursor-pointer"
                 >
-                  Get Started
+                  Demo Register
                 </Link>
               </div>
             )}
@@ -154,11 +372,18 @@ const Navbar = () => {
             <Link
               to="/"
               onClick={() => setMobileOpen(false)}
+              className="px-3 py-2 text-sm font-bold text-emerald-600 bg-emerald-50 rounded-lg"
+            >
+              ← Back to FrameForge Portfolio Overview
+            </Link>
+            <Link
+              to="/demo/urbannest"
+              onClick={() => setMobileOpen(false)}
               className="px-3 py-2 text-sm font-medium rounded-lg text-slate-700 hover:bg-slate-50"
             >
-              Home
+              Marketplace Home
             </Link>
-            {navLinks.map((link) => (
+            {navLinksUrban.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -214,7 +439,7 @@ const Navbar = () => {
                   onClick={() => setMobileOpen(false)}
                   className="text-center py-2.5 text-sm font-semibold bg-emerald-600 text-white rounded-lg shadow-sm"
                 >
-                  Register
+                  Demo Register
                 </Link>
               </div>
             )}

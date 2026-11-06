@@ -122,9 +122,9 @@ export default function Footer() {
         <div className="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs gap-4">
           <p>© {new Date().getFullYear()} MediCare Plus CarePoint Clinic. All rights reserved.</p>
           <div className="flex items-center gap-4 text-slate-400">
-            <span>HIPAA-Compliant Patient Portal</span>
+            <span>Demo Patient Intake Portal</span>
             <span className="w-1.5 h-1.5 rounded-full bg-teal-500"></span>
-            <span>Accredited Healthcare Network</span>
+            <span>Illustrative Healthcare Architecture</span>
           </div>
         </div>
       </div>

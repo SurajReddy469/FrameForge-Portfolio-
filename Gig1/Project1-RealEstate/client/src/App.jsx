@@ -7,6 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CompareModal from './components/CompareModal';
+import PortfolioHubPage from './pages/PortfolioHubPage';
 import HomePage from './pages/HomePage';
 import PropertiesPage from './pages/PropertiesPage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
@@ -28,7 +29,8 @@ function App() {
 
                 <main className="flex-1">
                   <Routes>
-                    <Route path="/" element={<HomePage />} />
+                    <Route path="/" element={<PortfolioHubPage />} />
+                    <Route path="/demo/urbannest" element={<HomePage />} />
                     <Route path="/properties" element={<PropertiesPage />} />
                     <Route path="/properties/:id" element={<PropertyDetailPage />} />
                     <Route path="/login" element={<LoginPage />} />

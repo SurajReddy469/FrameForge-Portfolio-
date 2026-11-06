@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Mail, MapPin, Code2, ExternalLink } from 'lucide-react';
+import { Building2, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -93,7 +93,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="pt-2 text-xs text-slate-400">
-                <span>RERA Registered Luxury Advisory</span>
+                <span>Sample Property Data • Illustrative Demo</span>
               </li>
             </ul>
           </div>

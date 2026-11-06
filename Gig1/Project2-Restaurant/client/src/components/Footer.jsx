@@ -22,7 +22,7 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-2 text-xs text-amber-400/90 font-medium pt-2">
               <Award className="w-4 h-4 text-amber-500 shrink-0" />
-              <span>Michelin Guide Recommended • 2024-2026</span>
+              <span>Artisanal Culinary Concept • Illustrative Demo</span>
             </div>
           </div>
 
@@ -103,9 +103,9 @@ const Footer = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
           <p>© {new Date().getFullYear()} GourmetHaven Fine Dining. Crafted with precision for FrameForge Portfolio.</p>
           <div className="flex items-center gap-4 text-stone-400">
-            <span>Michelin Guide Recognized</span>
+            <span>Demo Data • Illustrative Project</span>
             <span>•</span>
-            <span>Jubilee Hills Culinary Sanctuary</span>
+            <span>Jubilee Hills Sample Location</span>
           </div>
         </div>
       </div>

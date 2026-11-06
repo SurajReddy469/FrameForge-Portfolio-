@@ -243,7 +243,7 @@ export default function HomePage() {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Complete Digital Intake</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Enter chief symptoms and medical background securely in HIPAA-ready format before arrival, saving up to 25 minutes of clipboard paperwork.
+              Enter sample symptoms and medical background in a structured digital intake questionnaire demonstration.
             </p>
           </div>
 
