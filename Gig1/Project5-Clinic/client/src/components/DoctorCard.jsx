@@ -2,24 +2,30 @@ import React from 'react';
 import { Star, Clock, Calendar, Stethoscope, User, ShieldCheck } from 'lucide-react';
 
 export default function DoctorCard({ doctor, onBook }) {
+  const [avatarFailed, setAvatarFailed] = React.useState(false);
   return (
     <div className="bg-slate-800/80 border border-slate-700/80 hover:border-teal-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-teal-950/30 flex flex-col justify-between group">
       <div>
         {/* Header: Neutral Silhouette Avatar & Rating */}
         <div className="flex items-start justify-between gap-4 mb-5">
-          <div className="flex items-center gap-3.5">
+          <div className="flex min-w-0 flex-1 items-center gap-3.5">
             <div className="w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 to-cyan-500/10 border border-teal-500/30 flex items-center justify-center text-teal-300 shadow-inner group-hover:border-teal-400 transition shrink-0">
-              {doctor.avatar ? (
-                <img src={doctor.avatar} alt={doctor.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              {doctor.avatar && !avatarFailed ? (
+                <img
+                  src={doctor.avatar}
+                  alt={doctor.name}
+                  onError={() => setAvatarFailed(true)}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               ) : (
-                <User className="w-8 h-8" />
+                <User className="w-8 h-8" aria-hidden="true" />
               )}
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-500/10 text-teal-300 border border-teal-500/20 mb-1">
                 {doctor.department}
               </span>
-              <h3 className="font-bold text-lg text-white group-hover:text-teal-300 transition">
+              <h3 className="break-words text-base font-bold leading-snug text-white group-hover:text-teal-300 transition sm:text-lg">
                 {doctor.name}
               </h3>
             </div>
@@ -38,7 +44,7 @@ export default function DoctorCard({ doctor, onBook }) {
         </div>
 
         {/* Bio quote */}
-        <p className="text-xs text-slate-300/80 leading-relaxed italic line-clamp-2 mb-4 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800">
+        <p className="text-xs text-slate-300/80 leading-relaxed italic line-clamp-3 mb-4 bg-slate-900/40 p-2.5 rounded-lg border border-slate-800">
           "{doctor.bio}"
         </p>
 

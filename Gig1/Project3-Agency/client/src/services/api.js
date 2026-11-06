@@ -56,7 +56,7 @@ export const INITIAL_PROJECTS = [
   },
   {
     _id: 'proj-3',
-    title: 'Aura Health: HIPAA-Compliant Telehealth & Vital Monitoring Suite',
+    title: 'Aura Health: Telehealth Architecture & Vital Monitoring Prototype',
     clientName: 'Aura Digital Healthcare',
     industry: 'HealthTech / Telemedicine',
     category: 'Mobile App',
@@ -67,7 +67,7 @@ export const INITIAL_PROJECTS = [
     metrics: [
       { label: '4.9 ★', description: 'Average Patient Satisfaction Score' },
       { label: '85,000+', description: 'Monthly Virtual Consultations' },
-      { label: '100%', description: 'HIPAA & GDPR Compliance Audit Passed' }
+      { label: 'Demo Spec', description: 'Simulated Security & Privacy Architecture Spec' }
     ],
     coverImage: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
     liveUrl: 'https://aura-health.example.com',

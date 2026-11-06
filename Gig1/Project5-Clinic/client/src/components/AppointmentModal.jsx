@@ -109,6 +109,9 @@ export default function AppointmentModal({ doctor, onClose, onAppointmentSuccess
     try {
       const payload = {
         doctorId: doctor._id,
+        doctorName: doctor.name,
+        department: doctor.department,
+        consultationFee: doctor.consultationFee,
         date: selectedDate,
         timeSlot: selectedSlot,
         ...formData,

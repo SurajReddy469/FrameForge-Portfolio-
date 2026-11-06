@@ -38,6 +38,9 @@ export default function AppointmentSlipModal({ appointment, onClose }) {
 
           <h3 className="font-extrabold text-xl tracking-tight">Appointment Confirmed</h3>
           <p className="text-teal-100 text-xs mt-1">CarePoint Clinical Center • Verification Slip</p>
+          <div className="mt-2 text-[10px] font-semibold tracking-wider uppercase text-teal-200 bg-teal-950/60 border border-teal-400/30 px-3 py-1 rounded-full inline-block">
+            Illustrative Clinical Demo Slip
+          </div>
 
           <div className="mt-4 inline-block bg-slate-950/40 border border-white/20 backdrop-blur-md px-4 py-1.5 rounded-full font-mono text-sm tracking-wider font-bold">
             {appointment.appointmentCode}

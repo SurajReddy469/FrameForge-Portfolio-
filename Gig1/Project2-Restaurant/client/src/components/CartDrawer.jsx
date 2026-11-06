@@ -317,6 +317,9 @@ const CartDrawer = () => {
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
+              <p className="text-[10px] text-center text-stone-500 pt-1">
+                Demo Bag: Simulated takeaway ordering. No real payment charge occurs.
+              </p>
             </div>
           )}
         </div>

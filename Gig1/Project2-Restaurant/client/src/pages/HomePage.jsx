@@ -97,7 +97,7 @@ const HomePage = () => {
             </div>
             <div>
               <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">100%</span>
-              <span className="text-xs uppercase tracking-wider text-stone-400">Fresh Farm Sourced</span>
+              <span className="text-xs uppercase tracking-wider text-stone-400">Curated Demo Dishes</span>
             </div>
             <div>
               <span className="font-serif-luxury text-3xl font-bold text-amber-400 block">35 Mins</span>

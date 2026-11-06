@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Calendar, Flame, Clock, Dumbbell, Sparkles } from 'lucide-react';
+import { Search, Filter, Calendar, Flame, Clock, Dumbbell, Sparkles, RefreshCw } from 'lucide-react';
 import ClassCard from '../components/ClassCard';
 import ClassBookingModal from '../components/ClassBookingModal';
 import { classApi, INITIAL_CLASSES } from '../services/api';
@@ -12,19 +12,34 @@ export default function SchedulePage() {
   const [classes, setClasses] = useState(() => {
     try {
       const raw = localStorage.getItem('fitpulse_classes');
-      return raw ? JSON.parse(raw) : INITIAL_CLASSES;
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length >= INITIAL_CLASSES.length) {
+          return parsed;
+        }
+      }
+      localStorage.setItem('fitpulse_classes', JSON.stringify(INITIAL_CLASSES));
+      return INITIAL_CLASSES;
     } catch {
       return INITIAL_CLASSES;
     }
   });
+
   const [filteredClasses, setFilteredClasses] = useState(() => {
     try {
       const raw = localStorage.getItem('fitpulse_classes');
-      return raw ? JSON.parse(raw) : INITIAL_CLASSES;
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length >= INITIAL_CLASSES.length) {
+          return parsed;
+        }
+      }
+      return INITIAL_CLASSES;
     } catch {
       return INITIAL_CLASSES;
     }
   });
+
   const [dayFilter, setDayFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [intensityFilter, setIntensityFilter] = useState('All');
@@ -41,7 +56,7 @@ export default function SchedulePage() {
         setClasses(list);
       }
     } catch (err) {
-      console.warn('Using local fallback classes', err);
+      console.warn('Using resilient fallback studio timetable', err);
       setClasses(prev => prev && prev.length > 0 ? prev : INITIAL_CLASSES);
     } finally {
       setLoading(false);
@@ -88,19 +103,27 @@ export default function SchedulePage() {
     );
   };
 
+  const resetAllFilters = () => {
+    setDayFilter('All');
+    setCategoryFilter('All');
+    setIntensityFilter('All');
+    setSearch('');
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       {/* Page Title */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-red-500 flex items-center gap-1.5">
-            <Calendar className="w-4 h-4" /> Weekly Studio Timetable
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1 uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-red-600/10 text-red-400 border border-red-500/20 mb-2">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>Weekly Studio Timetable • Sample Classes & Capacities</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
             Interactive Class Schedule
           </h1>
           <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">
-            Live capacity tracking with atomic slot reservation. Filter by training discipline, day of the week, or coach.
+            Live capacity tracking with simulated studio pass reservation. Filter by training discipline, day of the week, or coach.
           </p>
         </div>
 
@@ -114,15 +137,20 @@ export default function SchedulePage() {
       <div className="p-5 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
         {/* Days Scrollable Bar */}
         <div>
-          <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-            Select Training Day:
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              Select Training Day:
+            </label>
+            <span className="text-[11px] text-slate-500">
+              Showing {filteredClasses.length} of {classes.length} sessions
+            </span>
+          </div>
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
             {DAYS.map(day => (
               <button
                 key={day}
                 onClick={() => setDayFilter(day)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   dayFilter === day
                     ? 'bg-red-600 text-white shadow-lg shadow-red-600/30'
                     : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
@@ -142,7 +170,7 @@ export default function SchedulePage() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:outline-none focus:border-red-500"
+              className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:outline-none focus:border-red-500 cursor-pointer"
             >
               {CATEGORIES.map(cat => (
                 <option key={cat} value={cat}>{cat === 'All' ? 'All Disciplines' : cat}</option>
@@ -156,7 +184,7 @@ export default function SchedulePage() {
             <select
               value={intensityFilter}
               onChange={(e) => setIntensityFilter(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:outline-none focus:border-red-500"
+              className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:outline-none focus:border-red-500 cursor-pointer"
             >
               {INTENSITIES.map(lvl => (
                 <option key={lvl} value={lvl}>{lvl === 'All' ? 'All Intensities' : lvl}</option>
@@ -182,18 +210,23 @@ export default function SchedulePage() {
       </div>
 
       {/* Grid of Classes */}
-      {loading ? (
-        <div className="py-20 text-center text-slate-400 text-sm">Loading studio schedule...</div>
-      ) : filteredClasses.length === 0 ? (
-        <div className="py-20 text-center rounded-3xl bg-slate-900/40 border border-slate-800 space-y-3">
-          <Dumbbell className="w-10 h-10 text-slate-600 mx-auto" />
-          <h3 className="text-base font-bold text-white">No classes match your filter selection</h3>
-          <p className="text-xs text-slate-400">Try clearing one of the filters or choosing another training day.</p>
+      {filteredClasses.length === 0 ? (
+        <div className="py-20 text-center rounded-3xl bg-slate-900/40 border border-slate-800 space-y-4 p-8">
+          <div className="w-16 h-16 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center mx-auto text-slate-500">
+            <Dumbbell className="w-8 h-8" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-bold text-white">No classes match your current filters</h3>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              No sessions found for {dayFilter !== 'All' ? `"${dayFilter}"` : ''} {categoryFilter !== 'All' ? `with category "${categoryFilter}"` : ''} {intensityFilter !== 'All' ? `at intensity "${intensityFilter}"` : ''}.
+            </p>
+          </div>
           <button
-            onClick={() => { setDayFilter('All'); setCategoryFilter('All'); setIntensityFilter('All'); setSearch(''); }}
-            className="px-4 py-2 rounded-xl bg-slate-800 text-xs font-semibold text-red-400 hover:bg-slate-700"
+            onClick={resetAllFilters}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold uppercase tracking-wider transition cursor-pointer shadow-md shadow-red-600/20"
           >
-            Reset Filters
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Reset All Filters</span>
           </button>
         </div>
       ) : (
@@ -208,7 +241,7 @@ export default function SchedulePage() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* Booking Modal */}
       {selectedClass && (
         <ClassBookingModal
           fitnessClass={selectedClass}

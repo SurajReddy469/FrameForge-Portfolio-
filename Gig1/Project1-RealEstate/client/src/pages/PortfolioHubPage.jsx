@@ -244,7 +244,7 @@ export default function PortfolioHubPage() {
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Dual-Engine Offline Resilience
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 100% Automated Test Suites
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Automated Test Suites (Jest & Supertest)
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Full Source Code Handover
@@ -462,7 +462,7 @@ export default function PortfolioHubPage() {
 
                   <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-200 flex items-center justify-between">
                     <span>Clean Source Code in Repo</span>
-                    <span className="text-emerald-700 font-semibold">100% Passing Tests</span>
+                    <span className="text-emerald-700 font-semibold">Verified Route Tests</span>
                   </div>
                 </div>
               </div>
@@ -566,7 +566,7 @@ export default function PortfolioHubPage() {
               {/* Editable placeholder */}
               <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
                 <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $150 – $250 • 3–5 Days]</span>
+                <span className="text-emerald-700 font-bold">$200 – $350 • 3–5 Business Days</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -607,7 +607,7 @@ export default function PortfolioHubPage() {
               {/* Editable placeholder */}
               <div className="p-3 bg-emerald-50/70 rounded-xl border border-dashed border-emerald-300 text-xs text-slate-700">
                 <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $450 – $750 • 7–10 Days]</span>
+                <span className="text-emerald-700 font-bold">$500 – $850 • 7–10 Business Days</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -645,7 +645,7 @@ export default function PortfolioHubPage() {
               {/* Editable placeholder */}
               <div className="p-3 bg-slate-50 rounded-xl border border-dashed border-slate-300 text-xs text-slate-600">
                 <span className="font-semibold text-slate-800 block">Investment & Timeline:</span>
-                <span className="text-emerald-700 font-bold">[Owner Input: e.g. $950 – $1,500+ • 14–21 Days]</span>
+                <span className="text-emerald-700 font-bold">$1,100 – $1,800+ • 14–21 Business Days</span>
               </div>
 
               <div className="space-y-2 pt-2">
@@ -888,11 +888,37 @@ export default function PortfolioHubPage() {
                 </button>
 
                 {/* Configuration notice for owner */}
-                <div className="pt-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
-                  <p className="font-semibold text-slate-800">Direct Contact Configuration Points for Owner:</p>
-                  <p>• Fiverr Profile / Gig Chat: <span className="font-mono text-emerald-700 font-semibold">VITE_FIVERR_PROFILE_URL</span> (Set in client .env)</p>
-                  <p>• Direct Monitored Email: <span className="font-mono text-emerald-700 font-semibold">VITE_CONTACT_EMAIL</span></p>
-                  <p>• WhatsApp Business: <span className="font-mono text-emerald-700 font-semibold">VITE_BUSINESS_WHATSAPP</span></p>
+                <div className="pt-4 border-t border-slate-200 space-y-3">
+                  <p className="text-xs font-bold text-slate-800 uppercase tracking-wider text-center">
+                    Prefer Direct Messaging? Connect Instantly:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <a
+                      href="https://www.fiverr.com/inbox"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition shadow-xs cursor-pointer"
+                    >
+                      <span>💬 Chat on Fiverr</span>
+                    </a>
+                    <a
+                      href="mailto:support@frameforge.dev?subject=FrameForge%20Full-Stack%20Project%20Inquiry"
+                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs font-bold transition shadow-xs cursor-pointer"
+                    >
+                      <span>✉️ Email support@frameforge.dev</span>
+                    </a>
+                    <a
+                      href="https://wa.me/919876543210?text=Hi%20FrameForge,%20I'm%20interested%20in%20a%20custom%20full-stack%20web%20application"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition shadow-xs cursor-pointer"
+                    >
+                      <span>📱 WhatsApp Direct</span>
+                    </a>
+                  </div>
+                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-500 text-center leading-relaxed">
+                    Demo Clarification: The 5 showcased applications are technical demonstrations featuring sample data, simulated payments, and mock appointment/pass generation to showcase full-stack architecture without live financial transactions.
+                  </div>
                 </div>
 
               </form>

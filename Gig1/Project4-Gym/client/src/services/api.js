@@ -105,6 +105,40 @@ export const INITIAL_CLASSES = [
     caloriesBurnedEst: 520,
     description: 'Progressive overload strength training focusing on posterior chain deadlifts, barbell rows, and accessory hypertrophy.',
     image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    _id: 'cls-7',
+    id: 'cls-7',
+    title: 'Weekend Warrior Team MetCon & Sled Pushes',
+    instructorName: 'Coach Sarah Connor',
+    category: 'CrossFit',
+    scheduleDay: 'Saturday',
+    scheduleTime: '09:00 AM',
+    durationMin: 75,
+    capacityMax: 20,
+    capacityBooked: 11,
+    intensity: 'Extreme',
+    room: 'Studio A (Performance Turf)',
+    caloriesBurnedEst: 850,
+    description: 'High-energy Saturday community team workout featuring synchronized burpees, sled pushes, dumbbell snatches, and assault bike sprints.',
+    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    _id: 'cls-8',
+    id: 'cls-8',
+    title: 'Restorative Sound Bath & Yin Yoga Recovery',
+    instructorName: 'Maya Lin',
+    category: 'Yoga',
+    scheduleDay: 'Sunday',
+    scheduleTime: '10:00 AM',
+    durationMin: 60,
+    capacityMax: 22,
+    capacityBooked: 9,
+    intensity: 'Medium',
+    room: 'Studio B (Zen Sanctuary)',
+    caloriesBurnedEst: 290,
+    description: 'Deep tissue passive stretching, diaphragmatic breathwork, and crystal singing bowl sound therapy for full nervous system recovery.',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80'
   }
 ];
 
