@@ -1,0 +1,13 @@
+{
+  "name": "frameforge-portfolio-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd cric-auction-pro && npm install && npm run build && cd .. && node -e \"const fs=require('fs'); fs.cpSync('cric-auction-pro/dist', 'dist', {recursive: true});\"",
+    "dev": "cd cric-auction-pro && npm run dev",
+    "preview": "cd cric-auction-pro && npm run preview"
+  },
+  "dependencies": {
+    "vite": "^8.3.6"
+  }
+}
