@@ -11,7 +11,8 @@ import {
   Calendar, 
   Home,
   RotateCcw,
-  Plus
+  Plus,
+  Radio
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -27,7 +28,10 @@ export const Navbar: React.FC = () => {
     leagueMatches,
     sessions,
     activeSessionId,
-    setSessionModalOpen
+    setSessionModalOpen,
+    gameMode,
+    multiplayerRoom,
+    setMultiplayerModalOpen
   } = useGameStore();
 
   const activeSession = sessions?.find((s) => s.id === activeSessionId) || sessions?.[0];
@@ -65,6 +69,15 @@ export const Navbar: React.FC = () => {
     disabledReason?: string;
   }[] = [
     { screen: 'menu', label: 'Dashboard', shortLabel: 'Home', icon: Home },
+    ...(gameMode === 'multiplayer' || multiplayerRoom ? [
+      {
+        screen: 'multiplayer_lobby' as GameScreen,
+        label: `Room #${multiplayerRoom?.roomCode || 'Lobby'}`,
+        shortLabel: 'Room',
+        icon: Radio,
+        highlight: true,
+      }
+    ] : []),
     { screen: 'auction', label: 'Live Auction', shortLabel: 'Auction', icon: Flame, highlight: auction.phase !== 'completed' && auction.phase !== 'idle' },
     { 
       screen: 'squad', 
@@ -87,7 +100,11 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/95 backdrop-blur-md shadow-sm">
       {/* Broadcast Ticker Bar */}
-      <div className="h-1 w-full bg-gradient-to-r from-amber-500 via-rose-500 to-sky-500" />
+      <div className={`h-1 w-full bg-gradient-to-r ${
+        gameMode === 'multiplayer'
+          ? 'from-emerald-500 via-teal-500 to-sky-500'
+          : 'from-amber-500 via-rose-500 to-sky-500'
+      }`} />
 
       <div className="mx-auto flex max-w-7xl items-center justify-between px-3 py-2 sm:px-6">
         {/* Brand & Active Team Info */}
@@ -103,6 +120,16 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="hidden xs:block sm:block" aria-hidden="true" />
           </button>
+
+          {/* Mode Pill */}
+          <div className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+            gameMode === 'multiplayer'
+              ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+              : 'bg-slate-100 text-slate-700 border border-slate-200'
+          }`}>
+            <span className={`h-1.5 w-1.5 rounded-full ${gameMode === 'multiplayer' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
+            {gameMode === 'multiplayer' ? 'Multiplayer (Humans Only)' : 'Solo vs AI'}
+          </div>
 
           {/* User's Team Pill */}
           {team && (
@@ -158,6 +185,28 @@ export const Navbar: React.FC = () => {
 
         {/* Right Stats & Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Online Multiplayer Quick Toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              soundService.playClick();
+              if (multiplayerRoom) {
+                setScreen('multiplayer_lobby');
+              } else {
+                setMultiplayerModalOpen(true);
+              }
+            }}
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-bold transition-all shadow-sm ${
+              gameMode === 'multiplayer'
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-900 hover:bg-emerald-100'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+            }`}
+            title="Real-Time Multiplayer (Humans Only)"
+          >
+            <Radio className={`w-3.5 h-3.5 ${gameMode === 'multiplayer' ? 'text-emerald-600 animate-pulse' : 'text-slate-500'}`} />
+            <span>{multiplayerRoom ? `Room #${multiplayerRoom.roomCode}` : 'Multiplayer'}</span>
+          </button>
+
           {/* IPL Session Button */}
           <button
             type="button"
@@ -213,7 +262,7 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Phone Screen Navigation Bar */}
-      <div className="grid grid-cols-5 md:hidden px-2 py-1 border-t border-slate-200 gap-1 bg-slate-50/90 text-center">
+      <div className={`grid ${navItems.length === 5 ? 'grid-cols-5' : 'grid-cols-4'} md:hidden px-2 py-1 border-t border-slate-200 gap-1 bg-slate-50/90 text-center`}>
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentScreen === item.screen;

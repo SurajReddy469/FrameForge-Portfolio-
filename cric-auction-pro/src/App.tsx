@@ -9,6 +9,9 @@ import { SeasonHub } from './components/season/SeasonHub';
 import { AdminPanel } from './components/admin/AdminPanel';
 import { SettingsModal } from './components/menu/SettingsModal';
 import { IPLSessionModal } from './components/session/IPLSessionModal';
+import { MultiplayerLobby } from './components/multiplayer/MultiplayerLobby';
+import { MultiplayerModal } from './components/multiplayer/MultiplayerModal';
+import { DisconnectPauseOverlay } from './components/multiplayer/DisconnectPauseOverlay';
 
 export const App: React.FC = () => {
   const { currentScreen } = useGameStore();
@@ -27,6 +30,8 @@ export const App: React.FC = () => {
         return <SeasonHub />;
       case 'admin':
         return <AdminPanel />;
+      case 'multiplayer_lobby':
+        return <MultiplayerLobby />;
       default:
         return <MainMenu />;
     }
@@ -44,6 +49,10 @@ export const App: React.FC = () => {
 
       {/* IPL Session Creator & Manager Modal */}
       <IPLSessionModal />
+
+      {/* Online Multiplayer Modal & Reconnection Overlays */}
+      <MultiplayerModal />
+      <DisconnectPauseOverlay />
     </div>
   );
 };
