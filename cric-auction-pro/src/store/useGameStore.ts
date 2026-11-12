@@ -1733,3 +1733,59 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     },
   };
 });
+
+// Real-Time Cross-Website Sync Bridge Listener
+if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+  try {
+    const channel = new BroadcastChannel('cric_auction_sync');
+    channel.onmessage = (event) => {
+      const { type, payload } = event.data || {};
+      const store = useGameStore.getState();
+      switch (type) {
+        case 'INJECT_PURSE':
+          if (payload?.teamId && typeof payload?.amount === 'number') {
+            store.adminUpdateTeamPurse(payload.teamId, payload.amount);
+          }
+          break;
+        case 'SET_PERSONALITY':
+          if (payload?.teamId && payload?.personality) {
+            store.adminUpdateTeamPersonality(payload.teamId, payload.personality);
+          }
+          break;
+        case 'FORCE_SOLD':
+          if (payload?.teamId && typeof payload?.price === 'number') {
+            store.adminForceSellCurrentLot(payload.teamId, payload.price);
+          }
+          break;
+        case 'FORCE_UNSOLD':
+          store.adminForceUnsoldCurrentLot();
+          break;
+        case 'JUMP_LOT':
+          if (typeof payload?.lotIndex === 'number') {
+            store.adminJumpToLot(payload.lotIndex);
+          }
+          break;
+        case 'ADD_SCOUT_TOKENS':
+          if (typeof payload?.amount === 'number') {
+            store.adminAddScoutTokens(payload.amount);
+          }
+          break;
+        case 'UNLOCK_ACHIEVEMENTS':
+          store.adminUnlockAllAchievements();
+          break;
+        case 'CROWN_CHAMPION':
+          if (payload?.teamId) {
+            store.adminForceCrownChampion(payload.teamId);
+          }
+          break;
+        case 'FULL_STATE_UPDATE':
+          if (payload?.json) {
+            store.adminImportState(payload.json);
+          }
+          break;
+      }
+    };
+  } catch (e) {
+    console.warn('BroadcastChannel sync error', e);
+  }
+}

@@ -19,7 +19,6 @@ export const Navbar: React.FC = () => {
     currentScreen,
     setScreen,
     userTeam,
-    profile,
     settings,
     toggleSound,
     setSettingsOpen,
@@ -99,14 +98,12 @@ export const Navbar: React.FC = () => {
             type="button"
             onClick={() => handleNavClick('menu')}
             className="flex items-center gap-2 group text-left flex-shrink-0"
+            aria-label="Open dashboard"
           >
             <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 font-black text-slate-950 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform text-sm sm:text-base">
               🏏
             </div>
-            <div className="hidden xs:block sm:block">
-              <span className="text-[10px] sm:text-xs font-black tracking-widest uppercase text-amber-600 block leading-none">CRIC-AUCTION</span>
-              <div className="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight">PREMIER LEAGUE</div>
-            </div>
+            <div className="hidden xs:block sm:block" aria-hidden="true" />
           </button>
 
           {/* User's Team Pill */}
@@ -163,15 +160,6 @@ export const Navbar: React.FC = () => {
 
         {/* Right Stats & Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Scout Tokens Indicator */}
-          <div 
-            title="Available Scout Tokens"
-            className="flex items-center gap-1 rounded-lg bg-amber-50 border border-amber-200 px-2 py-1 text-[11px] sm:text-xs font-bold text-amber-700 cursor-default shadow-sm"
-          >
-            <span>🔍</span>
-            <span>{profile.scoutTokens}</span>
-          </div>
-
           {/* Sound Toggle */}
           <button
             type="button"
