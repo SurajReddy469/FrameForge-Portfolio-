@@ -85,6 +85,25 @@ export const MainAuctionScreen: React.FC = () => {
               #{auction.currentPlayerIndex + 1} / {players.length}
             </span>
           </div>
+
+          <div className="h-4 w-px bg-slate-200 hidden md:block" />
+
+          {/* Room Code Badge (Referenced from playauctiongame.com/room/JDLJ77) */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900 text-amber-400 font-mono text-[10px] font-black border border-slate-800 shadow-sm">
+            <span>ROOM:</span>
+            <span className="text-white font-bold tracking-wider">JDLJ77</span>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText('https://cric-auction-pro.vercel.app/?room=JDLJ77');
+                soundService.playClick();
+                alert('Room invite link copied: https://cric-auction-pro.vercel.app/?room=JDLJ77');
+              }}
+              title="Copy room invite link"
+              className="ml-1 text-slate-400 hover:text-amber-400 transition-colors"
+            >
+              📋
+            </button>
+          </div>
         </div>
 
         {/* Center / Right: Speed Controls & Countdown Timer */}
@@ -141,6 +160,50 @@ export const MainAuctionScreen: React.FC = () => {
               ? '1ST CALL'
               : 'ACTIVE'}
           </span>
+        </div>
+      </div>
+
+      {/* On-Deck / Next Lots Queue (Referenced from playauctiongame.com) */}
+      <div className="rounded-2xl bg-white border border-slate-200/90 p-2.5 px-3.5 shadow-sm flex items-center justify-between gap-3 overflow-hidden text-xs">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-md">
+            ON DECK
+          </span>
+          <span className="text-[11px] font-bold text-slate-600 hidden xs:inline">Next Lots:</span>
+        </div>
+
+        <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-0.5">
+          {players.slice(auction.currentPlayerIndex + 1, auction.currentPlayerIndex + 4).map((nextP, i) => (
+            <div
+              key={nextP.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`Scout upcoming lot ${nextP.name}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setScoutModalOpen(true, nextP);
+                }
+              }}
+              onClick={() => setScoutModalOpen(true, nextP)}
+              title="Click to preview & scout player"
+              className="cursor-pointer flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-300 transition-colors flex-shrink-0"
+            >
+              <span className="text-[10px] font-mono font-bold text-slate-400">
+                #{auction.currentPlayerIndex + 2 + i}
+              </span>
+              <span className="text-xs font-bold text-slate-900 truncate max-w-[90px]">
+                {nextP.name}
+              </span>
+              <span className="text-[10px] text-amber-700 font-semibold font-mono">
+                ₹{nextP.basePrice} Cr
+              </span>
+            </div>
+          ))}
+
+          {auction.currentPlayerIndex + 1 >= players.length && (
+            <span className="text-slate-400 italic text-[11px]">Final lot in progress!</span>
+          )}
         </div>
       </div>
 
