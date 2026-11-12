@@ -55,6 +55,8 @@ export interface Match {
   playoffStage?: 'Qualifier 1' | 'Eliminator' | 'Qualifier 2' | 'Final';
 }
 
+export type PlayoffStage = 'not_started' | 'qualifier_1' | 'eliminator' | 'qualifier_2' | 'final' | 'completed';
+
 export interface LeagueStanding {
   teamId: string;
   teamName: string;

@@ -1,7 +1,6 @@
 import { Team } from '../types/team';
 import { REAL_IPL_TEAMS } from './realTeams';
+import { FICTIONAL_TEAMS } from './fictionalTeams';
 
-export { REAL_IPL_TEAMS };
-
-// The official 10 IPL franchises with authentic stadiums, colors & bidding strategies
+export { REAL_IPL_TEAMS, FICTIONAL_TEAMS };
 export const INITIAL_TEAMS: Team[] = REAL_IPL_TEAMS;

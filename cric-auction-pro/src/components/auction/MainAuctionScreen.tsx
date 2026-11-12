@@ -9,7 +9,7 @@ import { UnsoldOverlay } from './UnsoldOverlay';
 import { ScoutReportModal } from './ScoutReportModal';
 import { AuctionSummaryModal } from './AuctionSummaryModal';
 import { soundService } from '../../services/soundService';
-import { Timer, Users, Layers, Zap, FastForward, Play } from 'lucide-react';
+import { Timer, Users, Layers } from 'lucide-react';
 
 export const MainAuctionScreen: React.FC = () => {
   const {

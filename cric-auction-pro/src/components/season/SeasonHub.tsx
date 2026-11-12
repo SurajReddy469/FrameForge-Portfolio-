@@ -68,7 +68,7 @@ export const SeasonHub: React.FC = () => {
               TOURNAMENT <span className="text-gold-gradient">ARENA</span>
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
-              56-match IPL tournament &bull; Top 4 qualify for Playoffs (Q1, Eliminator, Q2 & Final)
+              56-match IPL tournament • Top 4 qualify for Playoffs (Q1, Eliminator, Q2 & Final)
             </p>
           </div>
 
@@ -104,7 +104,7 @@ export const SeasonHub: React.FC = () => {
 
             {isLeagueStageCompleted && (
               <span className="px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-extrabold text-xs shadow-sm text-center">
-                ✓ League Stage Completed &bull; Playoffs Live
+                ✓ League Stage Completed • Playoffs Live
               </span>
             )}
           </div>
@@ -120,7 +120,7 @@ export const SeasonHub: React.FC = () => {
             <div className="flex items-center justify-between text-xs mb-3 font-bold">
               <span className="text-amber-800 flex items-center gap-1.5 uppercase tracking-wider text-[11px] sm:text-xs font-black">
                 <Flame className="w-4 h-4 text-amber-600" />
-                UPCOMING FIXTURE &bull; {nextMatch.dateStr}
+                UPCOMING FIXTURE • {nextMatch.dateStr}
                 {isUserPlayingNext && (
                   <span className="px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 font-black text-[10px]">
                     YOUR MATCH
@@ -189,6 +189,16 @@ export const SeasonHub: React.FC = () => {
                     return (
                       <div
                         key={m.id}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`View scorecard for match #${m.matchNumber}, ${home?.shortName} versus ${away?.shortName}`}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            soundService.playClick();
+                            viewMatchScorecard(m);
+                          }
+                        }}
                         onClick={() => { soundService.playClick(); viewMatchScorecard(m); }}
                         className={`p-3 rounded-2xl cursor-pointer transition-all border flex items-center justify-between gap-3 ${
                           isUserMatch

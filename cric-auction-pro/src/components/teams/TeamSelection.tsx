@@ -3,10 +3,18 @@ import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/useGameStore';
 import { TeamBadge } from '../common/TeamBadge';
 import { soundService } from '../../services/soundService';
-import { MapPin, Users, Zap, Check, ArrowRight, Trophy, Flame } from 'lucide-react';
+import { MapPin, ArrowRight, Trophy, Flame } from 'lucide-react';
 
 export const TeamSelection: React.FC = () => {
-  const { teams, userTeamId, selectTeam, startAuction } = useGameStore();
+  const { 
+    teams, 
+    userTeamId, 
+    selectTeam, 
+    selectTeamAndResetCampaign,
+    startAuction, 
+    auction, 
+    leagueMatches 
+  } = useGameStore();
   const [selectedId, setSelectedId] = useState<string>(userTeamId);
 
   const selectedTeam = teams.find(t => t.id === selectedId) || teams[0];
@@ -17,8 +25,20 @@ export const TeamSelection: React.FC = () => {
   };
 
   const handleConfirm = () => {
+    const isCampaignActive = auction.phase !== 'idle' || leagueMatches.length > 0 || teams.some(t => t.squad.length > 0);
+    
+    if (isCampaignActive) {
+      const message = selectedId !== userTeamId
+        ? `You have an active auction or tournament campaign. Switching to ${selectedTeam.name} will reset squads and start a fresh auction. Proceed?`
+        : 'Restarting franchise draft will reset current squads and start a fresh auction. Proceed?';
+      const confirmed = window.confirm(message);
+      if (!confirmed) return;
+      selectTeamAndResetCampaign(selectedId);
+    } else {
+      selectTeam(selectedId);
+    }
+
     soundService.playGavel();
-    selectTeam(selectedId);
     startAuction();
   };
 
@@ -54,6 +74,16 @@ export const TeamSelection: React.FC = () => {
           return (
             <motion.div
               key={t.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`Select ${t.name}`}
+              aria-pressed={isSelected}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleSelectTeam(t.id);
+                }
+              }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelectTeam(t.id)}
@@ -140,12 +170,12 @@ export const TeamSelection: React.FC = () => {
                 <MapPin className="w-3.5 h-3.5 text-amber-400" />
                 {selectedTeam.stadium}
               </span>
-              <span>&bull;</span>
+              <span>•</span>
               <span className="flex items-center gap-1">
                 <Trophy className="w-3.5 h-3.5 text-amber-400" />
                 {selectedTeam.trophies} IPL Trophies
               </span>
-              <span>&bull;</span>
+              <span>•</span>
               <span className="text-amber-400 font-bold">
                 {selectedTeam.strategicStrength}
               </span>

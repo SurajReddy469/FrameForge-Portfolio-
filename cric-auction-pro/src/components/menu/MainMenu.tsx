@@ -6,18 +6,12 @@ import { soundService } from '../../services/soundService';
 import { 
   Play, 
   Trophy, 
-  Zap, 
   Settings, 
   Shield, 
-  Users,
-  Flame,
-  ArrowRight,
-  Sparkles,
-  RotateCcw,
-  Award,
-  Swords,
-  Layers,
-  ChevronRight
+  Flame, 
+  Sparkles, 
+  Layers, 
+  ChevronRight 
 } from 'lucide-react';
 
 export const MainMenu: React.FC = () => {
@@ -26,10 +20,8 @@ export const MainMenu: React.FC = () => {
     userTeam,
     profile,
     setSettingsOpen,
-    resetAllGameData,
     auction,
     updateSettings,
-    settings,
   } = useGameStore();
 
   const team = userTeam();
@@ -143,7 +135,7 @@ export const MainMenu: React.FC = () => {
           IPL LIVE WIRE
         </span>
         <div className="text-xs font-semibold text-slate-300 truncate">
-          🏏 Virat Kohli, Rohit Sharma, MS Dhoni, Jasprit Bumrah & Heinrich Klaasen headline the ₹120 Cr Mega Auction &bull; 10 Franchises fighting for glory!
+          🏏 Virat Kohli, Rohit Sharma, MS Dhoni, Jasprit Bumrah & Heinrich Klaasen headline the ₹120 Cr Mega Auction • 10 Franchises fighting for glory!
         </div>
       </div>
 
@@ -200,6 +192,15 @@ export const MainMenu: React.FC = () => {
           
           {/* MODE 2: Blitz Speed Auction */}
           <motion.div
+            role="button"
+            tabIndex={0}
+            aria-label="Start Blitz Speed Auction"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleBlitzPlay();
+              }
+            }}
             whileHover={{ scale: 1.01 }}
             onClick={handleBlitzPlay}
             className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"
@@ -227,6 +228,15 @@ export const MainMenu: React.FC = () => {
 
           {/* MODE 3: Premier Championship League */}
           <motion.div
+            role="button"
+            tabIndex={0}
+            aria-label="Open IPL Championship League"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleEnterLeague();
+              }
+            }}
             whileHover={{ scale: 1.01 }}
             onClick={handleEnterLeague}
             className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"
@@ -254,6 +264,15 @@ export const MainMenu: React.FC = () => {
 
           {/* MODE 4: Squad Tactics & Playing XI */}
           <motion.div
+            role="button"
+            tabIndex={0}
+            aria-label="Open Squad Lab and Pitch XI"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSquadLab();
+              }
+            }}
             whileHover={{ scale: 1.01 }}
             onClick={handleSquadLab}
             className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"

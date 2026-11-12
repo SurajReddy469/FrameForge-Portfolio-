@@ -30,7 +30,8 @@ export interface AIEvaluationResult {
 export function evaluatePlayerForTeam(
   team: Team,
   player: Player,
-  playersRemainingInPool: Player[]
+  playersRemainingInPool: Player[],
+  aiAggression: 'chill' | 'balanced' | 'ruthless' = 'balanced'
 ): AIEvaluationResult {
   const squad = team.squad;
   const currentCount = squad.length;
@@ -48,11 +49,23 @@ export function evaluatePlayerForTeam(
     return { maxWillingToPay: 0, needScore: 0, reason: 'Overseas quota full (8/8)' };
   }
 
-  // Budget Safety: Reserve at least ₹0.20 Cr for each unfilled slot up to minimum squad (18)
-  const remainingNeededForMin = Math.max(0, minSquad - (currentCount + 1));
-  const reservedBudget = remainingNeededForMin * 0.20;
-  const maxSafeBid = Math.max(0, team.currentPurse - reservedBudget);
+  // AI Aggression tuning (Issue 2)
+  let reservePerSlot = 0.20;
+  let aggressionMultiplier = 1.0;
+  if (aiAggression === 'chill') {
+    reservePerSlot = 0.30;
+    aggressionMultiplier = 0.85;
+  } else if (aiAggression === 'ruthless') {
+    reservePerSlot = 0.15;
+    aggressionMultiplier = 1.20;
+  }
 
+  // Budget Safety: Reserve funds for unfilled slots up to minimum squad (18)
+  const remainingNeededForMin = Math.max(0, minSquad - (currentCount + 1));
+  const reservedBudget = remainingNeededForMin * reservePerSlot;
+  const maxSafeBid = Number(Math.max(0, team.currentPurse - reservedBudget).toFixed(2));
+
+  // If safe purse cannot even afford base price, team cannot bid (Issue 3)
   if (maxSafeBid < player.basePrice) {
     return { maxWillingToPay: 0, needScore: 0, reason: 'Insufficient funds for minimum squad reserve' };
   }
@@ -61,7 +74,6 @@ export function evaluatePlayerForTeam(
   const keepers = squad.filter(p => p.role === 'Wicketkeeper').length;
   const batters = squad.filter(p => p.role === 'Batter').length;
   const allrounders = squad.filter(p => p.role === 'All-rounder').length;
-  const bowlers = squad.filter(p => p.role === 'Fast Bowler' || p.role === 'Spin Bowler').length;
 
   let needMultiplier = 1.0;
   let needReason = 'General squad depth';
@@ -102,7 +114,7 @@ export function evaluatePlayerForTeam(
       }
       break;
 
-    case 'Fast Bowler':
+    case 'Fast Bowler': {
       const pacers = squad.filter(p => p.role === 'Fast Bowler').length;
       if (pacers < 3) {
         needMultiplier = 1.35;
@@ -113,8 +125,9 @@ export function evaluatePlayerForTeam(
         needMultiplier = 0.55;
       }
       break;
+    }
 
-    case 'Spin Bowler':
+    case 'Spin Bowler': {
       const spinners = squad.filter(p => p.role === 'Spin Bowler').length;
       if (spinners < 2) {
         needMultiplier = 1.35;
@@ -125,6 +138,7 @@ export function evaluatePlayerForTeam(
         needMultiplier = 0.55;
       }
       break;
+    }
   }
 
   // Base valuation from player attributes
@@ -173,11 +187,11 @@ export function evaluatePlayerForTeam(
       }
       break;
 
-    case 'Analytics Guru':
-      // Value based on clutch, timing, power efficiency
+    case 'Analytics Guru': {
       const efficiency = (player.power + player.timing + player.clutch) / 3;
       personalityMultiplier = efficiency >= 90 ? 1.25 : 0.95;
       break;
+    }
 
     case 'Balanced Manager':
     default:
@@ -186,23 +200,32 @@ export function evaluatePlayerForTeam(
   }
 
   // Desperation / Scarcity Multiplier
-  // If few players in this role remain in the auction pool, willingness to pay surges!
   const remainingInRole = playersRemainingInPool.filter(p => p.role === player.role).length;
   if (remainingInRole <= 2 && needMultiplier > 1.2) {
-    needMultiplier *= 1.3; // Scarcity surge!
+    needMultiplier *= 1.3;
   }
 
-  let finalValuation = valueScore * needMultiplier * personalityMultiplier;
+  // Calculate raw valuation
+  let finalValuation = valueScore * needMultiplier * personalityMultiplier * aggressionMultiplier;
 
-  // Cannot exceed team current safe purse limit
+  // Cap at safe purse budget
   finalValuation = Math.min(finalValuation, maxSafeBid);
-  // Cap at a reasonable percentage of total purse (e.g. max 22% of total purse for 1 player unless Star Hunter)
-  const purseCap = team.personality === 'Star Hunter' || team.personality === 'Aggressive Manager'
-    ? team.startingPurse * 0.22
-    : team.startingPurse * 0.17;
 
+  // Reasonable percentage cap of total purse per player
+  const maxPursePercent = (team.personality === 'Star Hunter' || team.personality === 'Aggressive Manager') ? 0.25 : 0.18;
+  const purseCap = team.startingPurse * maxPursePercent * (aiAggression === 'ruthless' ? 1.15 : 1.0);
   finalValuation = Math.min(finalValuation, purseCap);
-  finalValuation = Math.max(player.basePrice, Number(finalValuation.toFixed(2)));
+
+  finalValuation = Number(finalValuation.toFixed(2));
+
+  // If final valuation is below base price, the team simply won't bid (Issue 3 fix: do NOT force to basePrice)
+  if (finalValuation < player.basePrice) {
+    return {
+      maxWillingToPay: 0,
+      needScore: needMultiplier,
+      reason: `Valuation (₹${finalValuation} Cr) is below base price (₹${player.basePrice} Cr)`
+    };
+  }
 
   return {
     maxWillingToPay: finalValuation,
@@ -216,28 +239,42 @@ export function getAIDecision(
   player: Player,
   currentBid: number,
   highestBidderId: string | null,
-  playersRemainingInPool: Player[]
+  playersRemainingInPool: Player[],
+  aiAggression: 'chill' | 'balanced' | 'ruthless' = 'balanced'
 ): { shouldBid: boolean; nextBidAmount: number; delayMs: number; reason: string } {
   // If team is already the highest bidder, do not outbid themselves
   if (highestBidderId === team.id) {
     return { shouldBid: false, nextBidAmount: 0, delayMs: 0, reason: 'Already highest bidder' };
   }
 
+  // Check squad and overseas limits strictly
+  if (team.squad.length >= 25) {
+    return { shouldBid: false, nextBidAmount: 0, delayMs: 0, reason: 'Squad full (25 players reached)' };
+  }
+  const overseasCount = team.squad.filter(p => p.isOverseas).length;
+  if (player.isOverseas && overseasCount >= 8) {
+    return { shouldBid: false, nextBidAmount: 0, delayMs: 0, reason: 'Overseas quota full (8/8)' };
+  }
+
   const nextBid = getNextBidAmount(currentBid, player.basePrice);
-  const evaluation = evaluatePlayerForTeam(team, player, playersRemainingInPool);
+  const evaluation = evaluatePlayerForTeam(team, player, playersRemainingInPool, aiAggression);
 
   if (nextBid <= evaluation.maxWillingToPay && nextBid <= team.currentPurse) {
     // Generate realistic human-like deliberation delay
-    // Aggressive managers bid faster (1.0s - 1.8s), budget managers deliberate longer (2.0s - 3.2s)
-    let minDelay = 1200;
-    let maxDelay = 2600;
+    let minDelay = 1100;
+    let maxDelay = 2400;
 
     if (team.personality === 'Aggressive Manager') {
-      minDelay = 900;
-      maxDelay = 1800;
+      minDelay = 800;
+      maxDelay = 1600;
     } else if (team.personality === 'Budget Manager') {
-      minDelay = 1800;
-      maxDelay = 3200;
+      minDelay = 1600;
+      maxDelay = 3000;
+    }
+
+    if (aiAggression === 'ruthless') {
+      minDelay = Math.floor(minDelay * 0.75);
+      maxDelay = Math.floor(maxDelay * 0.75);
     }
 
     const delayMs = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
@@ -254,6 +291,8 @@ export function getAIDecision(
     shouldBid: false,
     nextBidAmount: 0,
     delayMs: 0,
-    reason: `Price ₹${nextBid} Cr exceeds valuation of ₹${evaluation.maxWillingToPay} Cr`
+    reason: nextBid > team.currentPurse 
+      ? `Cannot afford next bid ₹${nextBid} Cr (Purse: ₹${team.currentPurse} Cr)`
+      : `Price ₹${nextBid} Cr exceeds valuation of ₹${evaluation.maxWillingToPay} Cr`
   };
 }

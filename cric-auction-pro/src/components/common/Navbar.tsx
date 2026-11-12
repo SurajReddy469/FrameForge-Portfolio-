@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGameStore, GameScreen } from '../../store/useGameStore';
 import { TeamBadge } from './TeamBadge';
+import { soundService } from '../../services/soundService';
 import { 
   Volume2, 
   VolumeX, 
@@ -12,8 +13,6 @@ import {
   RotateCcw
 } from 'lucide-react';
 
-import { soundService } from '../../services/soundService';
-
 export const Navbar: React.FC = () => {
   const {
     currentScreen,
@@ -24,16 +23,60 @@ export const Navbar: React.FC = () => {
     toggleSound,
     setSettingsOpen,
     resetAllGameData,
-    auction
+    auction,
+    leagueMatches
   } = useGameStore();
 
   const team = userTeam();
+  const hasDraftedPlayers = (team?.squad.length || 0) > 0;
+  const isSeasonReady = leagueMatches.length > 0;
 
-  const navItems: { screen: GameScreen; label: string; shortLabel: string; icon: any; highlight?: boolean }[] = [
+  const handleNavClick = (screen: GameScreen) => {
+    soundService.playClick();
+
+    // Stage Guarding (Fixes Issue 12)
+    if (screen === 'squad' && !hasDraftedPlayers) {
+      alert('Draft your squad first! Enter the Live Auction to sign players.');
+      setScreen(auction.phase === 'idle' ? 'teams' : 'auction');
+      return;
+    }
+
+    if (screen === 'season' && !isSeasonReady) {
+      alert('Complete the auction and finalize your Starting XI in Squad Management before entering the Season campaign!');
+      setScreen(hasDraftedPlayers ? 'squad' : 'auction');
+      return;
+    }
+
+    setScreen(screen);
+  };
+
+  const navItems: { 
+    screen: GameScreen; 
+    label: string; 
+    shortLabel: string; 
+    icon: any; 
+    highlight?: boolean;
+    disabled?: boolean;
+    disabledReason?: string;
+  }[] = [
     { screen: 'menu', label: 'Dashboard', shortLabel: 'Home', icon: Home },
     { screen: 'auction', label: 'Live Auction', shortLabel: 'Auction', icon: Flame, highlight: auction.phase !== 'completed' && auction.phase !== 'idle' },
-    { screen: 'squad', label: 'Starting XI & Squad', shortLabel: 'Lineup', icon: Users },
-    { screen: 'season', label: 'Season & Playoffs', shortLabel: 'Season', icon: Calendar },
+    { 
+      screen: 'squad', 
+      label: 'Starting XI & Squad', 
+      shortLabel: 'Lineup', 
+      icon: Users,
+      disabled: !hasDraftedPlayers,
+      disabledReason: 'Sign players in auction first'
+    },
+    { 
+      screen: 'season', 
+      label: 'Season & Playoffs', 
+      shortLabel: 'Season', 
+      icon: Calendar,
+      disabled: !isSeasonReady,
+      disabledReason: 'Assemble squad first'
+    },
   ];
 
   return (
@@ -45,7 +88,8 @@ export const Navbar: React.FC = () => {
         {/* Brand & Active Team Info */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button 
-            onClick={() => setScreen('menu')}
+            type="button"
+            onClick={() => handleNavClick('menu')}
             className="flex items-center gap-2 group text-left flex-shrink-0"
           >
             <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 font-black text-slate-950 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform text-sm sm:text-base">
@@ -84,16 +128,20 @@ export const Navbar: React.FC = () => {
             const isActive = currentScreen === item.screen;
             return (
               <button
+                type="button"
                 key={item.screen}
-                onClick={() => { soundService.playClick(); setScreen(item.screen); }}
+                onClick={() => handleNavClick(item.screen)}
+                title={item.disabled ? item.disabledReason : item.label}
                 className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   isActive
                     ? 'bg-amber-500 text-slate-950 shadow-sm font-bold'
+                    : item.disabled
+                    ? 'text-slate-400 opacity-60 hover:text-slate-600'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${item.highlight && !isActive ? 'text-amber-600 animate-pulse' : ''}`} />
-                {item.label}
+                <span>{item.label}</span>
                 {item.highlight && !isActive && (
                   <span className="absolute -top-1 -right-1 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
@@ -105,8 +153,8 @@ export const Navbar: React.FC = () => {
           })}
         </nav>
 
-        {/* Quick Utility Tools */}
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        {/* Right Stats & Controls */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Scout Tokens Indicator */}
           <div 
             title="Available Scout Tokens"
@@ -118,7 +166,9 @@ export const Navbar: React.FC = () => {
 
           {/* Sound Toggle */}
           <button
+            type="button"
             onClick={toggleSound}
+            aria-label={settings.soundEnabled ? 'Mute sound effects' : 'Unmute sound effects'}
             title={settings.soundEnabled ? 'Mute Sounds' : 'Unmute Sounds'}
             className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-amber-600 hover:border-amber-300 shadow-sm transition-colors"
           >
@@ -127,7 +177,9 @@ export const Navbar: React.FC = () => {
 
           {/* Settings Trigger */}
           <button
+            type="button"
             onClick={() => setSettingsOpen(true)}
+            aria-label="Open settings"
             title="Game Settings"
             className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-colors"
           >
@@ -136,11 +188,13 @@ export const Navbar: React.FC = () => {
 
           {/* Reset / Restart */}
           <button
+            type="button"
             onClick={() => {
-              if (confirm('Start a fresh new auction campaign? This will reset the current draft and season.')) {
+              if (window.confirm('Start a fresh new auction campaign? This will reset the current draft and season.')) {
                 resetAllGameData();
               }
             }}
+            aria-label="Reset game data"
             title="Reset / Start Fresh"
             className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-300 shadow-sm transition-colors"
           >
@@ -149,18 +203,21 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Phone Screen Navigation Bar (Grid 4 items, touch-friendly) */}
+      {/* Mobile Phone Screen Navigation Bar */}
       <div className="grid grid-cols-4 md:hidden px-2 py-1 border-t border-slate-200 gap-1 bg-slate-50/90 text-center">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentScreen === item.screen;
           return (
             <button
+              type="button"
               key={item.screen}
-              onClick={() => { soundService.playClick(); setScreen(item.screen); }}
+              onClick={() => handleNavClick(item.screen)}
               className={`relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1 py-1.5 px-1 rounded-xl text-[10px] sm:text-xs font-bold transition-all ${
                 isActive 
                   ? 'bg-amber-500 text-slate-950 shadow-sm font-black' 
+                  : item.disabled
+                  ? 'text-slate-400 opacity-60'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >

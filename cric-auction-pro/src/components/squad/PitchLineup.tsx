@@ -3,7 +3,7 @@ import { Player } from '../../types/player';
 
 interface PitchLineupProps {
   players: Player[];
-  teamId: string;
+  teamId?: string;
   onRemoveFromXI: (playerId: string) => void;
 }
 
@@ -42,6 +42,15 @@ export const PitchLineup: React.FC<PitchLineupProps> = ({ players, onRemoveFromX
         {players.map((p, idx) => (
           <div
             key={p.id}
+            role="button"
+            tabIndex={0}
+            aria-label={`Remove ${p.name} from playing XI`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onRemoveFromXI(p.id);
+              }
+            }}
             onClick={() => onRemoveFromXI(p.id)}
             title="Click to move to bench"
             className="group cursor-pointer rounded-xl sm:rounded-2xl bg-white hover:bg-amber-50 border border-emerald-300 hover:border-amber-400 p-1.5 sm:p-2.5 transition-all text-center flex flex-col items-center shadow-lg active:scale-95"

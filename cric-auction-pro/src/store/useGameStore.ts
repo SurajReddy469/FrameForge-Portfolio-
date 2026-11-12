@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { Player } from '../types/player';
 import { Team } from '../types/team';
-import { AuctionState, AuctionPhase, BidRecord, AuctionFeedMessage } from '../types/auction';
+import { AuctionState, BidRecord, AuctionFeedMessage } from '../types/auction';
 import { Match, LeagueStanding, SeasonAwards } from '../types/season';
 import { ManagerProfile, Achievement } from '../types/career';
-import { INITIAL_TEAMS } from '../data/teams';
-import { INITIAL_PLAYERS } from '../data/players';
+import { REAL_IPL_TEAMS, FICTIONAL_TEAMS, INITIAL_TEAMS } from '../data/teams';
+import { REAL_IPL_PLAYERS, FICTIONAL_PLAYERS, INITIAL_PLAYERS } from '../data/players';
 import { INITIAL_ACHIEVEMENTS } from '../data/achievements';
 import { soundService } from '../services/soundService';
 import { getNextBidAmount, getAIDecision } from '../services/aiBiddingEngine';
@@ -15,7 +15,7 @@ import {
   calculateStandings, 
   computeSeasonAwards 
 } from '../services/seasonSimulator';
-import { StorageService, GameSettings, DEFAULT_SETTINGS } from '../services/storageService';
+import { StorageService, GameSettings } from '../services/storageService';
 import confetti from 'canvas-confetti';
 
 export type GameScreen = 
@@ -64,6 +64,7 @@ export interface GameStoreState {
 
   // Actions
   selectTeam: (teamId: string) => void;
+  selectTeamAndResetCampaign: (teamId: string) => void;
   startAuction: () => void;
   placeHumanBid: (amount?: number) => void;
   passCurrentPlayer: () => void;
@@ -115,77 +116,155 @@ if (typeof document !== 'undefined') {
   }
 }
 
-const initialTeamsSource = INITIAL_TEAMS;
-const initialPlayersSource = INITIAL_PLAYERS;
+// Check saved active campaign (Fixes Issue 11)
+const savedCampaign = StorageService.loadCampaign();
+const initialDatasetMode = initialSettings.dataset || 'real';
+const fallbackTeams = initialDatasetMode === 'fictional' ? FICTIONAL_TEAMS : INITIAL_TEAMS;
+const fallbackPlayers = initialDatasetMode === 'fictional' ? FICTIONAL_PLAYERS : INITIAL_PLAYERS;
 
-export const useGameStore = create<GameStoreState>((set, get) => ({
-  currentScreen: 'menu',
-  setScreen: (screen) => set({ currentScreen: screen }),
+const initialTeamsSource = savedCampaign?.teams || fallbackTeams;
+const initialPlayersSource = savedCampaign?.players || fallbackPlayers;
+const initialUserTeamId = savedCampaign?.userTeamId || initialTeamsSource[0]?.id || 'chennai-super-kings';
 
-  userTeamId: initialTeamsSource[0]?.id || 'chennai-super-kings',
-  teams: JSON.parse(JSON.stringify(initialTeamsSource)),
-  players: JSON.parse(JSON.stringify(initialPlayersSource)),
-  userTeam: () => get().teams.find(t => t.id === get().userTeamId),
+const initialAuctionState: AuctionState = savedCampaign?.auction || {
+  currentSetIndex: 0,
+  currentPlayerIndex: 0,
+  currentPlayer: null,
+  currentBid: 0,
+  highestBidderId: null,
+  highestBidderName: null,
+  bidHistory: [],
+  phase: 'idle',
+  timerSeconds: 10,
+  isPaused: false,
+  totalPlayersAuctioned: 0,
+  feedMessages: [],
+  auctionHistory: [],
+};
 
-  auction: {
-    currentSetIndex: 0,
-    currentPlayerIndex: 0,
-    currentPlayer: null,
-    currentBid: 0,
-    highestBidderId: null,
-    highestBidderName: null,
-    bidHistory: [],
-    phase: 'idle',
-    timerSeconds: 10,
-    isPaused: false,
-    totalPlayersAuctioned: 0,
-    feedMessages: [],
-    auctionHistory: [],
-  },
-  selectedScoutPlayer: null,
-
-  leagueMatches: [],
-  currentMatchIndex: 0,
-  standings: [],
-  playoffMatches: [],
-  playoffStage: 'not_started',
-  championTeam: null,
-  seasonAwards: null,
-  activeScorecardMatch: null,
-
-  profile: StorageService.loadProfile(),
-  achievements: StorageService.loadAchievements(INITIAL_ACHIEVEMENTS),
-  settings: StorageService.loadSettings(),
-
-  isSettingsOpen: false,
-  isScoutModalOpen: false,
-  isAuctionSummaryOpen: false,
-  isMatchModalOpen: false,
-  isTrophyModalOpen: false,
-
-  selectTeam: (teamId: string) => {
-    const teams = get().teams.map(t => ({
-      ...t,
-      personality: t.id === teamId ? 'Human' as const : t.personality
-    }));
-    set({ userTeamId: teamId, teams });
-  },
-
-  startAuction: () => {
-    const players = get().players;
-    if (players.length === 0) return;
-
-    const firstPlayer = players[0];
-    const initialMessage: AuctionFeedMessage = {
-      id: 'msg-start',
-      text: `Auctioneer: "Ladies and gentlemen, welcome to the Premier League Mega Auction! First up: ${firstPlayer.name} (${firstPlayer.role}, Base: ₹${firstPlayer.basePrice} Cr)."`,
-      type: 'system',
+export const useGameStore = create<GameStoreState>((set, get) => {
+  // Helper to persist campaign state to localStorage (Fixes Issue 11)
+  const saveCampaignState = (override: Partial<GameStoreState> = {}) => {
+    const s = { ...get(), ...override };
+    StorageService.saveCampaign({
+      userTeamId: s.userTeamId,
+      teams: s.teams,
+      players: s.players,
+      auction: s.auction,
+      leagueMatches: s.leagueMatches,
+      currentMatchIndex: s.currentMatchIndex,
+      standings: s.standings,
+      playoffMatches: s.playoffMatches,
+      playoffStage: s.playoffStage,
+      currentScreen: s.currentScreen,
       timestamp: Date.now(),
-    };
+    });
+  };
 
-    set({
-      currentScreen: 'auction',
-      auction: {
+  return {
+    currentScreen: (savedCampaign?.currentScreen as GameScreen) || 'menu',
+    setScreen: (screen) => {
+      set({ currentScreen: screen });
+      saveCampaignState({ currentScreen: screen });
+    },
+
+    userTeamId: initialUserTeamId,
+    teams: JSON.parse(JSON.stringify(initialTeamsSource)),
+    players: JSON.parse(JSON.stringify(initialPlayersSource)),
+    userTeam: () => get().teams.find(t => t.id === get().userTeamId),
+
+    auction: initialAuctionState,
+    selectedScoutPlayer: null,
+
+    leagueMatches: savedCampaign?.leagueMatches || [],
+    currentMatchIndex: savedCampaign?.currentMatchIndex || 0,
+    standings: savedCampaign?.standings || [],
+    playoffMatches: savedCampaign?.playoffMatches || [],
+    playoffStage: savedCampaign?.playoffStage || 'not_started',
+    championTeam: null,
+    seasonAwards: null,
+    activeScorecardMatch: null,
+
+    profile: StorageService.loadProfile(),
+    achievements: StorageService.loadAchievements(INITIAL_ACHIEVEMENTS),
+    settings: initialSettings,
+
+    isSettingsOpen: false,
+    isScoutModalOpen: false,
+    isAuctionSummaryOpen: false,
+    isMatchModalOpen: false,
+    isTrophyModalOpen: false,
+
+    selectTeam: (teamId: string) => {
+      set({ userTeamId: teamId });
+      saveCampaignState({ userTeamId: teamId });
+    },
+
+    selectTeamAndResetCampaign: (teamId: string) => {
+      const { settings } = get();
+      const datasetTeams = settings.dataset === 'fictional' ? FICTIONAL_TEAMS : REAL_IPL_TEAMS;
+      const datasetPlayers = settings.dataset === 'fictional' ? FICTIONAL_PLAYERS : REAL_IPL_PLAYERS;
+      const freshTeams = JSON.parse(JSON.stringify(datasetTeams));
+      const freshPlayers = JSON.parse(JSON.stringify(datasetPlayers));
+
+      const freshAuction: AuctionState = {
+        currentSetIndex: 0,
+        currentPlayerIndex: 0,
+        currentPlayer: null,
+        currentBid: 0,
+        highestBidderId: null,
+        highestBidderName: null,
+        bidHistory: [],
+        phase: 'idle',
+        timerSeconds: 10,
+        isPaused: false,
+        totalPlayersAuctioned: 0,
+        feedMessages: [],
+        auctionHistory: [],
+      };
+
+      set({
+        userTeamId: teamId,
+        teams: freshTeams,
+        players: freshPlayers,
+        auction: freshAuction,
+        leagueMatches: [],
+        currentMatchIndex: 0,
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        championTeam: null,
+        seasonAwards: null,
+        activeScorecardMatch: null,
+      });
+
+      saveCampaignState({
+        userTeamId: teamId,
+        teams: freshTeams,
+        players: freshPlayers,
+        auction: freshAuction,
+        leagueMatches: [],
+        currentMatchIndex: 0,
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        championTeam: null,
+        seasonAwards: null,
+      });
+    },
+
+    startAuction: () => {
+      const { players } = get();
+      const firstPlayer = players[0];
+
+      const welcomeFeed: AuctionFeedMessage = {
+        id: `msg-${Date.now()}`,
+        text: `Welcome to the IPL Mega Auction! Lot #1 is ${firstPlayer.name} (${firstPlayer.role}).`,
+        type: 'system',
+        timestamp: Date.now(),
+      };
+
+      const newAuction: AuctionState = {
         currentSetIndex: 0,
         currentPlayerIndex: 0,
         currentPlayer: firstPlayer,
@@ -197,55 +276,67 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         timerSeconds: 10,
         isPaused: false,
         totalPlayersAuctioned: 0,
-        feedMessages: [initialMessage],
+        feedMessages: [welcomeFeed],
         auctionHistory: [],
+      };
+
+      set({
+        auction: newAuction,
+        currentScreen: 'auction',
+      });
+
+      saveCampaignState({
+        auction: newAuction,
+        currentScreen: 'auction',
+      });
+
+      soundService.playGavel();
+
+      setTimeout(() => {
+        get().triggerAIBidDecision();
+      }, 1500);
+    },
+
+    placeHumanBid: (customAmount?: number) => {
+      const { auction, userTeamId, teams, unlockAchievement } = get();
+      if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
+      if (!auction.currentPlayer) return;
+
+      const humanTeam = teams.find(t => t.id === userTeamId);
+      if (!humanTeam) return;
+
+      const nextAmount = customAmount !== undefined 
+        ? customAmount 
+        : getNextBidAmount(auction.currentBid, auction.currentPlayer.basePrice);
+
+      if (nextAmount > humanTeam.currentPurse) {
+        alert('Insufficient purse to place this bid!');
+        return;
       }
-    });
 
-    soundService.playGavel();
+      if (auction.highestBidderId === humanTeam.id) {
+        return;
+      }
 
-    // Trigger initial AI check
-    setTimeout(() => {
-      get().triggerAIBidDecision();
-    }, 1200);
-  },
+      soundService.playBidSound(true);
 
-  placeHumanBid: (customAmount?: number) => {
-    const { auction, userTeamId, teams, unlockAchievement } = get();
-    if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
-    if (!auction.currentPlayer) return;
+      const bidRecord: BidRecord = {
+        teamId: humanTeam.id,
+        teamName: humanTeam.name,
+        amount: nextAmount,
+        timestamp: Date.now(),
+        isHuman: true,
+      };
 
-    const humanTeam = teams.find(t => t.id === userTeamId);
-    if (!humanTeam) return;
+      const feedMsg: AuctionFeedMessage = {
+        id: `msg-${Date.now()}`,
+        text: `${humanTeam.name} bids ₹${nextAmount.toFixed(2)} Cr for ${auction.currentPlayer.name}!`,
+        type: 'bid',
+        teamId: humanTeam.id,
+        timestamp: Date.now(),
+      };
 
-    const nextAmount = customAmount || getNextBidAmount(auction.currentBid, auction.currentPlayer.basePrice);
-
-    // Purse check
-    if (nextAmount > humanTeam.currentPurse) {
-      alert(`Insufficient purse! Your remaining purse is ₹${humanTeam.currentPurse.toFixed(2)} Cr.`);
-      return;
-    }
-
-    soundService.playBidSound(true);
-
-    const bidRecord: BidRecord = {
-      teamId: humanTeam.id,
-      teamName: humanTeam.name,
-      amount: nextAmount,
-      timestamp: Date.now(),
-      isHuman: true,
-    };
-
-    const feedMsg: AuctionFeedMessage = {
-      id: `msg-${Date.now()}`,
-      text: `${humanTeam.name} bids ₹${nextAmount.toFixed(2)} Cr for ${auction.currentPlayer.name}!`,
-      type: 'bid',
-      teamId: humanTeam.id,
-      timestamp: Date.now(),
-    };
-
-    set({
-      auction: {
+      const updatedAuction: AuctionState = {
         ...auction,
         currentBid: nextAmount,
         highestBidderId: humanTeam.id,
@@ -254,293 +345,328 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         timerSeconds: 10,
         phase: 'bidding',
         feedMessages: [feedMsg, ...auction.feedMessages.slice(0, 40)],
+      };
+
+      set({ auction: updatedAuction });
+      saveCampaignState({ auction: updatedAuction });
+
+      if (nextAmount >= 18.0) {
+        unlockAchievement('ach-record-bid');
       }
-    });
 
-    // Achievement check: Record Bid > 18 Cr
-    if (nextAmount >= 18.0) {
-      unlockAchievement('ach-record-bid');
-    }
+      setTimeout(() => {
+        get().triggerAIBidDecision();
+      }, 1300);
+    },
 
-    // Schedule AI counter-bid check
-    setTimeout(() => {
-      get().triggerAIBidDecision();
-    }, 1400);
-  },
+    // AI Bidding with fresh state checks (Fixes Issue 1 & Issue 2)
+    triggerAIBidDecision: () => {
+      const { auction, teams, players, userTeamId, settings } = get();
+      if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
+      if (!auction.currentPlayer) return;
 
-  triggerAIBidDecision: () => {
-    const { auction, teams, players, userTeamId } = get();
-    if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
-    if (!auction.currentPlayer) return;
+      const currentPlayerId = auction.currentPlayer.id;
+      const remainingInPool = players.slice(auction.currentPlayerIndex + 1);
 
-    // Remaining pool for scarcity check
-    const remainingInPool = players.slice(auction.currentPlayerIndex + 1);
+      const candidates: { team: Team; nextBidAmount: number; delayMs: number; reason: string }[] = [];
 
-    // Find AI teams that want to bid
-    const candidates: { team: Team; nextBidAmount: number; delayMs: number; reason: string }[] = [];
+      teams.forEach(team => {
+        if (team.id === userTeamId) return;
+        if (team.id === auction.highestBidderId) return;
 
-    teams.forEach(team => {
-      if (team.id === userTeamId) return; // Skip human team
-      if (team.id === auction.highestBidderId) return; // Skip current leader
-
-      const decision = getAIDecision(
-        team,
-        auction.currentPlayer!,
-        auction.currentBid,
-        auction.highestBidderId,
-        remainingInPool
-      );
-
-      if (decision.shouldBid) {
-        candidates.push({
+        const decision = getAIDecision(
           team,
-          nextBidAmount: decision.nextBidAmount,
-          delayMs: decision.delayMs,
-          reason: decision.reason
-        });
-      }
-    });
+          auction.currentPlayer!,
+          auction.currentBid,
+          auction.highestBidderId,
+          remainingInPool,
+          settings.aiAggression
+        );
 
-    if (candidates.length === 0) {
-      // No AI wants to outbid
-      return;
-    }
+        if (decision.shouldBid) {
+          candidates.push({
+            team,
+            nextBidAmount: decision.nextBidAmount,
+            delayMs: decision.delayMs,
+            reason: decision.reason
+          });
+        }
+      });
 
-    // Pick candidate with fastest decision / highest enthusiasm
-    candidates.sort((a, b) => a.delayMs - b.delayMs);
-    const chosen = candidates[0];
+      if (candidates.length === 0) return;
 
-    setTimeout(() => {
-      const currentAuction = get().auction;
-      // Re-verify phase hasn't changed
-      if (currentAuction.phase !== 'bidding' && currentAuction.phase !== 'going_once' && currentAuction.phase !== 'going_twice') return;
-      if (currentAuction.highestBidderId === chosen.team.id) return;
+      candidates.sort((a, b) => a.delayMs - b.delayMs);
+      const chosen = candidates[0];
+      const chosenTeamId = chosen.team.id;
 
-      const updatedNextAmount = getNextBidAmount(currentAuction.currentBid, currentAuction.currentPlayer!.basePrice);
-      if (updatedNextAmount > chosen.team.currentPurse) return;
+      setTimeout(() => {
+        const fresh = get();
+        const currentAuction = fresh.auction;
+        if (currentAuction.phase !== 'bidding' && currentAuction.phase !== 'going_once' && currentAuction.phase !== 'going_twice') return;
+        if (!currentAuction.currentPlayer || currentAuction.currentPlayer.id !== currentPlayerId) return;
+        if (currentAuction.highestBidderId === chosenTeamId) return;
 
-      soundService.playBidSound(false);
+        const freshTeam = fresh.teams.find(t => t.id === chosenTeamId);
+        if (!freshTeam) return;
 
-      const bidRecord: BidRecord = {
-        teamId: chosen.team.id,
-        teamName: chosen.team.name,
-        amount: updatedNextAmount,
-        timestamp: Date.now(),
-        isHuman: false,
-      };
+        const freshRemaining = fresh.players.slice(currentAuction.currentPlayerIndex + 1);
+        
+        // Re-verify AI decision against freshest price and team state (Fixes Issue 1)
+        const freshDecision = getAIDecision(
+          freshTeam,
+          currentAuction.currentPlayer,
+          currentAuction.currentBid,
+          currentAuction.highestBidderId,
+          freshRemaining,
+          fresh.settings.aiAggression
+        );
 
-      const feedMsg: AuctionFeedMessage = {
-        id: `msg-${Date.now()}`,
-        text: `${chosen.team.name} raises the bid to ₹${updatedNextAmount.toFixed(2)} Cr!`,
-        type: 'bid',
-        teamId: chosen.team.id,
-        timestamp: Date.now(),
-      };
+        if (!freshDecision.shouldBid) return;
+        const updatedNextAmount = freshDecision.nextBidAmount;
+        if (updatedNextAmount > freshTeam.currentPurse) return;
 
-      set({
-        auction: {
+        soundService.playBidSound(false);
+
+        const bidRecord: BidRecord = {
+          teamId: freshTeam.id,
+          teamName: freshTeam.name,
+          amount: updatedNextAmount,
+          timestamp: Date.now(),
+          isHuman: false,
+        };
+
+        const feedMsg: AuctionFeedMessage = {
+          id: `msg-${Date.now()}`,
+          text: `${freshTeam.name} bids ₹${updatedNextAmount.toFixed(2)} Cr!`,
+          type: 'bid',
+          teamId: freshTeam.id,
+          timestamp: Date.now(),
+        };
+
+        const newAuctionState: AuctionState = {
           ...currentAuction,
           currentBid: updatedNextAmount,
-          highestBidderId: chosen.team.id,
-          highestBidderName: chosen.team.name,
+          highestBidderId: freshTeam.id,
+          highestBidderName: freshTeam.name,
           bidHistory: [bidRecord, ...currentAuction.bidHistory],
           timerSeconds: 10,
           phase: 'bidding',
           feedMessages: [feedMsg, ...currentAuction.feedMessages.slice(0, 40)],
-        }
-      });
+        };
 
-      // Recurse to see if another AI or human will respond
-      setTimeout(() => {
-        get().triggerAIBidDecision();
-      }, 1500);
+        set({ auction: newAuctionState });
+        saveCampaignState({ auction: newAuctionState });
 
-    }, Math.min(chosen.delayMs, 2400));
-  },
+        setTimeout(() => {
+          get().triggerAIBidDecision();
+        }, 1200);
+      }, chosen.delayMs);
+    },
 
-  tickAuctionTimer: () => {
-    const { auction, nextAuctionPlayer } = get();
-    if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
-    if (auction.isPaused) return;
+    passCurrentPlayer: () => {
+      const { auction } = get();
+      if (!auction.currentPlayer) return;
 
-    soundService.playTimerTick();
-
-    const newTime = auction.timerSeconds - 1;
-
-    if (newTime > 3) {
-      set({ auction: { ...auction, timerSeconds: newTime } });
-    } else if (newTime === 3) {
-      soundService.playWarningGong();
-      const text = auction.highestBidderName 
-        ? `Going ONCE to ${auction.highestBidderName} at ₹${auction.currentBid.toFixed(2)} Cr...`
-        : `Any bids for ${auction.currentPlayer?.name} at Base Price ₹${auction.currentPlayer?.basePrice} Cr?`;
+      const passMsg: AuctionFeedMessage = {
+        id: `msg-${Date.now()}`,
+        text: `Manager passes on ${auction.currentPlayer.name}. Waiting for hammer...`,
+        type: 'system',
+        timestamp: Date.now(),
+      };
 
       set({
         auction: {
           ...auction,
-          timerSeconds: newTime,
-          phase: 'going_once',
-          feedMessages: [{ id: `warn-${Date.now()}`, text, type: 'warning', timestamp: Date.now() }, ...auction.feedMessages]
+          timerSeconds: Math.min(auction.timerSeconds, 3),
+          feedMessages: [passMsg, ...auction.feedMessages.slice(0, 40)],
         }
       });
-    } else if (newTime === 1) {
-      soundService.playWarningGong();
-      const text = auction.highestBidderName 
-        ? `Going TWICE... Final call at ₹${auction.currentBid.toFixed(2)} Cr!`
-        : `Going twice... Last chance to open the bidding!`;
+    },
 
-      set({
-        auction: {
-          ...auction,
-          timerSeconds: newTime,
-          phase: 'going_twice',
-          feedMessages: [{ id: `warn-${Date.now()}`, text, type: 'warning', timestamp: Date.now() }, ...auction.feedMessages]
-        }
-      });
-    } else if (newTime <= 0) {
-      // Countdown finished: SOLD or UNSOLD
-      if (auction.highestBidderId && auction.currentBid > 0) {
-        // SOLD!
-        soundService.playSoldFanfare();
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
+    tickAuctionTimer: () => {
+      const { auction } = get();
+      if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
 
-        const buyerTeam = get().teams.find(t => t.id === auction.highestBidderId)!;
-        const boughtPlayer: Player = {
-          ...auction.currentPlayer!,
-          isSold: true,
-          soldPrice: auction.currentBid,
-          soldToTeamId: buyerTeam.id,
-        };
+      if (auction.timerSeconds > 1) {
+        const nextSec = auction.timerSeconds - 1;
+        let nextPhase = auction.phase;
 
-        const updatedTeams = get().teams.map(t => {
-          if (t.id === buyerTeam.id) {
-            return {
-              ...t,
-              currentPurse: Number((t.currentPurse - auction.currentBid).toFixed(2)),
-              spentPurse: Number((t.spentPurse + auction.currentBid).toFixed(2)),
-              squad: [...t.squad, boughtPlayer],
-              startingXI: t.startingXI.length < 11 ? [...t.startingXI, boughtPlayer.id] : t.startingXI,
-            };
-          }
-          return t;
-        });
-
-        // Check Bargain Hunter achievement
-        if (buyerTeam.id === get().userTeamId && boughtPlayer.potential >= 90 && boughtPlayer.soldPrice! <= 1.0) {
-          get().unlockAchievement('ach-bargain-hunter');
+        if (nextSec === 5 && auction.currentBid > 0 && auction.phase === 'bidding') {
+          nextPhase = 'going_once';
+          soundService.playWarningGong();
+        } else if (nextSec === 2 && auction.currentBid > 0 && (auction.phase === 'bidding' || auction.phase === 'going_once')) {
+          nextPhase = 'going_twice';
+          soundService.playWarningGong();
         }
 
-        const soldMsg: AuctionFeedMessage = {
-          id: `sold-${Date.now()}`,
-          text: `🔨 SOLD! ${boughtPlayer.name} is acquired by ${buyerTeam.name} for ₹${auction.currentBid.toFixed(2)} Cr!`,
-          type: 'sold',
-          teamId: buyerTeam.id,
-          timestamp: Date.now(),
-        };
+        soundService.playTimerTick();
 
         set({
-          teams: updatedTeams,
           auction: {
+            ...auction,
+            timerSeconds: nextSec,
+            phase: nextPhase,
+          }
+        });
+      } else {
+        // Hammer strikes 0 - Sold or Unsold
+        if (auction.currentBid > 0 && auction.highestBidderId) {
+          // SOLD
+          const winningTeamId = auction.highestBidderId;
+          const winningPrice = auction.currentBid;
+          const soldPlayer = {
+            ...auction.currentPlayer!,
+            isSold: true,
+            soldPrice: winningPrice,
+            soldToTeamId: winningTeamId,
+          };
+
+          const updatedTeams = get().teams.map(t => {
+            if (t.id === winningTeamId) {
+              const updatedPurse = Number((t.currentPurse - winningPrice).toFixed(2));
+              const updatedSpent = Number((t.spentPurse + winningPrice).toFixed(2));
+              const updatedSquad = [...t.squad, soldPlayer];
+              const updatedXI = updatedSquad.length <= 11 ? [...t.startingXI, soldPlayer.id] : t.startingXI;
+
+              return {
+                ...t,
+                currentPurse: updatedPurse,
+                spentPurse: updatedSpent,
+                squad: updatedSquad,
+                startingXI: updatedXI,
+              };
+            }
+            return t;
+          });
+
+          const updatedPlayers = get().players.map(p => p.id === soldPlayer.id ? soldPlayer : p);
+
+          const soldMsg: AuctionFeedMessage = {
+            id: `msg-${Date.now()}`,
+            text: `🔨 SOLD! ${soldPlayer.name} goes to ${auction.highestBidderName} for ₹${winningPrice.toFixed(2)} Cr!`,
+            type: 'sold',
+            teamId: winningTeamId,
+            timestamp: Date.now(),
+          };
+
+          soundService.playSoldFanfare();
+
+          const isHumanWinner = winningTeamId === get().userTeamId;
+          if (isHumanWinner) {
+            confetti({ particleCount: 60, spread: 60, origin: { y: 0.7 } });
+            get().unlockAchievement('ach-first-signing');
+            if (soldPlayer.basePrice <= 0.5 && winningPrice <= 1.5) {
+              get().unlockAchievement('ach-bargain-hunter');
+            }
+          }
+
+          const newAuctionState: AuctionState = {
             ...auction,
             phase: 'sold',
             timerSeconds: 0,
-            feedMessages: [soldMsg, ...auction.feedMessages],
+            feedMessages: [soldMsg, ...auction.feedMessages.slice(0, 40)],
             auctionHistory: [
-              { playerId: boughtPlayer.id, soldToTeamId: buyerTeam.id, finalPrice: auction.currentBid, status: 'sold' },
-              ...auction.auctionHistory
-            ]
-          }
-        });
+              {
+                playerId: soldPlayer.id,
+                soldToTeamId: winningTeamId,
+                finalPrice: winningPrice,
+                status: 'sold',
+              },
+              ...auction.auctionHistory,
+            ],
+          };
 
-        // Automatically advance to next player after 3.2s
-        setTimeout(() => {
-          get().nextAuctionPlayer();
-        }, 3200);
+          set({
+            teams: updatedTeams,
+            players: updatedPlayers,
+            auction: newAuctionState,
+          });
 
-      } else {
-        // UNSOLD!
-        soundService.playUnsoldBuzzer();
-        const unsoldPlayer = { ...auction.currentPlayer!, isUnsold: true };
+          saveCampaignState({
+            teams: updatedTeams,
+            players: updatedPlayers,
+            auction: newAuctionState,
+          });
 
-        const unsoldMsg: AuctionFeedMessage = {
-          id: `unsold-${Date.now()}`,
-          text: `UNSOLD! ${unsoldPlayer.name} remains unsold in this round.`,
-          type: 'unsold',
-          timestamp: Date.now(),
-        };
+          setTimeout(() => {
+            get().nextAuctionPlayer();
+          }, 2400);
 
-        set({
-          auction: {
+        } else {
+          // UNSOLD
+          const unsoldPlayer = {
+            ...auction.currentPlayer!,
+            isUnsold: true,
+          };
+
+          const updatedPlayers = get().players.map(p => p.id === unsoldPlayer.id ? unsoldPlayer : p);
+
+          const unsoldMsg: AuctionFeedMessage = {
+            id: `msg-${Date.now()}`,
+            text: `❌ UNSOLD! No bids placed for ${unsoldPlayer.name}.`,
+            type: 'unsold',
+            timestamp: Date.now(),
+          };
+
+          soundService.playUnsoldBuzzer();
+
+          const newAuctionState: AuctionState = {
             ...auction,
             phase: 'unsold',
             timerSeconds: 0,
-            feedMessages: [unsoldMsg, ...auction.feedMessages],
-            auctionHistory: [
-              { playerId: unsoldPlayer.id, finalPrice: 0, status: 'unsold' },
-              ...auction.auctionHistory
-            ]
-          }
-        });
+            feedMessages: [unsoldMsg, ...auction.feedMessages.slice(0, 40)],
+          };
 
-        setTimeout(() => {
-          get().nextAuctionPlayer();
-        }, 2500);
+          set({
+            players: updatedPlayers,
+            auction: newAuctionState,
+          });
+
+          saveCampaignState({
+            players: updatedPlayers,
+            auction: newAuctionState,
+          });
+
+          setTimeout(() => {
+            get().nextAuctionPlayer();
+          }, 2000);
+        }
       }
-    }
-  },
+    },
 
-  passCurrentPlayer: () => {
-    const { auction } = get();
-    if (auction.phase !== 'bidding' && auction.phase !== 'going_once' && auction.phase !== 'going_twice') return;
+    nextAuctionPlayer: () => {
+      const { auction, players } = get();
+      const nextIdx = auction.currentPlayerIndex + 1;
 
-    // Fast-forward timer to 2 seconds to trigger final call
-    set({
-      auction: {
-        ...auction,
-        timerSeconds: 2,
-        phase: 'going_twice'
-      }
-    });
-  },
-
-  nextAuctionPlayer: () => {
-    const { auction, players, teams, userTeamId, unlockAchievement } = get();
-    const nextIdx = auction.currentPlayerIndex + 1;
-
-    // Check if user has budget master achievement
-    const user = teams.find(t => t.id === userTeamId);
-    if (user && user.currentPurse >= 20.0 && user.squad.length >= 18) {
-      unlockAchievement('ach-budget-master');
-    }
-
-    if (nextIdx >= players.length) {
-      // Auction completed!
-      set({
-        auction: {
+      if (nextIdx >= players.length) {
+        // Auction completed
+        const completedAuction: AuctionState = {
           ...auction,
           phase: 'completed',
           currentPlayer: null,
           timerSeconds: 0,
-        },
-        isAuctionSummaryOpen: true,
-      });
-      return;
-    }
+        };
 
-    const nextPlayer = players[nextIdx];
-    const newMsg: AuctionFeedMessage = {
-      id: `msg-${Date.now()}`,
-      text: `Auctioneer: "Player #${nextIdx + 1}: ${nextPlayer.name} (${nextPlayer.role}, Base: ₹${nextPlayer.basePrice} Cr)."`,
-      type: 'system',
-      timestamp: Date.now(),
-    };
+        set({
+          auction: completedAuction,
+          isAuctionSummaryOpen: true,
+        });
 
-    set({
-      auction: {
+        saveCampaignState({ auction: completedAuction });
+        soundService.playTrophyFanfare();
+        return;
+      }
+
+      const nextPlayer = players[nextIdx];
+
+      const newMsg: AuctionFeedMessage = {
+        id: `msg-${Date.now()}`,
+        text: `Now entering the hammer: Lot #${nextIdx + 1} • ${nextPlayer.name} (${nextPlayer.role}, Base ₹${nextPlayer.basePrice} Cr)`,
+        type: 'system',
+        timestamp: Date.now(),
+      };
+
+      const newAuctionState: AuctionState = {
         ...auction,
         currentPlayerIndex: nextIdx,
         currentPlayer: nextPlayer,
@@ -552,384 +678,445 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         timerSeconds: 10,
         feedMessages: [newMsg, ...auction.feedMessages.slice(0, 40)],
         totalPlayersAuctioned: auction.totalPlayersAuctioned + 1,
+      };
+
+      set({ auction: newAuctionState });
+      saveCampaignState({ auction: newAuctionState });
+
+      soundService.playGavel();
+
+      setTimeout(() => {
+        get().triggerAIBidDecision();
+      }, 1200);
+    },
+
+    // Auto-complete auction handling current lot first (Fixes Issue 4)
+    autoCompleteAuction: () => {
+      const { players, teams, auction, userTeamId, settings } = get();
+      const updatedTeams = JSON.parse(JSON.stringify(teams)) as Team[];
+      const updatedPlayers = [...players];
+
+      // 1. Resolve current lot if active
+      if (auction.currentPlayer) {
+        const currentLot = auction.currentPlayer;
+        const winningTeamId = auction.highestBidderId;
+        const currentPrice = auction.currentBid;
+
+        if (winningTeamId && currentPrice > 0) {
+          const teamRef = updatedTeams.find(t => t.id === winningTeamId);
+          if (teamRef && teamRef.currentPurse >= currentPrice) {
+            teamRef.currentPurse = Number((teamRef.currentPurse - currentPrice).toFixed(2));
+            teamRef.spentPurse = Number((teamRef.spentPurse + currentPrice).toFixed(2));
+            const bought = { ...currentLot, isSold: true, soldPrice: currentPrice, soldToTeamId: teamRef.id };
+            teamRef.squad.push(bought);
+            if (teamRef.startingXI.length < 11) teamRef.startingXI.push(bought.id);
+
+            const pIdx = updatedPlayers.findIndex(p => p.id === currentLot.id);
+            if (pIdx !== -1) updatedPlayers[pIdx] = bought;
+          }
+        } else {
+          // No current bid; find AI buyer
+          let bestTeam: Team | null = null;
+          let bestPrice = 0;
+          updatedTeams.forEach(t => {
+            if (t.id === userTeamId) return;
+            const dec = getAIDecision(t, currentLot, 0, null, [], settings.aiAggression);
+            if (dec.shouldBid && dec.nextBidAmount > bestPrice && dec.nextBidAmount <= t.currentPurse) {
+              bestTeam = t;
+              bestPrice = dec.nextBidAmount;
+            }
+          });
+
+          if (bestTeam && bestPrice > 0) {
+            const teamRef = updatedTeams.find(t => t.id === (bestTeam as any).id)!;
+            const bought = { ...currentLot, isSold: true, soldPrice: bestPrice, soldToTeamId: teamRef.id };
+            teamRef.currentPurse = Number((teamRef.currentPurse - bestPrice).toFixed(2));
+            teamRef.spentPurse = Number((teamRef.spentPurse + bestPrice).toFixed(2));
+            teamRef.squad.push(bought);
+            if (teamRef.startingXI.length < 11) teamRef.startingXI.push(bought.id);
+
+            const pIdx = updatedPlayers.findIndex(p => p.id === currentLot.id);
+            if (pIdx !== -1) updatedPlayers[pIdx] = bought;
+          }
+        }
       }
-    });
 
-    soundService.playGavel();
+      // 2. Simulate all remaining un-auctioned players
+      const nextStartIdx = auction.currentPlayer ? auction.currentPlayerIndex + 1 : 0;
+      const remainingPlayers = updatedPlayers.slice(nextStartIdx);
 
-    setTimeout(() => {
-      get().triggerAIBidDecision();
-    }, 1200);
-  },
+      remainingPlayers.forEach(p => {
+        let winningTeam: Team | null = null;
+        let winningPrice = 0;
 
-  autoCompleteAuction: () => {
-    // Instantly simulate remaining players in auction according to AI algorithms
-    const { players, teams, auction, userTeamId } = get();
-    let currentIdx = auction.currentPlayerIndex;
-    const remainingPlayers = players.slice(currentIdx);
-    const updatedTeams = JSON.parse(JSON.stringify(teams)) as Team[];
+        updatedTeams.forEach(t => {
+          if (t.id === userTeamId) return;
+          const evalRes = getAIDecision(t, p, 0, null, [], settings.aiAggression);
+          if (evalRes.shouldBid && evalRes.nextBidAmount > winningPrice && evalRes.nextBidAmount <= t.currentPurse) {
+            winningTeam = t;
+            winningPrice = evalRes.nextBidAmount;
+          }
+        });
 
-    remainingPlayers.forEach(p => {
-      // Find highest AI valuation
-      let winningTeam: Team | null = null;
-      let winningPrice = 0;
+        if (winningTeam && winningPrice > 0) {
+          const teamRef = updatedTeams.find(t => t.id === (winningTeam as any).id)!;
+          const finalPrice = Math.min(teamRef.currentPurse, Math.max(p.basePrice, Number((winningPrice * (0.85 + Math.random() * 0.3)).toFixed(2))));
+          teamRef.currentPurse = Number((teamRef.currentPurse - finalPrice).toFixed(2));
+          teamRef.spentPurse = Number((teamRef.spentPurse + finalPrice).toFixed(2));
+          const bought = { ...p, isSold: true, soldPrice: finalPrice, soldToTeamId: teamRef.id };
+          teamRef.squad.push(bought);
+          if (teamRef.startingXI.length < 11) teamRef.startingXI.push(bought.id);
 
-      updatedTeams.forEach(t => {
-        if (t.id === userTeamId) return; // Don't auto-force onto user team
-        const evalRes = getAIDecision(t, p, 0, null, []);
-        if (evalRes.shouldBid && evalRes.nextBidAmount > winningPrice && evalRes.nextBidAmount <= t.currentPurse) {
-          winningTeam = t;
-          winningPrice = evalRes.nextBidAmount;
+          const pIdx = updatedPlayers.findIndex(x => x.id === p.id);
+          if (pIdx !== -1) updatedPlayers[pIdx] = bought;
         }
       });
 
-      if (winningTeam && winningPrice > 0) {
-        const teamRef = updatedTeams.find(t => t.id === (winningTeam as any).id)!;
-        const finalPrice = Math.min(teamRef.currentPurse, Math.max(p.basePrice, Number((winningPrice * (0.8 + Math.random() * 0.4)).toFixed(2))));
-        teamRef.currentPurse = Number((teamRef.currentPurse - finalPrice).toFixed(2));
-        teamRef.spentPurse = Number((teamRef.spentPurse + finalPrice).toFixed(2));
-        const bought = { ...p, isSold: true, soldPrice: finalPrice, soldToTeamId: teamRef.id };
-        teamRef.squad.push(bought);
-        if (teamRef.startingXI.length < 11) teamRef.startingXI.push(bought.id);
-      }
-    });
-
-    set({
-      teams: updatedTeams,
-      auction: {
+      const completedAuction: AuctionState = {
         ...auction,
         phase: 'completed',
         currentPlayerIndex: players.length - 1,
         currentPlayer: null,
         timerSeconds: 0,
-      },
-      isAuctionSummaryOpen: true,
-    });
-  },
+      };
 
-  scoutPlayer: (player: Player) => {
-    const { profile, players, unlockAchievement } = get();
-    if (profile.scoutTokens <= 0) {
-      alert('You have no scout tokens remaining! You can earn more in Career Mode.');
-      return false;
-    }
+      set({
+        teams: updatedTeams,
+        players: updatedPlayers,
+        auction: completedAuction,
+        isAuctionSummaryOpen: true,
+      });
 
-    const updatedPlayers = players.map(p => {
-      if (p.id === player.id) {
-        return { ...p, isScouted: true };
+      saveCampaignState({
+        teams: updatedTeams,
+        players: updatedPlayers,
+        auction: completedAuction,
+      });
+    },
+
+    scoutPlayer: (player: Player) => {
+      const { profile, players, unlockAchievement } = get();
+      if (profile.scoutTokens <= 0) {
+        alert('You have no scout tokens remaining! You can earn more in Career Mode.');
+        return false;
       }
-      return p;
-    });
 
-    const updatedProfile = {
-      ...profile,
-      scoutTokens: profile.scoutTokens - 1,
-    };
-    StorageService.saveProfile(updatedProfile);
+      const updatedPlayers = players.map(p => {
+        if (p.id === player.id) {
+          return { ...p, isScouted: true };
+        }
+        return p;
+      });
 
-    set({
-      players: updatedPlayers,
-      profile: updatedProfile,
-      selectedScoutPlayer: { ...player, isScouted: true },
-      isScoutModalOpen: true,
-    });
+      const newProfile: ManagerProfile = {
+        ...profile,
+        scoutTokens: profile.scoutTokens - 1,
+      };
 
-    const scoutedCount = updatedPlayers.filter(p => p.isScouted).length;
-    if (scoutedCount >= 10) {
-      unlockAchievement('ach-scout-guru');
-    }
+      StorageService.saveProfile(newProfile);
 
-    return true;
-  },
+      set({
+        players: updatedPlayers,
+        profile: newProfile,
+      });
 
-  updateStartingXI: (newXI: string[]) => {
-    const { teams, userTeamId } = get();
-    const updatedTeams = teams.map(t => {
-      if (t.id === userTeamId) {
-        return { ...t, startingXI: newXI };
-      }
-      return t;
-    });
-    set({ teams: updatedTeams });
-  },
+      saveCampaignState({ players: updatedPlayers });
 
-  setCaptain: (playerId: string) => {
-    const { teams, userTeamId } = get();
-    const updated = teams.map(t => t.id === userTeamId ? { ...t, captainId: playerId } : t);
-    set({ teams: updated });
-  },
-
-  setWicketkeeper: (playerId: string) => {
-    const { teams, userTeamId } = get();
-    const updated = teams.map(t => t.id === userTeamId ? { ...t, wicketkeeperId: playerId } : t);
-    set({ teams: updated });
-  },
-
-  startSeason: () => {
-    const { teams } = get();
-    // Auto fill starting XIs for any AI teams that don't have 11 selected
-    const fixedTeams = teams.map(t => {
-      if (t.startingXI.length < 11 && t.squad.length >= 11) {
-        return { ...t, startingXI: t.squad.slice(0, 11).map(p => p.id) };
-      }
-      return t;
-    });
-
-    const schedule = generateLeagueSchedule(fixedTeams);
-    const standings = calculateStandings(fixedTeams, []);
-
-    set({
-      teams: fixedTeams,
-      leagueMatches: schedule,
-      currentMatchIndex: 0,
-      standings,
-      playoffMatches: [],
-      playoffStage: 'not_started',
-      championTeam: null,
-      seasonAwards: null,
-      currentScreen: 'season',
-    });
-  },
-
-  simulateNextMatch: () => {
-    const { leagueMatches, currentMatchIndex, teams, standings, unlockAchievement, userTeamId } = get();
-    if (currentMatchIndex >= leagueMatches.length) return null;
-
-    const matchToSim = leagueMatches[currentMatchIndex];
-    const simulated = simulateSingleMatch(matchToSim, teams);
-
-    const updatedMatches = [...leagueMatches];
-    updatedMatches[currentMatchIndex] = simulated;
-
-    const newStandings = calculateStandings(teams, updatedMatches);
-
-    // Check achievement: Century maker
-    if (simulated.innings1?.batting.some(b => b.runs >= 100) || simulated.innings2?.batting.some(b => b.runs >= 100)) {
-      unlockAchievement('ach-century-maker');
-    }
-
-    set({
-      leagueMatches: updatedMatches,
-      currentMatchIndex: currentMatchIndex + 1,
-      standings: newStandings,
-      activeScorecardMatch: simulated,
-      isMatchModalOpen: true,
-    });
-
-    return simulated;
-  },
-
-  simulateAllLeagueMatches: () => {
-    const { leagueMatches, currentMatchIndex, teams, unlockAchievement, userTeamId } = get();
-    const updatedMatches = [...leagueMatches];
-
-    for (let i = currentMatchIndex; i < updatedMatches.length; i++) {
-      updatedMatches[i] = simulateSingleMatch(updatedMatches[i], teams);
-    }
-
-    const newStandings = calculateStandings(teams, updatedMatches);
-
-    // Check if user finished 1st in standings
-    if (newStandings[0]?.teamId === userTeamId) {
       unlockAchievement('ach-master-strategist');
-    }
+      return true;
+    },
 
-    set({
-      leagueMatches: updatedMatches,
-      currentMatchIndex: updatedMatches.length,
-      standings: newStandings,
-    });
+    updateStartingXI: (newXI: string[]) => {
+      const { teams, userTeamId } = get();
+      const updatedTeams = teams.map(t => {
+        if (t.id === userTeamId) {
+          return { ...t, startingXI: newXI };
+        }
+        return t;
+      });
 
-    // Check awards
-    const awards = computeSeasonAwards(updatedMatches, teams);
-    set({ seasonAwards: awards });
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
 
-    if (awards.orangeCap.teamName.includes(teams.find(t => t.id === userTeamId)?.name || '')) {
-      unlockAchievement('ach-orange-cap');
-    }
-  },
+    setCaptain: (playerId: string) => {
+      const { teams, userTeamId } = get();
+      const updatedTeams = teams.map(t => {
+        if (t.id === userTeamId) {
+          return { ...t, captainPlayerId: playerId };
+        }
+        return t;
+      });
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
 
-  progressPlayoffs: () => {
-    const { standings, teams, playoffMatches, playoffStage, unlockAchievement, userTeamId } = get();
-    const top4 = standings.slice(0, 4);
+    setWicketkeeper: (playerId: string) => {
+      const { teams, userTeamId } = get();
+      const updatedTeams = teams.map(t => {
+        if (t.id === userTeamId) {
+          return { ...t, keeperPlayerId: playerId };
+        }
+        return t;
+      });
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
 
-    if (top4.length < 4) {
-      alert('Need top 4 teams to initialize playoffs!');
-      return;
-    }
-
-    const t1 = teams.find(t => t.id === top4[0].teamId)!;
-    const t2 = teams.find(t => t.id === top4[1].teamId)!;
-    const t3 = teams.find(t => t.id === top4[2].teamId)!;
-    const t4 = teams.find(t => t.id === top4[3].teamId)!;
-
-    if (playoffStage === 'not_started') {
-      // Qualifier 1 (1 vs 2) & Eliminator (3 vs 4)
-      const q1: Match = {
-        id: 'playoff-q1',
-        matchNumber: 57,
-        homeTeamId: t1.id,
-        awayTeamId: t2.id,
-        venue: t1.stadium,
-        dateStr: 'Qualifier 1',
-        isPlayed: false,
-        isPlayoff: true,
-        playoffStage: 'Qualifier 1',
-      };
-
-      const elim: Match = {
-        id: 'playoff-elim',
-        matchNumber: 58,
-        homeTeamId: t3.id,
-        awayTeamId: t4.id,
-        venue: t3.stadium,
-        dateStr: 'Eliminator',
-        isPlayed: false,
-        isPlayoff: true,
-        playoffStage: 'Eliminator',
-      };
-
-      const simQ1 = simulateSingleMatch(q1, teams);
-      const simElim = simulateSingleMatch(elim, teams);
+    startSeason: () => {
+      const { teams } = get();
+      const schedule = generateLeagueSchedule(teams);
+      const initialStandings = calculateStandings(teams, []);
 
       set({
-        playoffMatches: [simQ1, simElim],
-        playoffStage: 'qualifier_1',
-      });
-      return;
-    }
-
-    if (playoffStage === 'qualifier_1') {
-      // Qualifier 2: Loser Q1 vs Winner Eliminator
-      const q1 = playoffMatches[0];
-      const elim = playoffMatches[1];
-
-      const loserQ1Id = q1.winnerTeamId === q1.homeTeamId ? q1.awayTeamId : q1.homeTeamId;
-      const winnerElimId = elim.winnerTeamId!;
-
-      const q2TeamA = teams.find(t => t.id === loserQ1Id)!;
-      const q2TeamB = teams.find(t => t.id === winnerElimId)!;
-
-      const q2: Match = {
-        id: 'playoff-q2',
-        matchNumber: 59,
-        homeTeamId: q2TeamA.id,
-        awayTeamId: q2TeamB.id,
-        venue: q2TeamA.stadium,
-        dateStr: 'Qualifier 2',
-        isPlayed: false,
-        isPlayoff: true,
-        playoffStage: 'Qualifier 2',
-      };
-
-      const simQ2 = simulateSingleMatch(q2, teams);
-      set({
-        playoffMatches: [...playoffMatches, simQ2],
-        playoffStage: 'qualifier_2',
-      });
-      return;
-    }
-
-    if (playoffStage === 'qualifier_2') {
-      // Grand Final: Winner Q1 vs Winner Q2
-      const q1 = playoffMatches[0];
-      const q2 = playoffMatches[2];
-
-      const finalistA = teams.find(t => t.id === q1.winnerTeamId)!;
-      const finalistB = teams.find(t => t.id === q2.winnerTeamId)!;
-
-      const finalMatch: Match = {
-        id: 'playoff-final',
-        matchNumber: 60,
-        homeTeamId: finalistA.id,
-        awayTeamId: finalistB.id,
-        venue: 'Grand Colosseum, Ahmedabad',
-        dateStr: 'GRAND FINAL',
-        isPlayed: false,
-        isPlayoff: true,
-        playoffStage: 'Final',
-      };
-
-      const simFinal = simulateSingleMatch(finalMatch, teams);
-      const champ = teams.find(t => t.id === simFinal.winnerTeamId)!;
-
-      soundService.playTrophyFanfare();
-      confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.5 }
+        leagueMatches: schedule,
+        currentMatchIndex: 0,
+        standings: initialStandings,
+        playoffStage: 'not_started',
+        playoffMatches: [],
+        currentScreen: 'season',
       });
 
-      if (champ.id === userTeamId) {
-        unlockAchievement('ach-first-trophy');
+      saveCampaignState({
+        leagueMatches: schedule,
+        currentMatchIndex: 0,
+        standings: initialStandings,
+        playoffStage: 'not_started',
+        playoffMatches: [],
+        currentScreen: 'season',
+      });
+
+      soundService.playGavel();
+    },
+
+    simulateNextMatch: () => {
+      const { leagueMatches, currentMatchIndex, teams, unlockAchievement } = get();
+      if (currentMatchIndex >= leagueMatches.length) return null;
+
+      const matchToSim = leagueMatches[currentMatchIndex];
+      const simulated = simulateSingleMatch(matchToSim, teams);
+
+      const updatedMatches = [...leagueMatches];
+      updatedMatches[currentMatchIndex] = simulated;
+
+      const newStandings = calculateStandings(teams, updatedMatches);
+
+      if (simulated.innings1?.batting.some(b => b.runs >= 100) || simulated.innings2?.batting.some(b => b.runs >= 100)) {
+        unlockAchievement('ach-century-maker');
       }
 
       set({
-        playoffMatches: [...playoffMatches, simFinal],
-        playoffStage: 'completed',
-        championTeam: champ,
-        isTrophyModalOpen: true,
+        leagueMatches: updatedMatches,
+        currentMatchIndex: currentMatchIndex + 1,
+        standings: newStandings,
       });
-    }
-  },
 
-  viewMatchScorecard: (match: Match) => {
-    set({
-      activeScorecardMatch: match,
-      isMatchModalOpen: true,
-    });
-  },
+      saveCampaignState({
+        leagueMatches: updatedMatches,
+        currentMatchIndex: currentMatchIndex + 1,
+        standings: newStandings,
+      });
 
-  startNextSeason: () => {
-    const { profile, teams, players } = get();
-
-    // Young players grow in rating towards their potential!
-    const updatedPlayers = players.map(p => {
-      let growth = 0;
-      if (p.age <= 24 && p.overallRating < p.potential) {
-        growth = Math.floor(Math.random() * 3) + 2; // +2 to +4 growth!
+      if (currentMatchIndex + 1 >= leagueMatches.length) {
+        get().progressPlayoffs();
       }
-      return {
-        ...p,
-        age: p.age + 1,
-        overallRating: Math.min(99, p.overallRating + growth),
-        isSold: false,
-        isUnsold: false,
-        soldPrice: undefined,
-        soldToTeamId: undefined,
+
+      return simulated;
+    },
+
+    simulateAllLeagueMatches: () => {
+      const { leagueMatches, currentMatchIndex, teams } = get();
+      const updated = [...leagueMatches];
+
+      for (let i = currentMatchIndex; i < updated.length; i++) {
+        updated[i] = simulateSingleMatch(updated[i], teams);
+      }
+
+      const newStandings = calculateStandings(teams, updated);
+
+      set({
+        leagueMatches: updated,
+        currentMatchIndex: updated.length,
+        standings: newStandings,
+      });
+
+      saveCampaignState({
+        leagueMatches: updated,
+        currentMatchIndex: updated.length,
+        standings: newStandings,
+      });
+
+      get().progressPlayoffs();
+    },
+
+    progressPlayoffs: () => {
+      const { standings, teams, playoffStage } = get();
+      if (standings.length < 4) return;
+
+      const team1 = teams.find(t => t.id === standings[0].teamId)!;
+      const team2 = teams.find(t => t.id === standings[1].teamId)!;
+      const team3 = teams.find(t => t.id === standings[2].teamId)!;
+      const team4 = teams.find(t => t.id === standings[3].teamId)!;
+
+      if (playoffStage === 'not_started') {
+        const q1: Match = {
+          id: 'playoff-q1',
+          matchNumber: 57,
+          homeTeamId: team1.id,
+          awayTeamId: team2.id,
+          venue: team1.stadium,
+          dateStr: 'Qualifier 1',
+          isPlayed: false,
+          isPlayoff: true,
+        };
+        const elim: Match = {
+          id: 'playoff-elim',
+          matchNumber: 58,
+          homeTeamId: team3.id,
+          awayTeamId: team4.id,
+          venue: team3.stadium,
+          dateStr: 'Eliminator',
+          isPlayed: false,
+          isPlayoff: true,
+        };
+
+        const updatedQ1 = simulateSingleMatch(q1, teams);
+        const updatedElim = simulateSingleMatch(elim, teams);
+
+        const q2HomeId = updatedQ1.winnerTeamId === team1.id ? team2.id : team1.id;
+        const q2AwayId = updatedElim.winnerTeamId!;
+        const q2Home = teams.find(t => t.id === q2HomeId)!;
+
+        const q2: Match = {
+          id: 'playoff-q2',
+          matchNumber: 59,
+          homeTeamId: q2Home.id,
+          awayTeamId: q2AwayId,
+          venue: q2Home.stadium,
+          dateStr: 'Qualifier 2',
+          isPlayed: false,
+          isPlayoff: true,
+        };
+        const updatedQ2 = simulateSingleMatch(q2, teams);
+
+        const finalist1Id = updatedQ1.winnerTeamId!;
+        const finalist2Id = updatedQ2.winnerTeamId!;
+        const finalHome = teams.find(t => t.id === finalist1Id)!;
+
+        const finalMatch: Match = {
+          id: 'playoff-final',
+          matchNumber: 60,
+          homeTeamId: finalHome.id,
+          awayTeamId: finalist2Id,
+          venue: finalHome.stadium,
+          dateStr: 'Grand Championship Final',
+          isPlayed: false,
+          isPlayoff: true,
+        };
+        const updatedFinal = simulateSingleMatch(finalMatch, teams);
+
+        const champ = teams.find(t => t.id === updatedFinal.winnerTeamId)!;
+        const allPlayoff = [updatedQ1, updatedElim, updatedQ2, updatedFinal];
+        const allSeasonMatches = [...get().leagueMatches, ...allPlayoff];
+        const awards = computeSeasonAwards(allSeasonMatches, teams);
+
+        set({
+          playoffMatches: allPlayoff,
+          playoffStage: 'completed',
+          championTeam: champ,
+          seasonAwards: awards,
+          isTrophyModalOpen: true,
+        });
+
+        saveCampaignState({
+          playoffMatches: allPlayoff,
+          playoffStage: 'completed',
+        });
+
+        soundService.playTrophyFanfare();
+
+        if (champ.id === get().userTeamId) {
+          get().unlockAchievement('ach-first-trophy');
+          get().unlockAchievement('ach-dynasty');
+        }
+      }
+    },
+
+    viewMatchScorecard: (match: Match) => {
+      set({
+        activeScorecardMatch: match,
+        isMatchModalOpen: true,
+      });
+    },
+
+    // Advances career stats and restores team personalities (Fixes Issue 10 & 15)
+    startNextSeason: () => {
+      const { profile, teams, players, leagueMatches, playoffMatches, userTeamId, championTeam, settings } = get();
+
+      // 1. Advance career statistics
+      const userMatches = [...leagueMatches, ...playoffMatches].filter(
+        m => m.isPlayed && (m.homeTeamId === userTeamId || m.awayTeamId === userTeamId)
+      );
+      const userSeasonMatches = userMatches.length;
+      const userSeasonWins = userMatches.filter(m => m.winnerTeamId === userTeamId).length;
+      const userTeam = teams.find(t => t.id === userTeamId);
+      const seasonSpent = userTeam ? userTeam.spentPurse : 0;
+      const seasonAuctionWins = userTeam ? userTeam.squad.length : 0;
+      const wonTrophy = championTeam?.id === userTeamId;
+
+      const totalMatchesPlayed = profile.matchesPlayed + userSeasonMatches;
+      const totalMatchesWon = profile.matchesWon + userSeasonWins;
+      const totalSpent = Number((profile.totalSpent + seasonSpent).toFixed(2));
+      const totalAuctionWins = profile.auctionWins + seasonAuctionWins;
+      const totalTrophies = profile.trophies + (wonTrophy ? 1 : 0);
+      const winRate = totalMatchesPlayed > 0 ? Number(((totalMatchesWon / totalMatchesPlayed) * 100).toFixed(1)) : 0;
+
+      const newProfile: ManagerProfile = {
+        ...profile,
+        totalSeasons: profile.totalSeasons + 1,
+        scoutTokens: profile.scoutTokens + 5,
+        reputation: Math.min(100, profile.reputation + (wonTrophy ? 8 : 4)),
+        matchesPlayed: totalMatchesPlayed,
+        matchesWon: totalMatchesWon,
+        auctionWins: totalAuctionWins,
+        totalSpent,
+        winRate,
+        trophies: totalTrophies,
       };
-    });
+      StorageService.saveProfile(newProfile);
 
-    const resetTeams = teams.map(t => ({
-      ...t,
-      squad: [],
-      startingXI: [],
-      currentPurse: t.startingPurse,
-      spentPurse: 0,
-    }));
+      // 2. Young players develop towards potential
+      const updatedPlayers = players.map(p => {
+        let growth = 0;
+        if (p.age <= 24 && p.overallRating < p.potential) {
+          growth = Math.floor(Math.random() * 3) + 2;
+        }
+        return {
+          ...p,
+          age: p.age + 1,
+          overallRating: Math.min(99, p.overallRating + growth),
+          isSold: false,
+          isUnsold: false,
+          soldPrice: undefined,
+          soldToTeamId: undefined,
+        };
+      });
 
-    const newProfile: ManagerProfile = {
-      ...profile,
-      totalSeasons: profile.totalSeasons + 1,
-      scoutTokens: profile.scoutTokens + 5,
-      reputation: Math.min(100, profile.reputation + 5),
-    };
-    StorageService.saveProfile(newProfile);
+      // 3. Reset teams and restore original AI personalities (Fixes Issue 10)
+      const datasetTeams = settings.dataset === 'fictional' ? FICTIONAL_TEAMS : REAL_IPL_TEAMS;
+      const resetTeams = teams.map(t => {
+        const orig = datasetTeams.find(dt => dt.id === t.id);
+        return {
+          ...t,
+          personality: orig ? orig.personality : t.personality,
+          squad: [],
+          startingXI: [],
+          currentPurse: t.startingPurse,
+          spentPurse: 0,
+        };
+      });
 
-    set({
-      teams: resetTeams,
-      players: updatedPlayers,
-      profile: newProfile,
-      currentScreen: 'teams',
-      isTrophyModalOpen: false,
-      championTeam: null,
-      seasonAwards: null,
-      leagueMatches: [],
-      standings: [],
-      playoffMatches: [],
-      playoffStage: 'not_started',
-      currentMatchIndex: 0,
-      auction: {
+      const resetAuction: AuctionState = {
         currentSetIndex: 0,
         currentPlayerIndex: 0,
         currentPlayer: null,
@@ -943,50 +1130,85 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         totalPlayersAuctioned: 0,
         feedMessages: [],
         auctionHistory: [],
-      },
-    });
-  },
+      };
 
-  unlockAchievement: (achievementId: string) => {
-    const { achievements } = get();
-    const updated = achievements.map(a => {
-      if (a.id === achievementId && !a.unlocked) {
-        return { ...a, unlocked: true, unlockedAt: new Date().toLocaleDateString() };
+      set({
+        teams: resetTeams,
+        players: updatedPlayers,
+        profile: newProfile,
+        currentScreen: 'teams',
+        isTrophyModalOpen: false,
+        championTeam: null,
+        seasonAwards: null,
+        leagueMatches: [],
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        currentMatchIndex: 0,
+        auction: resetAuction,
+      });
+
+      saveCampaignState({
+        teams: resetTeams,
+        players: updatedPlayers,
+        leagueMatches: [],
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        currentMatchIndex: 0,
+        auction: resetAuction,
+        currentScreen: 'teams',
+      });
+    },
+
+    unlockAchievement: (achievementId: string) => {
+      const { achievements } = get();
+      const updated = achievements.map(a => {
+        if (a.id === achievementId && !a.unlocked) {
+          soundService.playTrophyFanfare();
+          return {
+            ...a,
+            unlocked: true,
+            unlockedAt: new Date().toLocaleDateString(),
+          };
+        }
+        return a;
+      });
+
+      StorageService.saveAchievements(updated);
+      set({ achievements: updated });
+    },
+
+    updateSettings: (newSettings: Partial<GameSettings>) => {
+      const current = get().settings;
+      const merged: GameSettings = { ...current, ...newSettings };
+      StorageService.saveSettings(merged);
+      soundService.enabled = merged.soundEnabled;
+
+      if (typeof document !== 'undefined') {
+        if (merged.theme === 'night') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('day');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('day');
+        }
       }
-      return a;
-    });
-    StorageService.saveAchievements(updated);
-    set({ achievements: updated });
-  },
+      set({ settings: merged });
+    },
 
-  updateSettings: (newSettings) => {
-    const merged = { ...get().settings, ...newSettings };
-    StorageService.saveSettings(merged);
-    soundService.enabled = merged.soundEnabled;
-    if (typeof document !== 'undefined') {
-      if (merged.theme === 'day') {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('day');
-      } else {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('day');
-      }
-    }
-    set({ settings: merged });
-  },
+    // Effective dataset switcher (Fixes Issue 14)
+    setDataset: (datasetMode: 'real' | 'fictional') => {
+      const teamsList = datasetMode === 'real' ? REAL_IPL_TEAMS : FICTIONAL_TEAMS;
+      const playersList = datasetMode === 'real' ? REAL_IPL_PLAYERS : FICTIONAL_PLAYERS;
+      const mergedSettings = { ...get().settings, dataset: datasetMode };
+      StorageService.saveSettings(mergedSettings);
 
-  setDataset: (_datasetMode: 'real' | 'fictional') => {
-    const teamsList = INITIAL_TEAMS;
-    const playersList = INITIAL_PLAYERS;
-    const mergedSettings = { ...get().settings, dataset: 'real' as const };
-    StorageService.saveSettings(mergedSettings);
+      const freshTeams = JSON.parse(JSON.stringify(teamsList));
+      const freshPlayers = JSON.parse(JSON.stringify(playersList));
+      const freshUserTeamId = freshTeams[0].id;
 
-    set({
-      settings: mergedSettings,
-      teams: JSON.parse(JSON.stringify(teamsList)),
-      players: JSON.parse(JSON.stringify(playersList)),
-      userTeamId: teamsList[0].id,
-      auction: {
+      const resetAuction: AuctionState = {
         currentSetIndex: 0,
         currentPlayerIndex: 0,
         currentPlayer: null,
@@ -1000,36 +1222,95 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
         totalPlayersAuctioned: 0,
         feedMessages: [],
         auctionHistory: [],
-      },
-      leagueMatches: [],
-      currentMatchIndex: 0,
-      standings: [],
-      playoffMatches: [],
-      playoffStage: 'not_started',
-      championTeam: null,
-      seasonAwards: null,
-      activeScorecardMatch: null,
-    });
-  },
+      };
 
-  toggleSound: () => {
-    const cur = get().settings.soundEnabled;
-    get().updateSettings({ soundEnabled: !cur });
-  },
+      set({
+        settings: mergedSettings,
+        teams: freshTeams,
+        players: freshPlayers,
+        userTeamId: freshUserTeamId,
+        currentScreen: 'menu',
+        auction: resetAuction,
+        leagueMatches: [],
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        currentMatchIndex: 0,
+        championTeam: null,
+        seasonAwards: null,
+      });
 
-  toggleTheme: () => {
-    const cur = get().settings.theme || 'day';
-    get().updateSettings({ theme: cur === 'day' ? 'night' : 'day' });
-  },
+      saveCampaignState({
+        userTeamId: freshUserTeamId,
+        teams: freshTeams,
+        players: freshPlayers,
+        auction: resetAuction,
+        leagueMatches: [],
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        currentMatchIndex: 0,
+        currentScreen: 'menu',
+      });
+    },
 
-  resetAllGameData: () => {
-    StorageService.clearAllData();
-    window.location.reload();
-  },
+    toggleSound: () => {
+      const current = get().settings;
+      const updated = !current.soundEnabled;
+      get().updateSettings({ soundEnabled: updated });
+    },
 
-  setSettingsOpen: (open) => set({ isSettingsOpen: open }),
-  setScoutModalOpen: (open, player) => set({ isScoutModalOpen: open, selectedScoutPlayer: player || null }),
-  setAuctionSummaryOpen: (open) => set({ isAuctionSummaryOpen: open }),
-  setMatchModalOpen: (open) => set({ isMatchModalOpen: open }),
-  setTrophyModalOpen: (open) => set({ isTrophyModalOpen: open }),
-}));
+    toggleTheme: () => {
+      const current = get().settings;
+      const nextTheme = current.theme === 'day' ? 'night' : 'day';
+      get().updateSettings({ theme: nextTheme });
+    },
+
+    resetAllGameData: () => {
+      StorageService.clearAllData();
+      const freshTeams = JSON.parse(JSON.stringify(INITIAL_TEAMS));
+      const freshPlayers = JSON.parse(JSON.stringify(INITIAL_PLAYERS));
+      const defaultProf = StorageService.loadProfile();
+
+      const freshAuction: AuctionState = {
+        currentSetIndex: 0,
+        currentPlayerIndex: 0,
+        currentPlayer: null,
+        currentBid: 0,
+        highestBidderId: null,
+        highestBidderName: null,
+        bidHistory: [],
+        phase: 'idle',
+        timerSeconds: 10,
+        isPaused: false,
+        totalPlayersAuctioned: 0,
+        feedMessages: [],
+        auctionHistory: [],
+      };
+
+      set({
+        userTeamId: freshTeams[0].id,
+        teams: freshTeams,
+        players: freshPlayers,
+        currentScreen: 'menu',
+        auction: freshAuction,
+        leagueMatches: [],
+        currentMatchIndex: 0,
+        standings: [],
+        playoffMatches: [],
+        playoffStage: 'not_started',
+        championTeam: null,
+        seasonAwards: null,
+        activeScorecardMatch: null,
+        profile: defaultProf,
+        achievements: INITIAL_ACHIEVEMENTS,
+      });
+    },
+
+    setSettingsOpen: (open: boolean) => set({ isSettingsOpen: open }),
+    setScoutModalOpen: (open: boolean, player?: Player) => set({ isScoutModalOpen: open, selectedScoutPlayer: player || null }),
+    setAuctionSummaryOpen: (open: boolean) => set({ isAuctionSummaryOpen: open }),
+    setMatchModalOpen: (open: boolean) => set({ isMatchModalOpen: open }),
+    setTrophyModalOpen: (open: boolean) => set({ isTrophyModalOpen: open }),
+  };
+});

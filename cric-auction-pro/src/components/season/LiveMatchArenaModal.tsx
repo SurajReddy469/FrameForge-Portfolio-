@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Modal } from '../common/Modal';
 import { TeamBadge } from '../common/TeamBadge';
 import { soundService } from '../../services/soundService';
@@ -9,12 +9,7 @@ import confetti from 'canvas-confetti';
 import { 
   Play, 
   FastForward, 
-  Trophy, 
-  Award, 
-  Flame, 
-  Zap, 
-  ShieldCheck, 
-  Radio
+  Trophy
 } from 'lucide-react';
 
 interface LiveMatchArenaModalProps {
@@ -37,30 +32,22 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
   onSimulateFull
 }) => {
   const [currentOver, setCurrentOver] = useState<number>(0);
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [completedMatch, setCompletedMatch] = useState<Match | null>(null);
   const [recentBalls, setRecentBalls] = useState<string[]>(['1', '0', '4', '1', '2', '6']);
-  const [commentary, setCommentary] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentOver(0);
-      setIsCompleted(false);
-      setCompletedMatch(null);
-      setCommentary([
-        `🏟️ Toss won! Teams take the field under the stadium floodlights.`,
-        `🏏 Match commences at ${homeTeam?.stadium || 'Premier Stadium'}!`
-      ]);
-    }
-  }, [isOpen, homeTeam]);
+  const [commentary, setCommentary] = useState<string[]>([
+    '🏟️ Teams have taken the field under the stadium floodlights.',
+    '🏏 Match underway with high tactical stakes!'
+  ]);
 
   if (!isOpen || !match || !homeTeam || !awayTeam) return null;
 
+  const isCompleted = completedMatch !== null;
+
   const handleNextOver = () => {
     soundService.playClick();
-    const newOver = currentOver + 2;
+    const nextOverVal = currentOver + 1;
 
-    // Generate exciting over outcome
+    // Generate realistic over delivery sequence
     const outcomes = ['0', '1', '1', '2', '4', '6', 'W'];
     const overBalls = Array.from({ length: 6 }, () => outcomes[Math.floor(Math.random() * outcomes.length)]);
     setRecentBalls(overBalls);
@@ -72,15 +59,15 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
     else if (hasWicket) soundService.playWicket();
 
     const newComment = hasSix 
-      ? `💥 Over ${newOver}.0: Smashed into the upper tiers! Maximum SIX!` 
+      ? `💥 Over ${nextOverVal}.0: Smashed into the upper tiers! Maximum SIX!` 
       : hasWicket 
-      ? `⚡ Over ${newOver}.0: OUT! Clean bowled! Timber is disturbed!` 
-      : `🏏 Over ${newOver}.0: Tidy over with disciplined line and length.`;
+      ? `⚡ Over ${nextOverVal}.0: OUT! Clean bowled! Timber disturbed!` 
+      : `🏏 Over ${nextOverVal}.0: Tidy over with disciplined line and length.`;
 
-    setCommentary(prev => [newComment, ...prev.slice(0, 4)]);
-    setCurrentOver(newOver);
+    setCommentary(prev => [newComment, ...prev.slice(0, 3)]);
+    setCurrentOver(nextOverVal);
 
-    if (newOver >= 20) {
+    if (nextOverVal >= 20) {
       handleFinishMatch();
     }
   };
@@ -89,20 +76,41 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
     const sim = onSimulateFull();
     if (sim) {
       setCompletedMatch(sim);
-      setIsCompleted(true);
       setCurrentOver(20);
       soundService.playTrophyFanfare();
       confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
     }
   };
 
+  const handleModalClose = () => {
+    if (completedMatch) {
+      onMatchComplete(completedMatch);
+    }
+    onClose();
+  };
+
   const inn1 = completedMatch?.innings1;
   const inn2 = completedMatch?.innings2;
+
+  // Deriving live displayed runs matching progress towards final score
+  const displayInn1Runs = completedMatch && inn1 
+    ? inn1.totalRuns 
+    : Math.floor(Math.min(currentOver, 20) * 8.4);
+  const displayInn1Wickets = completedMatch && inn1 
+    ? inn1.totalWickets 
+    : Math.min(5, Math.floor(currentOver / 4));
+
+  const displayInn2Runs = completedMatch && inn2 
+    ? inn2.totalRuns 
+    : currentOver >= 10 ? Math.floor((currentOver - 10) * 8.2) : null;
+  const displayInn2Wickets = completedMatch && inn2 
+    ? inn2.totalWickets 
+    : currentOver >= 10 ? Math.min(4, Math.floor((currentOver - 10) / 4)) : null;
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleModalClose}
       title="IPL Live Match Arena"
       subtitle={`${homeTeam.name} vs ${awayTeam.name} • ${homeTeam.stadium}`}
       maxWidth="3xl"
@@ -136,7 +144,7 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
                   {homeTeam.shortName}
                 </span>
                 <span className="text-xl sm:text-3xl font-black text-amber-400 font-mono">
-                  {isCompleted && inn1 ? `${inn1.totalRuns}/${inn1.totalWickets}` : `${Math.floor(currentOver * 8.5)}/${Math.min(4, Math.floor(currentOver / 4))}`}
+                  {displayInn1Runs}/{displayInn1Wickets}
                 </span>
                 <span className="text-[10px] text-slate-400 block font-mono">
                   ({isCompleted && inn1 ? inn1.totalOvers : Math.min(currentOver, 20)} ov)
@@ -151,10 +159,10 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
                   {awayTeam.shortName}
                 </span>
                 <span className="text-xl sm:text-3xl font-black text-amber-400 font-mono">
-                  {isCompleted && inn2 ? `${inn2.totalRuns}/${inn2.totalWickets}` : currentOver >= 10 ? `${Math.floor((currentOver - 10) * 8.2)}/${Math.min(3, Math.floor((currentOver - 10) / 4))}` : 'Yet to Bat'}
+                  {displayInn2Runs !== null ? `${displayInn2Runs}/${displayInn2Wickets}` : 'Yet to Bat'}
                 </span>
                 <span className="text-[10px] text-slate-400 block font-mono">
-                  {isCompleted && inn2 ? `(${inn2.totalOvers} ov)` : currentOver >= 10 ? `(${currentOver - 10} ov)` : '-'}
+                  {displayInn2Runs !== null ? (isCompleted && inn2 ? `(${inn2.totalOvers} ov)` : `(${currentOver - 10} ov)`) : '-'}
                 </span>
               </div>
               <TeamBadge teamId={awayTeam.id} size="md" />
@@ -257,10 +265,10 @@ export const LiveMatchArenaModal: React.FC<LiveMatchArenaModalProps> = ({
             </>
           ) : (
             <button
-              onClick={onClose}
+              onClick={handleModalClose}
               className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-xl transition-all"
             >
-              CONTINUE TO TOURNAMENT STANDINGS ➔
+              VIEW SCORECARD & STANDINGS ➔
             </button>
           )}
         </div>

@@ -65,7 +65,7 @@ export const LiveBiddingBoard: React.FC = () => {
                       )}
                     </div>
                     <span className="text-[10px] text-slate-500 block truncate font-medium">
-                      Purse: ₹{team.currentPurse.toFixed(1)} Cr &bull; {team.squad.length}/25
+                      Purse: ₹{team.currentPurse.toFixed(1)} Cr • {team.squad.length}/25
                     </span>
                   </div>
                 </div>

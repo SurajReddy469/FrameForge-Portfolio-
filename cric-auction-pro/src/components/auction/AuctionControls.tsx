@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/useGameStore';
 import { getNextBidAmount, getNextBidIncrement } from '../../services/aiBiddingEngine';
 import { soundService } from '../../services/soundService';
-import { Gavel, FastForward, Search, Sparkles, Flame, ShieldAlert, ArrowUpRight } from 'lucide-react';
+import { Gavel, FastForward, Search, Sparkles } from 'lucide-react';
 
 export const AuctionControls: React.FC = () => {
   const {
@@ -114,7 +114,7 @@ export const AuctionControls: React.FC = () => {
           <span className="truncate">
             {isUserHighestBidder
               ? 'YOU ARE HIGHEST BIDDER ✓'
-              : `RAISE PADDLE &bull; ₹${nextMinBid.toFixed(2)} Cr`}
+              : `RAISE PADDLE • ₹${nextMinBid.toFixed(2)} Cr`}
           </span>
         </motion.button>
 
