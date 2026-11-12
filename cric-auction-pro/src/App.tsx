@@ -6,6 +6,7 @@ import { TeamSelection } from './components/teams/TeamSelection';
 import { MainAuctionScreen } from './components/auction/MainAuctionScreen';
 import { SquadManagement } from './components/squad/SquadManagement';
 import { SeasonHub } from './components/season/SeasonHub';
+import { AdminPanel } from './components/admin/AdminPanel';
 import { SettingsModal } from './components/menu/SettingsModal';
 
 export const App: React.FC = () => {
@@ -23,6 +24,8 @@ export const App: React.FC = () => {
         return <SquadManagement />;
       case 'season':
         return <SeasonHub />;
+      case 'admin':
+        return <AdminPanel />;
       default:
         return <MainMenu />;
     }

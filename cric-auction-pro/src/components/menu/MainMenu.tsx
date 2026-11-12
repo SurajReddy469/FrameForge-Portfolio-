@@ -11,7 +11,8 @@ import {
   Flame, 
   Sparkles, 
   Layers, 
-  ChevronRight 
+  ChevronRight,
+  ShieldAlert
 } from 'lucide-react';
 
 export const MainMenu: React.FC = () => {
@@ -330,13 +331,20 @@ export const MainMenu: React.FC = () => {
           </span>
         </div>
 
-        <div className="rounded-2xl bg-white border border-slate-200 p-3 shadow-sm flex items-center justify-center gap-2">
+        <div className="rounded-2xl bg-white border border-slate-200 p-2 sm:p-3 shadow-sm flex items-center justify-center gap-1.5">
           <button
             onClick={() => { soundService.playClick(); setSettingsOpen(true); }}
-            className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors"
+            className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors"
           >
             <Settings className="w-3.5 h-3.5 text-slate-600" />
             <span>Settings</span>
+          </button>
+          <button
+            onClick={() => { soundService.playClick(); setScreen('admin'); }}
+            className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-black text-xs transition-colors"
+          >
+            <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
+            <span>Admin</span>
           </button>
         </div>
       </div>

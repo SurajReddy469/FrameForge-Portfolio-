@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from '../common/Modal';
 import { useGameStore } from '../../store/useGameStore';
-import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon, Flame } from 'lucide-react';
+import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon, Flame, ShieldAlert } from 'lucide-react';
 
 export const SettingsModal: React.FC = () => {
   const {
@@ -11,6 +11,7 @@ export const SettingsModal: React.FC = () => {
     updateSettings,
     setDataset,
     resetAllGameData,
+    setScreen,
   } = useGameStore();
 
   return (
@@ -188,6 +189,21 @@ export const SettingsModal: React.FC = () => {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Admin God Mode Trigger */}
+        <div className="pt-2 border-t border-slate-200">
+          <button
+            type="button"
+            onClick={() => {
+              setSettingsOpen(false);
+              setScreen('admin');
+            }}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white text-xs font-black hover:opacity-95 transition-opacity shadow-md mb-2"
+          >
+            <ShieldAlert className="w-4 h-4" />
+            <span>Open Commissioner Admin Console (God Mode)</span>
+          </button>
         </div>
 
         {/* Reset Progress */}

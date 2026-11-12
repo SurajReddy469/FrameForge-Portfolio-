@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Player } from '../types/player';
-import { Team } from '../types/team';
+import { Team, AIPersonality } from '../types/team';
 import { AuctionState, BidRecord, AuctionFeedMessage } from '../types/auction';
 import { Match, LeagueStanding, SeasonAwards } from '../types/season';
 import { ManagerProfile, Achievement } from '../types/career';
@@ -23,7 +23,8 @@ export type GameScreen =
   | 'teams' 
   | 'auction' 
   | 'squad' 
-  | 'season';
+  | 'season'
+  | 'admin';
 
 export interface GameStoreState {
   // Navigation
@@ -103,6 +104,24 @@ export interface GameStoreState {
   setAuctionSummaryOpen: (open: boolean) => void;
   setMatchModalOpen: (open: boolean) => void;
   setTrophyModalOpen: (open: boolean) => void;
+
+  // Admin Panel Actions
+  adminUpdateTeamPurse: (teamId: string, newPurse: number) => void;
+  adminUpdateTeamPersonality: (teamId: string, personality: AIPersonality) => void;
+  adminUpdateTeamTrophies: (teamId: string, count: number) => void;
+  adminTransferPlayer: (playerId: string, targetTeamId: string | null, price?: number) => void;
+  adminReleasePlayer: (playerId: string) => void;
+  adminUpdatePlayer: (playerId: string, updates: Partial<Player>) => void;
+  adminCreatePlayer: (newPlayer: Player) => void;
+  adminAddScoutTokens: (amount: number) => void;
+  adminUnlockAllAchievements: () => void;
+  adminForceSellCurrentLot: (teamId: string, price: number) => void;
+  adminForceUnsoldCurrentLot: () => void;
+  adminJumpToLot: (lotIndex: number) => void;
+  adminForceMatchResult: (matchId: string, winnerTeamId: string, margin?: string) => void;
+  adminForceCrownChampion: (teamId: string) => void;
+  adminExportState: () => string;
+  adminImportState: (jsonStr: string) => boolean;
 }
 
 const initialSettings = StorageService.loadSettings();
@@ -1312,5 +1331,405 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     setAuctionSummaryOpen: (open: boolean) => set({ isAuctionSummaryOpen: open }),
     setMatchModalOpen: (open: boolean) => set({ isMatchModalOpen: open }),
     setTrophyModalOpen: (open: boolean) => set({ isTrophyModalOpen: open }),
+
+    // Admin Panel Actions (God Mode)
+    adminUpdateTeamPurse: (teamId: string, newPurse: number) => {
+      const { teams } = get();
+      const updatedTeams = teams.map(t =>
+        t.id === teamId ? { ...t, currentPurse: Math.max(0, Number(newPurse.toFixed(2))) } : t
+      );
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
+
+    adminUpdateTeamPersonality: (teamId: string, personality: AIPersonality) => {
+      const { teams } = get();
+      const updatedTeams = teams.map(t =>
+        t.id === teamId ? { ...t, personality } : t
+      );
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
+
+    adminUpdateTeamTrophies: (teamId: string, count: number) => {
+      const { teams } = get();
+      const updatedTeams = teams.map(t =>
+        t.id === teamId ? { ...t, trophies: Math.max(0, count) } : t
+      );
+      set({ teams: updatedTeams });
+      saveCampaignState({ teams: updatedTeams });
+    },
+
+    adminTransferPlayer: (playerId: string, targetTeamId: string | null, price?: number) => {
+      const { teams, players } = get();
+      const player = players.find(p => p.id === playerId);
+      if (!player) return;
+
+      const updatedPlayers = players.map(p => {
+        if (p.id !== playerId) return p;
+        if (!targetTeamId) {
+          return {
+            ...p,
+            isSold: false,
+            isUnsold: false,
+            soldToTeamId: undefined,
+            soldPrice: undefined,
+          };
+        }
+        return {
+          ...p,
+          isSold: true,
+          isUnsold: false,
+          soldToTeamId: targetTeamId,
+          soldPrice: price ?? p.soldPrice ?? p.basePrice,
+        };
+      });
+
+      const updatedPlayer = updatedPlayers.find(p => p.id === playerId)!;
+
+      const updatedTeams = teams.map(t => {
+        const filteredSquad = t.squad.filter(p => p.id !== playerId);
+        const filteredXI = t.startingXI.filter(id => id !== playerId);
+
+        if (t.id === targetTeamId) {
+          return {
+            ...t,
+            squad: [...filteredSquad, updatedPlayer],
+            startingXI: filteredXI,
+          };
+        }
+
+        return {
+          ...t,
+          squad: filteredSquad,
+          startingXI: filteredXI,
+        };
+      });
+
+      set({ teams: updatedTeams, players: updatedPlayers });
+      saveCampaignState({ teams: updatedTeams, players: updatedPlayers });
+    },
+
+    adminReleasePlayer: (playerId: string) => {
+      get().adminTransferPlayer(playerId, null);
+    },
+
+    adminUpdatePlayer: (playerId: string, updates: Partial<Player>) => {
+      const { players, teams, auction } = get();
+      const updatedPlayers = players.map(p => p.id === playerId ? { ...p, ...updates } : p);
+      const updatedCurrentPlayer = auction.currentPlayer?.id === playerId
+        ? { ...auction.currentPlayer, ...updates }
+        : auction.currentPlayer;
+
+      const updatedTeams = teams.map(t => ({
+        ...t,
+        squad: t.squad.map(p => p.id === playerId ? { ...p, ...updates } : p),
+      }));
+
+      set({
+        players: updatedPlayers,
+        teams: updatedTeams,
+        auction: { ...auction, currentPlayer: updatedCurrentPlayer },
+      });
+      saveCampaignState({
+        players: updatedPlayers,
+        teams: updatedTeams,
+        auction: { ...auction, currentPlayer: updatedCurrentPlayer },
+      });
+    },
+
+    adminCreatePlayer: (newPlayer: Player) => {
+      const { players } = get();
+      const updatedPlayers = [...players, newPlayer];
+      set({ players: updatedPlayers });
+      saveCampaignState({ players: updatedPlayers });
+    },
+
+    adminAddScoutTokens: (amount: number) => {
+      const { profile } = get();
+      const updatedProfile = {
+        ...profile,
+        scoutTokens: Math.max(0, profile.scoutTokens + amount),
+      };
+      set({ profile: updatedProfile });
+      StorageService.saveProfile(updatedProfile);
+    },
+
+    adminUnlockAllAchievements: () => {
+      const { achievements } = get();
+      const updated = achievements.map(a => ({
+        ...a,
+        unlocked: true,
+        unlockedAt: a.unlocked ? a.unlockedAt : new Date().toISOString(),
+      }));
+      set({ achievements: updated });
+      StorageService.saveAchievements(updated);
+      confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+    },
+
+    adminForceSellCurrentLot: (teamId: string, price: number) => {
+      const { auction, teams, players } = get();
+      if (!auction.currentPlayer) return;
+
+      const targetTeam = teams.find(t => t.id === teamId);
+      if (!targetTeam) return;
+
+      const soldPlayer: Player = {
+        ...auction.currentPlayer,
+        isSold: true,
+        isUnsold: false,
+        soldPrice: price,
+        soldToTeamId: teamId,
+      };
+
+      const updatedPlayers = players.map(p => p.id === soldPlayer.id ? soldPlayer : p);
+      const updatedTeams = teams.map(t => {
+        if (t.id === teamId) {
+          return {
+            ...t,
+            currentPurse: Math.max(0, Number((t.currentPurse - price).toFixed(2))),
+            spentPurse: Number((t.spentPurse + price).toFixed(2)),
+            squad: [...t.squad, soldPlayer],
+          };
+        }
+        return t;
+      });
+
+      const soldMsg: AuctionFeedMessage = {
+        id: `admin-sold-${Date.now()}`,
+        text: `⚡ ADMIN COMMAND: ${soldPlayer.name} forcefully SOLD to ${targetTeam.name} for ₹${price.toFixed(2)} Cr!`,
+        type: 'sold',
+        teamId: targetTeam.id,
+        timestamp: Date.now(),
+      };
+
+      const newAuction: AuctionState = {
+        ...auction,
+        phase: 'sold',
+        timerSeconds: 0,
+        feedMessages: [soldMsg, ...auction.feedMessages.slice(0, 40)],
+        auctionHistory: [
+          {
+            playerId: soldPlayer.id,
+            soldToTeamId: teamId,
+            finalPrice: price,
+            status: 'sold',
+          },
+          ...auction.auctionHistory,
+        ],
+      };
+
+      set({
+        teams: updatedTeams,
+        players: updatedPlayers,
+        auction: newAuction,
+      });
+
+      saveCampaignState({
+        teams: updatedTeams,
+        players: updatedPlayers,
+        auction: newAuction,
+      });
+
+      soundService.playSoldFanfare();
+    },
+
+    adminForceUnsoldCurrentLot: () => {
+      const { auction, players } = get();
+      if (!auction.currentPlayer) return;
+
+      const unsoldPlayer: Player = {
+        ...auction.currentPlayer,
+        isSold: false,
+        isUnsold: true,
+      };
+
+      const updatedPlayers = players.map(p => p.id === unsoldPlayer.id ? unsoldPlayer : p);
+
+      const unsoldMsg: AuctionFeedMessage = {
+        id: `admin-unsold-${Date.now()}`,
+        text: `⚡ ADMIN COMMAND: ${unsoldPlayer.name} declared UNSOLD.`,
+        type: 'unsold',
+        timestamp: Date.now(),
+      };
+
+      const newAuction: AuctionState = {
+        ...auction,
+        phase: 'unsold',
+        timerSeconds: 0,
+        feedMessages: [unsoldMsg, ...auction.feedMessages.slice(0, 40)],
+        auctionHistory: [
+          {
+            playerId: unsoldPlayer.id,
+            finalPrice: 0,
+            status: 'unsold',
+          },
+          ...auction.auctionHistory,
+        ],
+      };
+
+      set({
+        players: updatedPlayers,
+        auction: newAuction,
+      });
+
+      saveCampaignState({
+        players: updatedPlayers,
+        auction: newAuction,
+      });
+    },
+
+    adminJumpToLot: (lotIndex: number) => {
+      const { players, auction } = get();
+      const safeIndex = Math.max(0, Math.min(lotIndex, players.length - 1));
+      const targetPlayer = players[safeIndex];
+
+      const jumpMsg: AuctionFeedMessage = {
+        id: `admin-jump-${Date.now()}`,
+        text: `⚡ ADMIN COMMAND: Jumped hammer directly to Lot #${safeIndex + 1}: ${targetPlayer.name}`,
+        type: 'system',
+        timestamp: Date.now(),
+      };
+
+      const newAuction: AuctionState = {
+        ...auction,
+        currentPlayerIndex: safeIndex,
+        currentPlayer: targetPlayer,
+        currentBid: 0,
+        highestBidderId: null,
+        highestBidderName: null,
+        bidHistory: [],
+        phase: 'bidding',
+        timerSeconds: 10,
+        feedMessages: [jumpMsg, ...auction.feedMessages.slice(0, 40)],
+      };
+
+      set({ auction: newAuction, currentScreen: 'auction' });
+      saveCampaignState({ auction: newAuction });
+    },
+
+    adminForceMatchResult: (matchId: string, winnerTeamId: string, margin?: string) => {
+      const { leagueMatches, playoffMatches, teams } = get();
+      const winner = teams.find(t => t.id === winnerTeamId);
+
+      const updatedLeague = leagueMatches.map(m => {
+        if (m.id !== matchId) return m;
+        return {
+          ...m,
+          isPlayed: true,
+          winnerTeamId,
+          margin: margin || `${winner?.shortName || 'Team'} won by admin command`,
+        };
+      });
+
+      const updatedPlayoff = playoffMatches.map(m => {
+        if (m.id !== matchId) return m;
+        return {
+          ...m,
+          isPlayed: true,
+          winnerTeamId,
+          margin: margin || `${winner?.shortName || 'Team'} won by admin command`,
+        };
+      });
+
+      const updatedStandings = calculateStandings(teams, updatedLeague);
+
+      set({
+        leagueMatches: updatedLeague,
+        playoffMatches: updatedPlayoff,
+        standings: updatedStandings,
+      });
+
+      saveCampaignState({
+        leagueMatches: updatedLeague,
+        playoffMatches: updatedPlayoff,
+        standings: updatedStandings,
+      });
+    },
+
+    adminForceCrownChampion: (teamId: string) => {
+      const { teams, leagueMatches, profile } = get();
+      const champ = teams.find(t => t.id === teamId) || teams[0];
+      const awards = computeSeasonAwards(leagueMatches, teams);
+
+      const updatedProfile = {
+        ...profile,
+        trophies: champ.id === get().userTeamId ? profile.trophies + 1 : profile.trophies,
+        reputation: profile.reputation + 250,
+      };
+
+      set({
+        championTeam: champ,
+        seasonAwards: awards,
+        isTrophyModalOpen: true,
+        profile: updatedProfile,
+      });
+
+      StorageService.saveProfile(updatedProfile);
+      confetti({ particleCount: 100, spread: 100, origin: { y: 0.5 } });
+    },
+
+    adminExportState: () => {
+      const state = get();
+      const exportData = {
+        userTeamId: state.userTeamId,
+        teams: state.teams,
+        players: state.players,
+        auction: state.auction,
+        leagueMatches: state.leagueMatches,
+        currentMatchIndex: state.currentMatchIndex,
+        standings: state.standings,
+        playoffMatches: state.playoffMatches,
+        playoffStage: state.playoffStage,
+        profile: state.profile,
+        achievements: state.achievements,
+        settings: state.settings,
+        exportTimestamp: Date.now(),
+      };
+      return JSON.stringify(exportData, null, 2);
+    },
+
+    adminImportState: (jsonStr: string) => {
+      try {
+        const data = JSON.parse(jsonStr);
+        if (!data.teams || !data.players) return false;
+
+        set({
+          userTeamId: data.userTeamId || data.teams[0].id,
+          teams: data.teams,
+          players: data.players,
+          auction: data.auction || get().auction,
+          leagueMatches: data.leagueMatches || [],
+          currentMatchIndex: data.currentMatchIndex || 0,
+          standings: data.standings || [],
+          playoffMatches: data.playoffMatches || [],
+          playoffStage: data.playoffStage || 'not_started',
+          profile: data.profile || get().profile,
+          achievements: data.achievements || get().achievements,
+          settings: data.settings || get().settings,
+        });
+
+        saveCampaignState({
+          userTeamId: data.userTeamId || data.teams[0].id,
+          teams: data.teams,
+          players: data.players,
+          auction: data.auction,
+          leagueMatches: data.leagueMatches || [],
+          currentMatchIndex: data.currentMatchIndex || 0,
+          standings: data.standings || [],
+          playoffMatches: data.playoffMatches || [],
+          playoffStage: data.playoffStage || 'not_started',
+        });
+
+        if (data.profile) StorageService.saveProfile(data.profile);
+        if (data.achievements) StorageService.saveAchievements(data.achievements);
+        if (data.settings) StorageService.saveSettings(data.settings);
+
+        return true;
+      } catch (err) {
+        console.error('Failed to import admin save state:', err);
+        return false;
+      }
+    },
   };
 });
