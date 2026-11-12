@@ -15,7 +15,7 @@ export const LiveBiddingBoard: React.FC = () => {
           FRANCHISE BIDDING BOARD
         </h3>
         <span className="text-[11px] text-slate-500 font-mono font-bold">
-          8 TEAMS ACTIVE
+          {teams.length} TEAMS ACTIVE
         </span>
       </div>
 

@@ -1,6 +1,9 @@
 import { Team } from '../types/team';
+import { REAL_IPL_TEAMS } from './realTeams';
 
-export const INITIAL_TEAMS: Team[] = [
+export { REAL_IPL_TEAMS };
+
+export const FICTIONAL_TEAMS: Team[] = [
   {
     id: 'mumbai-meteors',
     name: 'Mumbai Meteors',
@@ -266,3 +269,6 @@ export const INITIAL_TEAMS: Team[] = [
     seasonTrophies: ['Season 5', 'Season 7', 'Season 14'],
   },
 ];
+
+export const INITIAL_TEAMS: Team[] = REAL_IPL_TEAMS;
+

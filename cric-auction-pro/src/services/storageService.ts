@@ -11,6 +11,7 @@ export interface GameSettings {
   aiAggression: 'balanced' | 'ruthless' | 'chill';
   startingPurse: number;
   theme: 'day' | 'night';
+  dataset: 'real' | 'fictional';
 }
 
 export const DEFAULT_SETTINGS: GameSettings = {
@@ -19,6 +20,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
   aiAggression: 'balanced',
   startingPurse: 120.0,
   theme: 'day',
+  dataset: 'real',
 };
 
 export const DEFAULT_PROFILE: ManagerProfile = {

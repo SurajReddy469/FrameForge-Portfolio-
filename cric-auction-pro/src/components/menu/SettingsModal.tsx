@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from '../common/Modal';
 import { useGameStore } from '../../store/useGameStore';
-import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon } from 'lucide-react';
+import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon, Flame } from 'lucide-react';
 
 export const SettingsModal: React.FC = () => {
   const {
@@ -9,6 +9,7 @@ export const SettingsModal: React.FC = () => {
     setSettingsOpen,
     settings,
     updateSettings,
+    setDataset,
     resetAllGameData,
   } = useGameStore();
 
@@ -21,6 +22,51 @@ export const SettingsModal: React.FC = () => {
       maxWidth="lg"
     >
       <div className="space-y-6">
+        {/* Dataset Selection */}
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Flame className="w-4 h-4 text-emerald-600" />
+              <span className="text-sm font-bold text-slate-900">Player & Franchise Dataset</span>
+            </div>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+              {settings.dataset === 'fictional' ? 'Fictional' : '🔥 Live Real IPL'}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setDataset('real')}
+              className={`p-3 rounded-lg text-left transition-all flex flex-col gap-1 ${
+                settings.dataset !== 'fictional'
+                  ? 'bg-emerald-600 text-white shadow-md font-bold'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
+              }`}
+            >
+              <div className="flex items-center gap-1.5 text-xs font-black">
+                <span>🔥 Real IPL 2025 Dataset</span>
+              </div>
+              <span className={`text-[11px] leading-tight ${settings.dataset !== 'fictional' ? 'text-emerald-100' : 'text-slate-500'}`}>
+                Kohli, Dhoni, Rohit, Pant, Klaasen, Bumrah & 10 Official Franchises (CSK, MI, RCB...)
+              </span>
+            </button>
+            <button
+              onClick={() => setDataset('fictional')}
+              className={`p-3 rounded-lg text-left transition-all flex flex-col gap-1 ${
+                settings.dataset === 'fictional'
+                  ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
+              }`}
+            >
+              <div className="flex items-center gap-1.5 text-xs font-black">
+                <span>🛡️ Fictional League</span>
+              </div>
+              <span className={`text-[11px] leading-tight ${settings.dataset === 'fictional' ? 'text-slate-900' : 'text-slate-500'}`}>
+                Original fictional cricket stars (Arjun Sharma, Zane Montgomery, Meteors, Chargers...)
+              </span>
+            </button>
+          </div>
+        </div>
+
         {/* Sound Toggle */}
         <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center gap-3">

@@ -1,6 +1,9 @@
 import { Player } from '../types/player';
+import { REAL_IPL_PLAYERS } from './realPlayers';
 
-export const INITIAL_PLAYERS: Player[] = [
+export { REAL_IPL_PLAYERS };
+
+export const FICTIONAL_PLAYERS: Player[] = [
   // ==========================================
   // SET 1: MARQUEE SUPERSTARS (Base Price: ₹2.0 Cr)
   // ==========================================
@@ -1954,3 +1957,6 @@ function generateAdditionalPlayers(): Player[] {
 
   return list;
 }
+
+export const INITIAL_PLAYERS: Player[] = REAL_IPL_PLAYERS;
+

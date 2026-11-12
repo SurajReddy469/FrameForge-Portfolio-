@@ -24,7 +24,8 @@ export const MainMenu: React.FC = () => {
     setSettingsOpen,
     startAuction,
     resetAllGameData,
-    auction
+    auction,
+    settings,
   } = useGameStore();
 
   const team = userTeam();
@@ -53,9 +54,19 @@ export const MainMenu: React.FC = () => {
       >
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-amber-50 border border-amber-200 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-800 mb-2 sm:mb-3 uppercase tracking-wider shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span>Premier League Cricket Auction Simulator</span>
+            <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-amber-50 border border-amber-200 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>Premier League Cricket Simulator</span>
+              </div>
+              <button
+                onClick={() => setSettingsOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-emerald-800 uppercase tracking-wider transition-all shadow-sm"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{settings.dataset === 'fictional' ? '🛡️ Fictional Dataset' : '🔥 Live Real IPL 2025 Dataset'}</span>
+                <span className="text-[10px] text-emerald-600 font-semibold underline">Switch</span>
+              </button>
             </div>
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
               CRIC-AUCTION <span className="text-gold-gradient">PRO 2026</span>

@@ -4,8 +4,8 @@ import { Team } from '../types/team';
 import { AuctionState, AuctionPhase, BidRecord, AuctionFeedMessage } from '../types/auction';
 import { Match, LeagueStanding, SeasonAwards } from '../types/season';
 import { ManagerProfile, Achievement } from '../types/career';
-import { INITIAL_TEAMS } from '../data/teams';
-import { INITIAL_PLAYERS } from '../data/players';
+import { INITIAL_TEAMS, REAL_IPL_TEAMS, FICTIONAL_TEAMS } from '../data/teams';
+import { INITIAL_PLAYERS, REAL_IPL_PLAYERS, FICTIONAL_PLAYERS } from '../data/players';
 import { INITIAL_ACHIEVEMENTS } from '../data/achievements';
 import { soundService } from '../services/soundService';
 import { getNextBidAmount, getAIDecision } from '../services/aiBiddingEngine';
@@ -91,6 +91,7 @@ export interface GameStoreState {
 
   // Settings & Sound
   updateSettings: (newSettings: Partial<GameSettings>) => void;
+  setDataset: (dataset: 'real' | 'fictional') => void;
   toggleSound: () => void;
   toggleTheme: () => void;
   resetAllGameData: () => void;
@@ -114,13 +115,17 @@ if (typeof document !== 'undefined') {
   }
 }
 
+const initialDatasetMode = initialSettings.dataset || 'real';
+const initialTeamsSource = initialDatasetMode === 'real' ? REAL_IPL_TEAMS : FICTIONAL_TEAMS;
+const initialPlayersSource = initialDatasetMode === 'real' ? REAL_IPL_PLAYERS : FICTIONAL_PLAYERS;
+
 export const useGameStore = create<GameStoreState>((set, get) => ({
   currentScreen: 'menu',
   setScreen: (screen) => set({ currentScreen: screen }),
 
-  userTeamId: 'mumbai-meteors',
-  teams: JSON.parse(JSON.stringify(INITIAL_TEAMS)),
-  players: JSON.parse(JSON.stringify(INITIAL_PLAYERS)),
+  userTeamId: initialTeamsSource[0]?.id || 'chennai-super-kings',
+  teams: JSON.parse(JSON.stringify(initialTeamsSource)),
+  players: JSON.parse(JSON.stringify(initialPlayersSource)),
   userTeam: () => get().teams.find(t => t.id === get().userTeamId),
 
   auction: {
@@ -969,6 +974,43 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       }
     }
     set({ settings: merged });
+  },
+
+  setDataset: (datasetMode: 'real' | 'fictional') => {
+    const teamsList = datasetMode === 'real' ? REAL_IPL_TEAMS : FICTIONAL_TEAMS;
+    const playersList = datasetMode === 'real' ? REAL_IPL_PLAYERS : FICTIONAL_PLAYERS;
+    const mergedSettings = { ...get().settings, dataset: datasetMode };
+    StorageService.saveSettings(mergedSettings);
+
+    set({
+      settings: mergedSettings,
+      teams: JSON.parse(JSON.stringify(teamsList)),
+      players: JSON.parse(JSON.stringify(playersList)),
+      userTeamId: teamsList[0].id,
+      auction: {
+        currentSetIndex: 0,
+        currentPlayerIndex: 0,
+        currentPlayer: null,
+        currentBid: 0,
+        highestBidderId: null,
+        highestBidderName: null,
+        bidHistory: [],
+        phase: 'idle',
+        timerSeconds: 10,
+        isPaused: false,
+        totalPlayersAuctioned: 0,
+        feedMessages: [],
+        auctionHistory: [],
+      },
+      leagueMatches: [],
+      currentMatchIndex: 0,
+      standings: [],
+      playoffMatches: [],
+      playoffStage: 'not_started',
+      championTeam: null,
+      seasonAwards: null,
+      activeScorecardMatch: null,
+    });
   },
 
   toggleSound: () => {
