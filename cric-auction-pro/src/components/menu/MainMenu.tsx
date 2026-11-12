@@ -16,6 +16,7 @@ import {
   Shield,
   Sparkles,
   Trophy,
+  Timer,
   Users,
 } from 'lucide-react';
 
@@ -99,8 +100,17 @@ export const MainMenu: React.FC = () => {
         className="relative isolate overflow-hidden rounded-[2rem] bg-[#101b30] text-white shadow-2xl shadow-slate-900/15"
       >
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_78%_10%,rgba(245,158,11,0.26),transparent_40%),radial-gradient(ellipse_at_5%_100%,rgba(14,165,233,0.2),transparent_42%)]" />
-        <div className="absolute -right-10 top-1/2 -z-10 hidden h-80 w-80 -translate-y-1/2 rounded-full border border-white/10 lg:block" />
-        <div className="absolute -right-1 top-1/2 -z-10 hidden h-64 w-64 -translate-y-1/2 rounded-full border border-white/10 lg:block" />
+        <div className="pointer-events-none absolute -right-14 -top-16 -z-10 hidden opacity-30 lg:block" aria-hidden="true">
+          <svg width="470" height="470" viewBox="0 0 470 470" fill="none">
+            <circle cx="245" cy="235" r="206" stroke="white" strokeOpacity=".17" />
+            <circle cx="245" cy="235" r="174" stroke="white" strokeOpacity=".12" />
+            <ellipse cx="245" cy="235" rx="75" ry="156" stroke="#fbbf24" strokeOpacity=".48" strokeWidth="2" />
+            <path d="M170 235h150M245 80v310" stroke="white" strokeOpacity=".2" strokeDasharray="5 8" />
+            <path d="M222 206h46v58h-46z" fill="#d4a65d" fillOpacity=".28" stroke="#fbbf24" strokeOpacity=".55" />
+            <path d="M228 211v48m34-48v48" stroke="white" strokeOpacity=".6" strokeWidth="2" />
+            <circle cx="245" cy="235" r="7" fill="#fbbf24" />
+          </svg>
+        </div>
 
         <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:p-11">
           <div>
@@ -140,7 +150,8 @@ export const MainMenu: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4 backdrop-blur sm:p-5">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950/45 p-4 shadow-xl backdrop-blur-md sm:p-5">
+            {team && <div className="absolute inset-x-0 top-0 h-1 opacity-90" style={{ backgroundColor: team.primaryColor }} />}
             <div className="flex items-center justify-between gap-3">
               <span className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">Campaign status</span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2.5 py-1 text-[10px] font-bold text-emerald-300">
@@ -153,7 +164,7 @@ export const MainMenu: React.FC = () => {
                 <TeamBadge teamId={team.id} size="lg" />
                 <div className="min-w-0">
                   <div className="truncate text-lg font-black text-white">{team.name}</div>
-                  <div className="text-xs font-semibold text-slate-400">{team.city} · {team.personality}</div>
+                  <div className="text-xs font-semibold text-slate-400">{team.city} <span className="px-1 text-slate-600">/</span> {team.personality}</div>
                 </div>
               </div>
             ) : (
@@ -176,13 +187,28 @@ export const MainMenu: React.FC = () => {
                 <div className="mt-1 text-sm font-black tabular-nums text-white">{teams.length}<span className="font-semibold text-slate-500"> · {botCount} bots</span></div>
               </div>
             </div>
+            {isAuctionActive && auction.currentPlayer && (
+              <div className="mt-4 flex items-center justify-between gap-3 rounded-xl border border-amber-300/15 bg-amber-300/[0.07] px-3 py-2.5">
+                <div className="flex min-w-0 items-center gap-2">
+                  <Timer className="h-4 w-4 shrink-0 text-amber-300" />
+                  <div className="min-w-0">
+                    <div className="truncate text-xs font-black text-white">{auction.currentPlayer.name}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{auction.currentPlayer.tier} lot · live now</div>
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="text-xs font-black tabular-nums text-amber-300">₹{auction.currentBid.toFixed(2)} Cr</div>
+                  <div className="text-[10px] text-slate-400">{auction.timerSeconds}s left</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </motion.section>
 
       <section className="grid gap-3 sm:grid-cols-3 sm:gap-4" aria-label="Campaign overview">
-        <StatCard icon={<CircleDollarSign className="h-4 w-4" />} label="Auction activity" value={`${totalAuctionLots} / ${players.length}`} detail="player lots completed" tint="amber" />
-        <StatCard icon={<CalendarDays className="h-4 w-4" />} label="Season progress" value={isSeasonReady ? `${currentMatchIndex} / ${leagueMatches.length}` : 'Not started'} detail={isSeasonReady ? 'matches played' : 'finish your auction to begin'} tint="sky" />
+        <StatCard icon={<CircleDollarSign className="h-4 w-4" />} label="Auction activity" value={`${totalAuctionLots} / ${players.length}`} detail="player lots completed" tint="amber" progress={players.length ? totalAuctionLots / players.length : 0} />
+        <StatCard icon={<CalendarDays className="h-4 w-4" />} label="Season progress" value={isSeasonReady ? `${currentMatchIndex} / ${leagueMatches.length}` : 'Not started'} detail={isSeasonReady ? 'matches played' : 'finish your auction to begin'} tint="sky" progress={leagueMatches.length ? currentMatchIndex / leagueMatches.length : 0} />
         <StatCard icon={<Trophy className="h-4 w-4" />} label="Career honours" value={`${team?.trophies ?? profile.trophies ?? 0}`} detail="trophies won" tint="violet" />
       </section>
 
@@ -255,6 +281,7 @@ type StatCardProps = {
   value: string;
   detail: string;
   tint: 'amber' | 'sky' | 'violet';
+  progress?: number;
 };
 
 const statTints = {
@@ -263,13 +290,14 @@ const statTints = {
   violet: 'bg-violet-50 text-violet-700',
 };
 
-const StatCard: React.FC<StatCardProps> = ({ icon, label, value, detail, tint }) => (
+const StatCard: React.FC<StatCardProps> = ({ icon, label, value, detail, tint, progress }) => (
   <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
     <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${statTints[tint]}`}>{icon}</div>
     <div className="min-w-0">
       <div className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">{label}</div>
       <div className="mt-0.5 truncate text-lg font-black leading-tight text-slate-900">{value}</div>
       <div className="mt-0.5 truncate text-[11px] text-slate-500">{detail}</div>
+      {progress !== undefined && <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-100"><div className={`h-full rounded-full transition-[width] duration-500 ${tint === 'amber' ? 'bg-amber-500' : 'bg-sky-500'}`} style={{ width: `${Math.max(0, Math.min(progress * 100, 100))}%` }} /></div>}
     </div>
   </div>
 );

@@ -10,8 +10,7 @@ import {
   Users, 
   Calendar, 
   Home,
-  RotateCcw,
-  ShieldAlert
+  RotateCcw
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -76,14 +75,7 @@ export const Navbar: React.FC = () => {
       icon: Calendar,
       disabled: !isSeasonReady,
       disabledReason: 'Assemble squad first'
-    },
-    { 
-      screen: 'admin', 
-      label: 'Admin Panel', 
-      shortLabel: 'Admin', 
-      icon: ShieldAlert,
-      highlight: currentScreen === 'admin'
-    },
+    }
   ];
 
   return (
@@ -180,25 +172,6 @@ export const Navbar: React.FC = () => {
             className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-colors"
           >
             <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </button>
-
-          {/* Admin Panel Quick Trigger */}
-          <button
-            type="button"
-            onClick={() => {
-              soundService.playClick();
-              setScreen('admin');
-            }}
-            aria-label="Open Admin Panel"
-            title="Commissioner God Mode Admin Panel"
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border text-xs font-black shadow-sm transition-all ${
-              currentScreen === 'admin'
-                ? 'bg-rose-600 text-white border-rose-600'
-                : 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100 hover:border-rose-300'
-            }`}
-          >
-            <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
-            <span className="hidden sm:inline">Admin</span>
           </button>
 
           {/* Reset / Restart */}

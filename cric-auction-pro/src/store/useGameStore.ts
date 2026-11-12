@@ -493,10 +493,12 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         timestamp: Date.now(),
       };
 
+      const nextPhase = auction.currentBid > 0 && auction.timerSeconds <= 3 ? 'going_twice' : auction.phase;
       set({
         auction: {
           ...auction,
-          timerSeconds: Math.min(auction.timerSeconds, 3),
+          phase: nextPhase,
+          timerSeconds: Math.max(2, auction.timerSeconds),
           feedMessages: [passMsg, ...auction.feedMessages.slice(0, 40)],
         }
       });
@@ -510,10 +512,10 @@ export const useGameStore = create<GameStoreState>((set, get) => {
         const nextSec = auction.timerSeconds - 1;
         let nextPhase = auction.phase;
 
-        if (nextSec === 5 && auction.currentBid > 0 && auction.phase === 'bidding') {
+        if (nextSec <= 5 && auction.currentBid > 0 && auction.phase === 'bidding') {
           nextPhase = 'going_once';
           soundService.playWarningGong();
-        } else if (nextSec === 2 && auction.currentBid > 0 && (auction.phase === 'bidding' || auction.phase === 'going_once')) {
+        } else if (nextSec <= 3 && auction.currentBid > 0 && (auction.phase === 'bidding' || auction.phase === 'going_once')) {
           nextPhase = 'going_twice';
           soundService.playWarningGong();
         }
