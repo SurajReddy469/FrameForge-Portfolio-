@@ -4,8 +4,8 @@ import { Team } from '../types/team';
 import { AuctionState, AuctionPhase, BidRecord, AuctionFeedMessage } from '../types/auction';
 import { Match, LeagueStanding, SeasonAwards } from '../types/season';
 import { ManagerProfile, Achievement } from '../types/career';
-import { INITIAL_TEAMS, REAL_IPL_TEAMS, FICTIONAL_TEAMS } from '../data/teams';
-import { INITIAL_PLAYERS, REAL_IPL_PLAYERS, FICTIONAL_PLAYERS } from '../data/players';
+import { INITIAL_TEAMS } from '../data/teams';
+import { INITIAL_PLAYERS } from '../data/players';
 import { INITIAL_ACHIEVEMENTS } from '../data/achievements';
 import { soundService } from '../services/soundService';
 import { getNextBidAmount, getAIDecision } from '../services/aiBiddingEngine';
@@ -115,9 +115,8 @@ if (typeof document !== 'undefined') {
   }
 }
 
-const initialDatasetMode = initialSettings.dataset || 'real';
-const initialTeamsSource = initialDatasetMode === 'real' ? REAL_IPL_TEAMS : FICTIONAL_TEAMS;
-const initialPlayersSource = initialDatasetMode === 'real' ? REAL_IPL_PLAYERS : FICTIONAL_PLAYERS;
+const initialTeamsSource = INITIAL_TEAMS;
+const initialPlayersSource = INITIAL_PLAYERS;
 
 export const useGameStore = create<GameStoreState>((set, get) => ({
   currentScreen: 'menu',
@@ -976,10 +975,10 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     set({ settings: merged });
   },
 
-  setDataset: (datasetMode: 'real' | 'fictional') => {
-    const teamsList = datasetMode === 'real' ? REAL_IPL_TEAMS : FICTIONAL_TEAMS;
-    const playersList = datasetMode === 'real' ? REAL_IPL_PLAYERS : FICTIONAL_PLAYERS;
-    const mergedSettings = { ...get().settings, dataset: datasetMode };
+  setDataset: (_datasetMode: 'real' | 'fictional') => {
+    const teamsList = INITIAL_TEAMS;
+    const playersList = INITIAL_PLAYERS;
+    const mergedSettings = { ...get().settings, dataset: 'real' as const };
     StorageService.saveSettings(mergedSettings);
 
     set({

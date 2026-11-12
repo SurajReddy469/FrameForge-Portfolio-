@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from '../common/Modal';
 import { useGameStore } from '../../store/useGameStore';
-import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon, Flame } from 'lucide-react';
+import { Volume2, VolumeX, Gauge, Zap, RotateCcw, Sun, Moon, ShieldCheck } from 'lucide-react';
 
 export const SettingsModal: React.FC = () => {
   const {
@@ -9,7 +9,6 @@ export const SettingsModal: React.FC = () => {
     setSettingsOpen,
     settings,
     updateSettings,
-    setDataset,
     resetAllGameData,
   } = useGameStore();
 
@@ -22,48 +21,19 @@ export const SettingsModal: React.FC = () => {
       maxWidth="lg"
     >
       <div className="space-y-6">
-        {/* Dataset Selection */}
-        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <div className="flex items-center justify-between mb-3">
+        {/* Active Dataset Info */}
+        <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Flame className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-bold text-slate-900">Player & Franchise Dataset</span>
+              <ShieldCheck className="w-5 h-5 text-amber-700" />
+              <div>
+                <span className="text-sm font-black text-slate-900 block">Authentic IPL 2025 Tournament Roster</span>
+                <span className="text-xs text-slate-600">10 Official Franchises &bull; 112+ Real International Stars</span>
+              </div>
             </div>
-            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-              {settings.dataset === 'fictional' ? 'Fictional' : '🔥 Live Real IPL'}
+            <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 shadow-sm">
+              REAL DATASET
             </span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => setDataset('real')}
-              className={`p-3 rounded-lg text-left transition-all flex flex-col gap-1 ${
-                settings.dataset !== 'fictional'
-                  ? 'bg-emerald-600 text-white shadow-md font-bold'
-                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
-              }`}
-            >
-              <div className="flex items-center gap-1.5 text-xs font-black">
-                <span>🔥 Real IPL 2025 Dataset</span>
-              </div>
-              <span className={`text-[11px] leading-tight ${settings.dataset !== 'fictional' ? 'text-emerald-100' : 'text-slate-500'}`}>
-                Kohli, Dhoni, Rohit, Pant, Klaasen, Bumrah & 10 Official Franchises (CSK, MI, RCB...)
-              </span>
-            </button>
-            <button
-              onClick={() => setDataset('fictional')}
-              className={`p-3 rounded-lg text-left transition-all flex flex-col gap-1 ${
-                settings.dataset === 'fictional'
-                  ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
-                  : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
-              }`}
-            >
-              <div className="flex items-center gap-1.5 text-xs font-black">
-                <span>🛡️ Fictional League</span>
-              </div>
-              <span className={`text-[11px] leading-tight ${settings.dataset === 'fictional' ? 'text-slate-900' : 'text-slate-500'}`}>
-                Original fictional cricket stars (Arjun Sharma, Zane Montgomery, Meteors, Chargers...)
-              </span>
-            </button>
           </div>
         </div>
 
@@ -74,8 +44,8 @@ export const SettingsModal: React.FC = () => {
               {settings.soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5 text-slate-400" />}
             </div>
             <div>
-              <span className="text-sm font-bold text-slate-900 block">Sound Effects</span>
-              <span className="text-xs text-slate-500">Synthesized gavels, crowd sounds & ticks</span>
+              <span className="text-sm font-bold text-slate-900 block">Game Sound FX</span>
+              <span className="text-xs text-slate-500">Hammer gavels, crowd roars & boundary sirens</span>
             </div>
           </div>
           <button
@@ -101,100 +71,96 @@ export const SettingsModal: React.FC = () => {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => updateSettings({ theme: 'day' })}
-              className={`py-2 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-2 ${
+              className={`p-3 rounded-lg text-left transition-all flex items-center justify-between ${
                 settings.theme === 'day'
-                  ? 'bg-amber-500 text-slate-950 shadow-md font-black'
+                  ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
               }`}
             >
-              <Sun className="w-4 h-4 text-amber-700" />
-              <span>☀️ Day Match (Default)</span>
+              <div className="flex items-center gap-2">
+                <Sun className="w-4 h-4" />
+                <span className="text-xs font-black">Day Match (Clean Light)</span>
+              </div>
+              {settings.theme === 'day' && <span>✓</span>}
             </button>
             <button
               onClick={() => updateSettings({ theme: 'night' })}
-              className={`py-2 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-2 ${
+              className={`p-3 rounded-lg text-left transition-all flex items-center justify-between ${
                 settings.theme === 'night'
-                  ? 'bg-amber-500 text-slate-950 shadow-md font-black'
+                  ? 'bg-slate-900 text-white shadow-md font-bold'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
               }`}
             >
-              <Moon className="w-4 h-4 text-slate-600" />
-              <span>🌙 Night Floodlights</span>
+              <div className="flex items-center gap-2">
+                <Moon className="w-4 h-4" />
+                <span className="text-xs font-black">Night Match (Floodlights)</span>
+              </div>
+              {settings.theme === 'night' && <span>✓</span>}
             </button>
           </div>
         </div>
 
-        {/* Auction Timer Speed */}
+        {/* Auction Speed */}
         <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center gap-2 mb-3">
-            <Gauge className="w-4 h-4 text-sky-600" />
-            <span className="text-sm font-bold text-slate-900">Bidding Countdown Speed</span>
+            <Gauge className="w-4 h-4 text-amber-600" />
+            <span className="text-sm font-bold text-slate-900">Bidding Clock Pace</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            {(['slow', 'standard', 'fast'] as const).map(speed => (
+            {(['slow', 'standard', 'fast'] as const).map((spd) => (
               <button
-                key={speed}
-                onClick={() => updateSettings({ timerSpeed: speed })}
-                className={`py-2 px-3 rounded-lg text-xs font-bold uppercase transition-all ${
-                  settings.timerSpeed === speed
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
+                key={spd}
+                onClick={() => updateSettings({ timerSpeed: spd })}
+                className={`py-2 px-3 rounded-lg text-xs font-bold capitalize transition-colors ${
+                  settings.timerSpeed === spd
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                 }`}
               >
-                {speed === 'slow' ? 'Slow (15s)' : speed === 'standard' ? 'Standard (10s)' : 'Turbo (5s)'}
+                {spd === 'slow' ? 'Relaxed (1.5s)' : spd === 'standard' ? 'Standard (1.0s)' : 'Blitz (0.5s)'}
               </button>
             ))}
           </div>
         </div>
 
-        {/* AI Aggression Level */}
+        {/* AI Bidding Aggression */}
         <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center gap-2 mb-3">
             <Zap className="w-4 h-4 text-amber-600" />
-            <span className="text-sm font-bold text-slate-900">AI Bidding Competitiveness</span>
+            <span className="text-sm font-bold text-slate-900">Franchise AI Intelligence</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            {(['chill', 'balanced', 'ruthless'] as const).map(agg => (
+            {(['chill', 'balanced', 'ruthless'] as const).map((agg) => (
               <button
                 key={agg}
                 onClick={() => updateSettings({ aiAggression: agg })}
-                className={`py-2 px-3 rounded-lg text-xs font-bold capitalize transition-all ${
+                className={`py-2 px-3 rounded-lg text-xs font-bold capitalize transition-colors ${
                   settings.aiAggression === agg
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 shadow-sm'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                 }`}
               >
-                {agg === 'chill' ? 'Relaxed' : agg === 'balanced' ? 'Balanced' : 'Ruthless Wars'}
+                {agg === 'chill' ? 'Casual' : agg === 'balanced' ? 'Balanced' : 'Hardcore War'}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Reset Game Data */}
-        <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-center justify-between">
-          <div>
-            <span className="text-sm font-bold text-red-800 block">Reset Career & Save Data</span>
-            <span className="text-xs text-slate-500">Clears trophies, profile stats & restores fresh start</span>
-          </div>
+        {/* Reset Progress */}
+        <div className="pt-2 border-t border-slate-200">
           <button
             onClick={() => {
-              if (confirm('Are you sure you want to reset all progress? This action cannot be undone.')) {
+              if (window.confirm('Reset current career and start fresh with ₹120.00 Cr?')) {
                 resetAllGameData();
+                setSettingsOpen(false);
               }
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-100 hover:bg-red-200 border border-red-300 text-xs font-bold text-red-800 transition-colors shadow-sm"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold hover:bg-rose-100 transition-colors shadow-sm"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <RotateCcw className="w-4 h-4" />
+            <span>Reset Career & New Mega Auction</span>
           </button>
         </div>
-
-        <button
-          onClick={() => setSettingsOpen(false)}
-          className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-slate-800 border border-slate-200 transition-colors shadow-sm"
-        >
-          Close Settings
-        </button>
       </div>
     </Modal>
   );

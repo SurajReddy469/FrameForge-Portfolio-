@@ -2,18 +2,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/useGameStore';
 import { TeamBadge } from '../common/TeamBadge';
+import { soundService } from '../../services/soundService';
 import { 
   Play, 
   Trophy, 
   Zap, 
   Settings, 
   Shield, 
-  DollarSign,
   Users,
   Flame,
   ArrowRight,
   Sparkles,
-  RotateCcw
+  RotateCcw,
+  Award,
+  Swords,
+  Layers,
+  ChevronRight
 } from 'lucide-react';
 
 export const MainMenu: React.FC = () => {
@@ -22,9 +26,9 @@ export const MainMenu: React.FC = () => {
     userTeam,
     profile,
     setSettingsOpen,
-    startAuction,
     resetAllGameData,
     auction,
+    updateSettings,
     settings,
   } = useGameStore();
 
@@ -33,7 +37,8 @@ export const MainMenu: React.FC = () => {
   const isAuctionActive = auction.phase !== 'idle' && auction.phase !== 'completed';
   const isAuctionFinished = auction.phase === 'completed';
 
-  const handlePrimaryAction = () => {
+  const handlePlayAuction = () => {
+    soundService.playClick();
     if (isAuctionActive) {
       setScreen('auction');
     } else if (isAuctionFinished) {
@@ -43,270 +48,280 @@ export const MainMenu: React.FC = () => {
     }
   };
 
+  const handleBlitzPlay = () => {
+    soundService.playClick();
+    updateSettings({ timerSpeed: 'fast', aiAggression: 'ruthless' });
+    if (isAuctionActive) {
+      setScreen('auction');
+    } else {
+      setScreen('teams');
+    }
+  };
+
+  const handleEnterLeague = () => {
+    soundService.playClick();
+    setScreen('season');
+  };
+
+  const handleSquadLab = () => {
+    soundService.playClick();
+    setScreen('squad');
+  };
+
   return (
-    <div className="min-h-[calc(100vh-65px)] flex flex-col justify-between p-3 sm:p-6 lg:p-8 max-w-7xl mx-auto">
-      {/* Hero Welcome Banner */}
+    <div className="min-h-[calc(100vh-65px)] flex flex-col justify-between p-3 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-4 sm:space-y-6">
+      
+      {/* Top Game HUD Bar */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-8 shadow-sm mb-4 sm:mb-6"
+        className="rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
       >
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
-          <div className="max-w-2xl">
-            <div className="flex flex-wrap items-center gap-2 mb-2 sm:mb-3">
-              <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-amber-50 border border-amber-200 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                <span>Premier League Cricket Simulator</span>
+        {/* Manager Profile & Level */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="relative">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 p-0.5 shadow-md flex items-center justify-center">
+              <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center text-amber-400 font-black text-lg">
+                IPL
               </div>
-              <button
-                onClick={() => setSettingsOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold text-emerald-800 uppercase tracking-wider transition-all shadow-sm"
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>{settings.dataset === 'fictional' ? '🛡️ Fictional Dataset' : '🔥 Live Real IPL 2025 Dataset'}</span>
-                <span className="text-[10px] text-emerald-600 font-semibold underline">Switch</span>
-              </button>
             </div>
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-              CRIC-AUCTION <span className="text-gold-gradient">PRO 2026</span>
-            </h1>
-            <p className="mt-1.5 sm:mt-2 text-xs sm:text-base text-slate-600 leading-relaxed">
-              Step into the high-stakes boardroom. Command a <span className="text-amber-700 font-bold">₹120 Crore</span> purse, outbid 7 intelligent AI franchises, assemble a balanced Starting XI, and simulate a full 56-match championship season!
+            <span className="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded-full shadow-sm">
+              LVL 3
+            </span>
+          </div>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm sm:text-base font-black text-slate-900">
+                {profile.name || 'Franchise Boss'}
+              </span>
+              <span className="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-extrabold text-[10px] tracking-wider uppercase border border-amber-300">
+                ⭐ ELITE TACTICIAN
+              </span>
+            </div>
+            
+            {/* XP Progress Bar */}
+            <div className="flex items-center gap-2 mt-1">
+              <div className="w-28 sm:w-40 h-2 rounded-full bg-slate-100 overflow-hidden border border-slate-200">
+                <div className="h-full bg-gradient-to-r from-amber-500 to-yellow-400 w-3/4 rounded-full" />
+              </div>
+              <span className="text-[10px] font-mono font-bold text-slate-500">
+                750 / 1000 XP
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Selected Franchise Quick-Switch Pill */}
+        {team && (
+          <div className="flex items-center justify-between w-full sm:w-auto gap-3 bg-slate-50 border border-slate-200 p-2 sm:px-4 sm:py-2 rounded-2xl">
+            <div className="flex items-center gap-2.5">
+              <TeamBadge teamId={team.id} size="sm" />
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  ACTIVE FRANCHISE
+                </span>
+                <span className="text-xs sm:text-sm font-black text-slate-900 block leading-tight">
+                  {team.name}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={() => { soundService.playClick(); setScreen('teams'); }}
+              className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 text-amber-800 border border-slate-200 shadow-sm transition-all"
+            >
+              Change
+            </button>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Live IPL Broadcast News Ticker */}
+      <div className="rounded-xl bg-slate-900 text-white px-3 py-2 flex items-center gap-3 overflow-hidden shadow-inner">
+        <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-amber-400 flex-shrink-0 bg-slate-800 px-2.5 py-1 rounded-md">
+          <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+          IPL LIVE WIRE
+        </span>
+        <div className="text-xs font-semibold text-slate-300 truncate">
+          🏏 Virat Kohli, Rohit Sharma, MS Dhoni, Jasprit Bumrah & Heinrich Klaasen headline the ₹120 Cr Mega Auction &bull; 10 Franchises fighting for glory!
+        </div>
+      </div>
+
+      {/* Hero Game Mode Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
+        
+        {/* MODE 1: IPL MEGA AUCTION 2025 */}
+        <motion.div
+          whileHover={{ y: -3 }}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-amber-400 to-yellow-500 p-6 sm:p-8 shadow-xl shadow-amber-500/15 flex flex-col justify-between text-slate-950 border border-amber-300"
+        >
+          <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+            <Trophy className="w-48 h-48 text-slate-950" />
+          </div>
+
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-slate-950 text-amber-400 px-3 py-1 text-[11px] font-black uppercase tracking-wider mb-3 shadow-md">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>MAIN GAME EVENT • 112 PLAYERS</span>
+            </div>
+            
+            <h2 className="text-2xl sm:text-4xl font-black tracking-tight leading-none mb-2">
+              IPL MEGA AUCTION
+            </h2>
+            
+            <p className="text-xs sm:text-sm font-semibold text-slate-900/90 leading-relaxed max-w-md">
+              Take the hot seat with a <span className="font-black text-slate-950">₹120.00 Cr purse</span>. Outbid 9 aggressive AI franchises in real-time gavel wars to sign India & world cricket legends!
             </p>
           </div>
 
-          {/* Primary Action Button */}
-          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full lg:w-auto">
+          <div className="pt-6 sm:pt-8 flex items-center gap-3">
             <button
-              onClick={handlePrimaryAction}
-              className="w-full sm:w-auto flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-black text-slate-950 shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all"
+              onClick={handlePlayAuction}
+              className="flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-slate-950 hover:bg-slate-900 text-amber-400 font-black text-sm sm:text-base shadow-2xl hover:scale-[1.03] active:scale-[0.97] transition-all"
             >
-              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-slate-950" />
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400" />
               <span>
-                {isAuctionActive
-                  ? 'RESUME LIVE AUCTION'
-                  : isAuctionFinished
-                  ? 'MANAGE SQUAD & XI'
-                  : 'START NEW AUCTION (₹120 CR)'}
+                {isAuctionActive ? 'RESUME AUCTION' : isAuctionFinished ? 'SQUAD ASSEMBLED' : 'ENTER AUCTION ROOM'}
               </span>
             </button>
 
             <button
-              onClick={() => setScreen('teams')}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl bg-slate-100 hover:bg-slate-200 border border-slate-200 px-5 py-3.5 sm:py-4 text-xs font-bold text-slate-800 transition-colors shadow-sm"
+              onClick={() => { soundService.playClick(); setScreen('teams'); }}
+              className="p-3.5 sm:p-4 rounded-2xl bg-white/70 hover:bg-white text-slate-950 font-bold transition-all shadow-sm"
+              title="Select Franchise"
             >
-              <Shield className="w-4 h-4 text-slate-600" />
-              <span>Choose Team</span>
+              <Shield className="w-5 h-5" />
             </button>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Main 2-Column Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 mb-4 sm:mb-6">
-        {/* Left Column (7 cols): Franchise Status & Quick Navigation */}
-        <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
-          {/* Active Franchise Card */}
-          {team && (
-            <div className="rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-6 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-slate-100">
-                <div className="flex items-center gap-3">
-                  <TeamBadge teamId={team.id} size="lg" />
-                  <div className="min-w-0">
-                    <h2 className="text-lg sm:text-xl font-black text-slate-900 truncate">{team.name}</h2>
-                    <span className="text-[11px] sm:text-xs text-slate-500 block truncate">
-                      {team.stadium.split(',')[0]} • Strategy: <strong className="text-amber-800">{team.personality}</strong>
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setScreen('teams')}
-                  className="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 border border-slate-200 transition-colors"
-                >
-                  Change Franchise
-                </button>
-              </div>
-
-              {/* Financial & Squad Stats Row */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3 sm:my-4">
-                <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-amber-50/70 border border-amber-200 text-center sm:text-left">
-                  <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-0.5 truncate">
-                    Purse
-                  </span>
-                  <span className="text-sm sm:text-xl font-black text-amber-700 font-mono">
-                    ₹{team.currentPurse.toFixed(1)} Cr
-                  </span>
-                </div>
-
-                <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-sky-50/70 border border-sky-200 text-center sm:text-left">
-                  <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-0.5 truncate">
-                    Squad
-                  </span>
-                  <span className="text-sm sm:text-xl font-black text-sky-800 font-mono">
-                    {team.squad.length}/25
-                  </span>
-                </div>
-
-                <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-purple-50/70 border border-purple-200 text-center sm:text-left">
-                  <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-0.5 truncate">
-                    Overseas
-                  </span>
-                  <span className="text-sm sm:text-xl font-black text-purple-800 font-mono">
-                    {team.squad.filter(p => p.isOverseas).length}/8
-                  </span>
-                </div>
-              </div>
-
-              {/* Quick Jump Buttons */}
-              <div className="grid grid-cols-3 gap-2 pt-1 sm:pt-2">
-                <button
-                  onClick={() => setScreen('auction')}
-                  className="flex items-center justify-center gap-1 sm:gap-1.5 p-2.5 sm:p-3 rounded-xl bg-amber-500/10 hover:bg-amber-500 text-amber-800 hover:text-slate-950 font-extrabold text-[11px] sm:text-xs transition-colors border border-amber-300"
-                >
-                  <Flame className="w-3.5 h-3.5" />
-                  <span className="truncate">Auction</span>
-                </button>
-
-                <button
-                  onClick={() => setScreen('squad')}
-                  className="flex items-center justify-center gap-1 sm:gap-1.5 p-2.5 sm:p-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] sm:text-xs transition-colors border border-slate-200"
-                >
-                  <Users className="w-3.5 h-3.5 text-sky-700" />
-                  <span className="truncate">Lineup</span>
-                </button>
-
-                <button
-                  onClick={() => setScreen('season')}
-                  className="flex items-center justify-center gap-1 sm:gap-1.5 p-2.5 sm:p-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] sm:text-xs transition-colors border border-slate-200"
-                >
-                  <Trophy className="w-3.5 h-3.5 text-amber-600" />
-                  <span className="truncate">Season</span>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Quick Auction Rules & Strategy Guide */}
-          <div className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm">
-            <h3 className="text-sm font-black uppercase tracking-wider text-slate-900 mb-4 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-amber-600" />
-              AUCTION RULES & STRATEGY CHEAT-SHEET
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <strong className="text-slate-900 block mb-1">💰 ₹120.0 Cr Purse Cap</strong>
-                <p className="text-slate-600">
-                  Each franchise has ₹120 Cr to draft 18 to 25 players. Always reserve at least ₹0.20 Cr per unfilled slot!
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <strong className="text-slate-900 block mb-1">📈 Dynamic Bid Brackets</strong>
-                <p className="text-slate-600">
-                  Bids increase by +₹0.25 Cr (up to 5 Cr), +₹0.5 Cr (5-10 Cr), +₹1 Cr (10-20 Cr), and +₹2 Cr (20+ Cr).
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <strong className="text-slate-900 block mb-1">⏱️ 10-Second Timer</strong>
-                <p className="text-slate-600">
-                  New bids reset the countdown. At 3s: "Going ONCE". At 1s: "Going TWICE". Zero: Hammer hits SOLD!
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <strong className="text-slate-900 block mb-1">✈️ Overseas Limit</strong>
-                <p className="text-slate-600">
-                  Max 8 overseas in squad, and max 4 in your Starting XI. Over-limit causes severe chemistry penalties!
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column (5 cols): Manager Career Profile & Actions */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          <div className="rounded-3xl bg-white border border-slate-200 p-6 shadow-sm">
-            <div className="flex items-center gap-3.5 pb-4 border-b border-slate-100">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-400 text-slate-950 font-black text-xl shadow-md">
-                👔
+        {/* Right Column: 3 Quick Action Game Modes */}
+        <div className="flex flex-col gap-3 sm:gap-4">
+          
+          {/* MODE 2: Blitz Speed Auction */}
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            onClick={handleBlitzPlay}
+            className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600 shadow-sm flex-shrink-0">
+                <Flame className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-black text-slate-900">{profile.name}</h3>
-                <span className="text-xs text-amber-800 font-bold">
-                  Franchise Owner & Manager
-                </span>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900">
+                    BLITZ SPEED AUCTION
+                  </h3>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">
+                    FAST 5s
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  High-stakes rapid bidding war with aggressive AI bidding timers.
+                </p>
               </div>
             </div>
+            <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
+          </motion.div>
 
-            {/* Manager Stats Grid */}
-            <div className="grid grid-cols-2 gap-3 my-4">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Trophies Won
-                </span>
-                <span className="text-2xl font-black text-amber-600 font-mono flex items-center justify-center gap-1">
-                  🏆 {team?.trophies || profile.trophies}
-                </span>
+          {/* MODE 3: Premier Championship League */}
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            onClick={handleEnterLeague}
+            className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm flex-shrink-0">
+                <Trophy className="w-6 h-6" />
               </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Reputation
-                </span>
-                <span className="text-2xl font-black text-emerald-600 font-mono">
-                  ⭐ {profile.reputation}/100
-                </span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Total Seasons
-                </span>
-                <span className="text-2xl font-black text-slate-900 font-mono">
-                  #{profile.totalSeasons}
-                </span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-0.5">
-                  Scout Tokens
-                </span>
-                <span className="text-2xl font-black text-purple-600 font-mono">
-                  🔍 {profile.scoutTokens}
-                </span>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900">
+                    IPL CHAMPIONSHIP LEAGUE
+                  </h3>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                    SEASON
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  56-match round-robin campaign, Net Run Rate table, Playoffs & Trophy Final.
+                </p>
               </div>
             </div>
+            <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
+          </motion.div>
 
-            {/* Settings Trigger */}
-            <button
-              onClick={() => setSettingsOpen(true)}
-              className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-800 border border-slate-200 transition-colors flex items-center justify-center gap-2 shadow-sm"
-            >
-              <Settings className="w-4 h-4 text-slate-600" />
-              <span>Configure Settings & Auction Speed</span>
-            </button>
-          </div>
+          {/* MODE 4: Squad Tactics & Playing XI */}
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            onClick={handleSquadLab}
+            className="cursor-pointer rounded-2xl sm:rounded-3xl bg-white border border-slate-200 p-4 sm:p-5 shadow-sm hover:border-amber-400 hover:shadow-md transition-all flex items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 shadow-sm flex-shrink-0">
+                <Layers className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900">
+                    SQUAD LAB & PITCH XI
+                  </h3>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-sky-100 text-sky-800">
+                    {team ? `${team.squad.length}/25` : '0/25'}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Set starting 11, team chemistry, batting orders and death bowler roles.
+                </p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
+          </motion.div>
 
-          {/* Quick Start Tip Box */}
-          <div className="rounded-3xl bg-amber-50/60 border border-amber-200 p-5">
-            <span className="text-xs font-black uppercase text-amber-800 tracking-wider flex items-center gap-1.5 mb-1.5">
-              💡 PRO MANAGER TIP
-            </span>
-            <p className="text-xs text-slate-700 leading-relaxed">
-              Don't blow your entire purse on one superstar! Teams that balance a marquee anchor with high-potential young bargains and designated death bowlers consistently win the 56-match league!
-            </p>
-          </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="text-center text-xs text-slate-500 py-3 border-t border-slate-200">
-        Cric-Auction Pro 2026 • Modern Cricket Auction & Season Simulator
-      </footer>
+      {/* Bottom Game Stats & Settings Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="rounded-2xl bg-white border border-slate-200 p-3 shadow-sm text-center">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            SALARY CAP
+          </span>
+          <span className="text-base sm:text-lg font-black text-amber-700 font-mono">
+            ₹120.00 Cr
+          </span>
+        </div>
+
+        <div className="rounded-2xl bg-white border border-slate-200 p-3 shadow-sm text-center">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            AUCTION WINS
+          </span>
+          <span className="text-base sm:text-lg font-black text-slate-900 font-mono">
+            {profile.auctionWins || 0}
+          </span>
+        </div>
+
+        <div className="rounded-2xl bg-white border border-slate-200 p-3 shadow-sm text-center">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            TROPHY CABINET
+          </span>
+          <span className="text-base sm:text-lg font-black text-slate-900 font-mono">
+            🏆 {team?.trophies || 0}
+          </span>
+        </div>
+
+        <div className="rounded-2xl bg-white border border-slate-200 p-3 shadow-sm flex items-center justify-center gap-2">
+          <button
+            onClick={() => { soundService.playClick(); setSettingsOpen(true); }}
+            className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors"
+          >
+            <Settings className="w-3.5 h-3.5 text-slate-600" />
+            <span>Settings</span>
+          </button>
+        </div>
+      </div>
+
     </div>
   );
 };

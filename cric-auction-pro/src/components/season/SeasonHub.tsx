@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGameStore } from '../../store/useGameStore';
 import { LeagueTable } from './LeagueTable';
 import { PlayoffsBracket } from './PlayoffsBracket';
 import { MatchScorecardModal } from './MatchScorecardModal';
 import { TrophyCelebration } from './TrophyCelebration';
+import { LiveMatchArenaModal } from './LiveMatchArenaModal';
 import { TeamBadge } from '../common/TeamBadge';
+import { soundService } from '../../services/soundService';
 import { 
   Play, 
   FastForward, 
   Calendar, 
-  Flame 
+  Flame,
+  Radio,
+  Sparkles
 } from 'lucide-react';
 
 export const SeasonHub: React.FC = () => {
@@ -24,6 +28,8 @@ export const SeasonHub: React.FC = () => {
     teams,
   } = useGameStore();
 
+  const [isLiveArenaOpen, setIsLiveArenaOpen] = useState<boolean>(false);
+
   const totalMatches = leagueMatches.length;
   const nextMatch = currentMatchIndex < totalMatches ? leagueMatches[currentMatchIndex] : null;
 
@@ -33,20 +39,36 @@ export const SeasonHub: React.FC = () => {
 
   const isLeagueStageCompleted = currentMatchIndex >= totalMatches && totalMatches > 0;
 
+  const handleOpenLiveArena = () => {
+    soundService.playClick();
+    setIsLiveArenaOpen(true);
+  };
+
+  const handleFastSimNext = () => {
+    soundService.playGavel();
+    simulateNextMatch();
+  };
+
+  const handleFastSimAll = () => {
+    soundService.playTrophyFanfare();
+    simulateAllLeagueMatches();
+  };
+
   return (
-    <div className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 min-h-[calc(100vh-65px)] flex flex-col justify-between">
-      {/* Top Controls & Status Bar */}
+    <div className="max-w-7xl mx-auto p-3 sm:p-6 lg:p-8 min-h-[calc(100vh-65px)] flex flex-col justify-between space-y-4 sm:space-y-6">
       <div>
+        {/* Header Bar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-slate-200 mb-4 sm:mb-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-bold text-amber-700 mb-2 uppercase tracking-wider shadow-sm">
-              Season 2026 Simulation Hub
+            <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-xs font-black text-amber-900 mb-1.5 uppercase tracking-wider shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <span>IPL 2026 Championship Campaign</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              PREMIER LEAGUE <span className="text-gold-gradient">CAMPAIGN</span>
+              TOURNAMENT <span className="text-gold-gradient">ARENA</span>
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
-              56-match double round-robin league stage • Top 4 qualify for playoffs
+            <p className="text-xs text-slate-500 mt-0.5">
+              56-match IPL tournament &bull; Top 4 qualify for Playoffs (Q1, Eliminator, Q2 & Final)
             </p>
           </div>
 
@@ -55,44 +77,57 @@ export const SeasonHub: React.FC = () => {
             {!isLeagueStageCompleted && (
               <>
                 <button
-                  onClick={() => simulateNextMatch()}
+                  onClick={handleOpenLiveArena}
                   className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
-                  <Play className="w-4 h-4 fill-slate-950" />
-                  <span>SIMULATE NEXT MATCH</span>
+                  <Radio className="w-4 h-4 text-slate-950" />
+                  <span>PLAY LIVE MATCH</span>
                 </button>
 
                 <button
-                  onClick={() => simulateAllLeagueMatches()}
-                  className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition-colors shadow-sm"
+                  onClick={handleFastSimNext}
+                  className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 font-bold text-xs transition-colors shadow-sm"
                 >
-                  <FastForward className="w-4 h-4 text-sky-600" />
-                  <span>Fast-Sim All Matches</span>
+                  <Play className="w-3.5 h-3.5 text-slate-700" />
+                  <span>Fast-Sim 1</span>
+                </button>
+
+                <button
+                  onClick={handleFastSimAll}
+                  className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs transition-colors shadow-sm"
+                >
+                  <FastForward className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Sim All 56</span>
                 </button>
               </>
             )}
 
             {isLeagueStageCompleted && (
               <span className="px-4 py-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-extrabold text-xs shadow-sm text-center">
-                ✓ League Stage Completed
+                ✓ League Stage Completed &bull; Playoffs Live
               </span>
             )}
           </div>
         </div>
 
-        {/* Next Match Fixture Banner (If League is in progress) */}
+        {/* Next Match Fixture Banner */}
         {nextMatch && nextHomeTeam && nextAwayTeam && (
-          <div className={`rounded-3xl p-4 sm:p-6 mb-6 sm:mb-8 border relative overflow-hidden shadow-sm transition-all ${
+          <div className={`rounded-3xl p-4 sm:p-6 mb-6 sm:mb-8 border relative overflow-hidden shadow-md transition-all ${
             isUserPlayingNext
-              ? 'bg-gradient-to-r from-amber-50 via-white to-white border-amber-300'
+              ? 'bg-gradient-to-r from-amber-50/90 via-white to-amber-50/50 border-amber-400 ring-2 ring-amber-300/40'
               : 'bg-white border-slate-200'
           }`}>
             <div className="flex items-center justify-between text-xs mb-3 font-bold">
-              <span className="text-amber-800 flex items-center gap-1.5 uppercase tracking-wider text-[11px] sm:text-xs">
+              <span className="text-amber-800 flex items-center gap-1.5 uppercase tracking-wider text-[11px] sm:text-xs font-black">
                 <Flame className="w-4 h-4 text-amber-600" />
-                UPCOMING FIXTURE • {nextMatch.dateStr}
+                UPCOMING FIXTURE &bull; {nextMatch.dateStr}
+                {isUserPlayingNext && (
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 font-black text-[10px]">
+                    YOUR MATCH
+                  </span>
+                )}
               </span>
-              <span className="text-slate-500 text-[10px] sm:text-xs truncate max-w-[120px] sm:max-w-none">{nextMatch.venue}</span>
+              <span className="text-slate-500 text-[10px] sm:text-xs truncate max-w-[140px] sm:max-w-none">{nextMatch.venue}</span>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
@@ -100,18 +135,23 @@ export const SeasonHub: React.FC = () => {
                 <TeamBadge teamId={nextHomeTeam.id} size="md" />
                 <div>
                   <h3 className="text-sm sm:text-lg font-black text-slate-900">{nextHomeTeam.name}</h3>
-                  <span className="text-[10px] sm:text-xs text-slate-500">Home Franchise</span>
+                  <span className="text-[10px] sm:text-xs text-slate-500 font-semibold">Home Franchise</span>
                 </div>
               </div>
 
-              <span className="text-[10px] sm:text-xs font-black text-slate-500 uppercase px-3 py-1 rounded-full bg-slate-100 border border-slate-200 my-1 sm:my-0">
-                VS
-              </span>
+              {/* Action Button inside Fixture Card */}
+              <button
+                onClick={handleOpenLiveArena}
+                className="my-1 sm:my-0 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-1.5"
+              >
+                <Play className="w-3.5 h-3.5 fill-slate-950" />
+                <span>START MATCH</span>
+              </button>
 
               <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto text-left sm:text-right">
                 <div className="order-2 sm:order-1">
                   <h3 className="text-sm sm:text-lg font-black text-slate-900">{nextAwayTeam.name}</h3>
-                  <span className="text-[10px] sm:text-xs text-slate-500">Away Franchise</span>
+                  <span className="text-[10px] sm:text-xs text-slate-500 font-semibold">Away Franchise</span>
                 </div>
                 <div className="order-1 sm:order-2">
                   <TeamBadge teamId={nextAwayTeam.id} size="md" />
@@ -122,7 +162,7 @@ export const SeasonHub: React.FC = () => {
         )}
 
         {/* 2-Column: Standings on Left, Playoffs or Recent Results on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mb-8 items-start">
           {/* Left 7 cols: Standings */}
           <div className="lg:col-span-7">
             <LeagueTable standings={standings} userTeamId={userTeamId} />
@@ -149,7 +189,7 @@ export const SeasonHub: React.FC = () => {
                     return (
                       <div
                         key={m.id}
-                        onClick={() => viewMatchScorecard(m)}
+                        onClick={() => { soundService.playClick(); viewMatchScorecard(m); }}
                         className={`p-3 rounded-2xl cursor-pointer transition-all border flex items-center justify-between gap-3 ${
                           isUserMatch
                             ? 'bg-amber-50/70 border-amber-300 hover:border-amber-400'
@@ -177,7 +217,7 @@ export const SeasonHub: React.FC = () => {
 
                   {currentMatchIndex === 0 && (
                     <div className="p-8 text-center text-xs text-slate-500 rounded-3xl border border-dashed border-slate-200 bg-slate-50/40">
-                      No matches played yet. Click "Simulate Next Match" to begin!
+                      No matches played yet. Click "PLAY LIVE MATCH" to begin!
                     </div>
                   )}
                 </div>
@@ -188,6 +228,18 @@ export const SeasonHub: React.FC = () => {
       </div>
 
       {/* Modals */}
+      <LiveMatchArenaModal
+        isOpen={isLiveArenaOpen}
+        onClose={() => setIsLiveArenaOpen(false)}
+        match={nextMatch}
+        homeTeam={nextHomeTeam || null}
+        awayTeam={nextAwayTeam || null}
+        onMatchComplete={(m) => {
+          setIsLiveArenaOpen(false);
+          viewMatchScorecard(m);
+        }}
+        onSimulateFull={() => simulateNextMatch()}
+      />
       <MatchScorecardModal />
       <TrophyCelebration />
     </div>

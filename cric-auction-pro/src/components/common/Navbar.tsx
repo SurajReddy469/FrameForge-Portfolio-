@@ -12,6 +12,8 @@ import {
   RotateCcw
 } from 'lucide-react';
 
+import { soundService } from '../../services/soundService';
+
 export const Navbar: React.FC = () => {
   const {
     currentScreen,
@@ -83,7 +85,7 @@ export const Navbar: React.FC = () => {
             return (
               <button
                 key={item.screen}
-                onClick={() => setScreen(item.screen)}
+                onClick={() => { soundService.playClick(); setScreen(item.screen); }}
                 className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   isActive
                     ? 'bg-amber-500 text-slate-950 shadow-sm font-bold'
@@ -155,7 +157,7 @@ export const Navbar: React.FC = () => {
           return (
             <button
               key={item.screen}
-              onClick={() => setScreen(item.screen)}
+              onClick={() => { soundService.playClick(); setScreen(item.screen); }}
               className={`relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1 py-1.5 px-1 rounded-xl text-[10px] sm:text-xs font-bold transition-all ${
                 isActive 
                   ? 'bg-amber-500 text-slate-950 shadow-sm font-black' 

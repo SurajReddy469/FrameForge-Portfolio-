@@ -14,6 +14,8 @@ import {
   Play
 } from 'lucide-react';
 
+import { soundService } from '../../services/soundService';
+
 export const SquadManagement: React.FC = () => {
   const { userTeam, updateStartingXI, startSeason, unlockAchievement } = useGameStore();
   const [roleFilter, setRoleFilter] = useState<string>('All');
@@ -42,6 +44,7 @@ export const SquadManagement: React.FC = () => {
     : benchPlayers.filter(p => p.role === roleFilter);
 
   const handleAddToXI = (playerId: string) => {
+    soundService.playClick();
     if (team.startingXI.length >= 11) {
       alert('Starting XI is already full (11 players). Remove a player first!');
       return;
@@ -50,6 +53,7 @@ export const SquadManagement: React.FC = () => {
   };
 
   const handleRemoveFromXI = (playerId: string) => {
+    soundService.playClick();
     updateStartingXI(team.startingXI.filter(id => id !== playerId));
   };
 

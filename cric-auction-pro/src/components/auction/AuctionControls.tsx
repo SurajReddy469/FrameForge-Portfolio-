@@ -1,7 +1,9 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/useGameStore';
 import { getNextBidAmount, getNextBidIncrement } from '../../services/aiBiddingEngine';
-import { Gavel, FastForward, Search, Sparkles } from 'lucide-react';
+import { soundService } from '../../services/soundService';
+import { Gavel, FastForward, Search, Sparkles, Flame, ShieldAlert, ArrowUpRight } from 'lucide-react';
 
 export const AuctionControls: React.FC = () => {
   const {
@@ -11,7 +13,6 @@ export const AuctionControls: React.FC = () => {
     placeHumanBid,
     passCurrentPlayer,
     setScoutModalOpen,
-    autoCompleteAuction,
   } = useGameStore();
 
   const userTeam = teams.find(t => t.id === userTeamId);
@@ -29,109 +30,143 @@ export const AuctionControls: React.FC = () => {
   const canAffordNextBid = userTeam.currentPurse >= nextMinBid;
   const isBiddingActive = auction.phase === 'bidding' || auction.phase === 'going_once' || auction.phase === 'going_twice';
 
+  // Intensity War Gauge
+  const bidsCount = auction.bidHistory.length;
+  let intensityText = '🟢 OPENING BIDS';
+  let intensityColor = 'text-emerald-700 bg-emerald-50 border-emerald-200';
+  if (bidsCount >= 10) {
+    intensityText = '🔥 MEGA BIDDING WAR';
+    intensityColor = 'text-rose-700 bg-rose-50 border-rose-300 animate-pulse';
+  } else if (bidsCount >= 5) {
+    intensityText = '🔴 HEATED DUEL';
+    intensityColor = 'text-amber-800 bg-amber-50 border-amber-300';
+  } else if (bidsCount >= 2) {
+    intensityText = '🟡 HEATING UP';
+    intensityColor = 'text-amber-700 bg-amber-50/60 border-amber-200';
+  }
+
+  const handleBidClick = (amount: number) => {
+    soundService.playBidSound(true);
+    soundService.playGavel();
+    placeHumanBid(amount);
+  };
+
+  const handlePassClick = () => {
+    soundService.playClick();
+    passCurrentPlayer();
+  };
+
   return (
-    <div className="rounded-3xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-md">
-      {/* Status Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-slate-100">
+    <div className="rounded-3xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-lg">
+      
+      {/* Top Intensity & Price Ticker */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 mb-3 border-b border-slate-100">
         <div>
-          <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-            CURRENT AUCTION PRICE
-          </span>
+          <div className="flex items-center gap-2 mb-0.5">
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider">
+              LIVE AUCTION GAVEL
+            </span>
+            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${intensityColor}`}>
+              {intensityText}
+            </span>
+          </div>
+
           <div className="flex items-baseline gap-2">
             <span className="text-2xl sm:text-4xl font-black text-amber-700 font-mono tracking-tight">
               {currentBid > 0 ? `₹${currentBid.toFixed(2)} Cr` : `Base: ₹${basePrice.toFixed(2)} Cr`}
             </span>
             {currentBid > 0 && (
-              <span className="text-[11px] sm:text-xs text-slate-500 font-medium">
-                (+₹{increment.toFixed(2)} Cr)
+              <span className="text-[11px] sm:text-xs text-slate-500 font-bold">
+                (+₹{increment.toFixed(2)} Cr step)
               </span>
             )}
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="text-left sm:text-right">
-            <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
-              HIGHEST BIDDER
-            </span>
-            <span className={`text-sm sm:text-base font-extrabold ${isUserHighestBidder ? 'text-emerald-700' : 'text-slate-900'}`}>
-              {auction.highestBidderName || 'None (Awaiting Bids)'}
-              {isUserHighestBidder && ' (Your Bid ✓)'}
-            </span>
-          </div>
+        {/* Highest Bidder Display */}
+        <div className="text-left sm:text-right">
+          <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block">
+            PADDLE LEADER
+          </span>
+          <span className={`text-sm sm:text-base font-black ${isUserHighestBidder ? 'text-emerald-700' : 'text-slate-900'}`}>
+            {auction.highestBidderName || 'Awaiting Opening Paddle'}
+            {isUserHighestBidder && ' (Your Bid ✓)'}
+          </span>
         </div>
       </div>
 
-      {/* Large Action Controls (Phone Adaptive) */}
+      {/* Main Action Controls Grid */}
       <div className="grid grid-cols-12 gap-2 sm:gap-3">
-        {/* Primary Bid Button (Full width on mobile, half on desktop) */}
-        <button
+        
+        {/* BIG ARCADE PADDLE: Raise Minimum Bid */}
+        <motion.button
+          whileHover={canAffordNextBid && !isUserHighestBidder && isBiddingActive ? { scale: 1.02 } : {}}
+          whileTap={canAffordNextBid && !isUserHighestBidder && isBiddingActive ? { scale: 0.96 } : {}}
           disabled={!isBiddingActive || isUserHighestBidder || !canAffordNextBid}
-          onClick={() => placeHumanBid(nextMinBid)}
+          onClick={() => handleBidClick(nextMinBid)}
           className={`col-span-12 sm:col-span-6 py-3.5 sm:py-4 px-4 sm:px-6 rounded-2xl font-black text-base sm:text-lg flex items-center justify-center gap-2.5 sm:gap-3 shadow-xl transition-all ${
             isBiddingActive && !isUserHighestBidder && canAffordNextBid
-              ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 hover:scale-[1.02] active:scale-[0.98] shadow-amber-500/25 ring-2 ring-amber-300'
+              ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 text-slate-950 shadow-amber-500/25 ring-2 ring-amber-300'
               : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
           }`}
         >
           <Gavel className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
           <span className="truncate">
             {isUserHighestBidder
-              ? 'YOU ARE HIGHEST BIDDER'
-              : `BID ₹${nextMinBid.toFixed(2)} Cr`}
+              ? 'YOU ARE HIGHEST BIDDER ✓'
+              : `RAISE PADDLE &bull; ₹${nextMinBid.toFixed(2)} Cr`}
           </span>
-        </button>
+        </motion.button>
 
-        {/* Aggressive Power Bid Button */}
-        <button
+        {/* POWER JUMP BID */}
+        <motion.button
+          whileHover={canAffordNextBid && !isUserHighestBidder && isBiddingActive ? { scale: 1.02 } : {}}
+          whileTap={canAffordNextBid && !isUserHighestBidder && isBiddingActive ? { scale: 0.96 } : {}}
           disabled={!isBiddingActive || isUserHighestBidder || userTeam.currentPurse < jumpBid}
-          onClick={() => placeHumanBid(jumpBid)}
+          onClick={() => handleBidClick(jumpBid)}
           className={`col-span-6 sm:col-span-3 py-3 sm:py-4 px-2 sm:px-4 rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 border transition-all ${
             isBiddingActive && !isUserHighestBidder && userTeam.currentPurse >= jumpBid
-              ? 'bg-slate-50 hover:bg-slate-100 text-amber-800 border-amber-300 hover:scale-[1.02] active:scale-[0.98]'
+              ? 'bg-slate-50 hover:bg-slate-100 text-amber-800 border-amber-300 shadow-sm'
               : 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600" />
-          <span className="truncate">RAISE ₹{jumpBid.toFixed(2)} Cr</span>
-        </button>
+          <Sparkles className="w-4 h-4 text-amber-600" />
+          <span className="truncate">JUMP BID ₹{jumpBid.toFixed(2)} Cr</span>
+        </motion.button>
 
-        {/* Pass / Skip Player */}
-        <button
-          disabled={!isBiddingActive}
-          onClick={passCurrentPlayer}
-          className="col-span-6 sm:col-span-3 py-3 sm:py-4 px-2 sm:px-4 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 text-xs sm:text-sm font-black flex items-center justify-center gap-1.5 sm:gap-2 transition-all active:scale-[0.98]"
+        {/* PASS / PULL OUT */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.96 }}
+          disabled={!isBiddingActive || isUserHighestBidder}
+          onClick={handlePassClick}
+          className={`col-span-6 sm:col-span-3 py-3 sm:py-4 px-2 sm:px-4 rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-1.5 border transition-all ${
+            isBiddingActive && !isUserHighestBidder
+              ? 'bg-white hover:bg-slate-50 text-slate-700 border-slate-300 shadow-sm'
+              : 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+          }`}
         >
-          <FastForward className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          <span className="truncate">PASS / SKIP</span>
-        </button>
+          <FastForward className="w-4 h-4 text-slate-500" />
+          <span>PASS / WITHDRAW</span>
+        </motion.button>
+
       </div>
 
-      {/* Auxiliary bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-100 text-xs text-slate-600">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setScoutModalOpen(true, auction.currentPlayer!)}
-            className="flex items-center gap-1.5 text-amber-700 hover:text-amber-800 font-bold"
-          >
-            <Search className="w-3.5 h-3.5" />
-            <span>Open Scout Report</span>
-          </button>
-          <span>•</span>
-          <span>Your Remaining Purse: <strong className="text-slate-900 font-mono">₹{userTeam.currentPurse.toFixed(2)} Cr</strong></span>
-        </div>
-
+      {/* Scout Intel & Quick Stats Pill */}
+      <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-500">
         <button
-          onClick={() => {
-            if (confirm('Simulate remaining players in auction instantly using intelligent AI logic?')) {
-              autoCompleteAuction();
-            }
-          }}
-          className="text-xs text-slate-500 hover:text-amber-700 font-semibold transition-colors"
+          onClick={() => { soundService.playClick(); setScoutModalOpen(true); }}
+          className="flex items-center gap-1.5 text-amber-800 hover:text-amber-900 transition-colors"
         >
-          ⚡ Auto-Complete Entire Auction
+          <Search className="w-3.5 h-3.5 text-amber-600" />
+          <span>Scout Dossier & AI Bid Range</span>
         </button>
+
+        <span className="font-mono text-emerald-700">
+          Your Available Purse: ₹{userTeam.currentPurse.toFixed(2)} Cr
+        </span>
       </div>
+
     </div>
   );
 };
