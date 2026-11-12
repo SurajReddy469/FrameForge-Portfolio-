@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGameStore } from './store/useGameStore';
 import { Navbar } from './components/common/Navbar';
+import { StartPage } from './components/start/StartPage';
 import { MainMenu } from './components/menu/MainMenu';
 import { TeamSelection } from './components/teams/TeamSelection';
 import { MainAuctionScreen } from './components/auction/MainAuctionScreen';
@@ -18,6 +19,8 @@ export const App: React.FC = () => {
 
   const renderScreen = () => {
     switch (currentScreen) {
+      case 'start':
+        return <StartPage />;
       case 'menu':
         return <MainMenu />;
       case 'teams':

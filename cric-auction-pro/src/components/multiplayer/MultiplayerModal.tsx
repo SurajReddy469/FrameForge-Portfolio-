@@ -96,9 +96,6 @@ export const MultiplayerModal: React.FC = () => {
                   <h2 id="mp-modal-title" className="text-xl font-black text-white sm:text-2xl">
                     Online Multiplayer
                   </h2>
-                  <p className="text-xs font-semibold text-slate-300">
-                    Real human managers only · Strictly zero bots
-                  </p>
                 </div>
               </div>
 

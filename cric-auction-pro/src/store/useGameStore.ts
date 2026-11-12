@@ -22,6 +22,7 @@ import { StorageService, GameSettings } from '../services/storageService';
 import confetti from 'canvas-confetti';
 
 export type GameScreen = 
+  | 'start'
   | 'menu' 
   | 'teams' 
   | 'auction' 
@@ -86,6 +87,7 @@ export interface GameStoreState {
 
   // Career & Profile
   profile: ManagerProfile;
+  setManagerProfile: (name: string, avatar?: string) => void;
   achievements: Achievement[];
   settings: GameSettings;
 
@@ -219,7 +221,7 @@ const defaultInitialSession: IPLSession = {
   aiAggression: initialSettings.aiAggression || 'balanced',
   timerSpeed: initialSettings.timerSpeed || 'standard',
   userTeamId: initialUserTeamId,
-  currentScreen: (savedCampaign?.currentScreen as GameScreen) || 'menu',
+  currentScreen: (savedCampaign?.currentScreen as GameScreen) || 'start',
   teams: JSON.parse(JSON.stringify(initialTeamsSource)),
   players: JSON.parse(JSON.stringify(initialPlayersSource)),
   auction: initialAuctionState,
@@ -277,7 +279,7 @@ export const useGameStore = create<GameStoreState>((set, get) => {
   };
 
   return {
-    currentScreen: (savedCampaign?.currentScreen as GameScreen) || 'menu',
+    currentScreen: (savedCampaign?.currentScreen as GameScreen) || 'start',
     setScreen: (screen) => {
       set({ currentScreen: screen });
       saveCampaignState({ currentScreen: screen });
@@ -554,6 +556,16 @@ export const useGameStore = create<GameStoreState>((set, get) => {
     activeScorecardMatch: null,
 
     profile: StorageService.loadProfile(),
+    setManagerProfile: (name: string, avatar?: string) => {
+      const cleanName = name.trim() || 'Manager';
+      const updatedProfile: ManagerProfile = {
+        ...get().profile,
+        name: cleanName,
+        avatar: avatar || get().profile.avatar || 'tactician'
+      };
+      set({ profile: updatedProfile });
+      StorageService.saveProfile(updatedProfile);
+    },
     achievements: StorageService.loadAchievements(INITIAL_ACHIEVEMENTS),
     settings: initialSettings,
 

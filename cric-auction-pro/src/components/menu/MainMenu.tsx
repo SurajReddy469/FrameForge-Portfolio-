@@ -185,16 +185,26 @@ export const MainMenu: React.FC = () => {
                 </span>
               </button>
             </div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
-              Welcome back, {profile.name || 'Manager'}
-            </p>
+            <div className="mb-2 flex items-center gap-2">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                Welcome back, {profile.name || 'Manager'}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  soundService.playClick();
+                  setScreen('start');
+                }}
+                className="text-[10px] font-black text-amber-300 hover:text-amber-200 uppercase tracking-wider underline underline-offset-2"
+                title="Change Manager Name & Franchise on Start Page"
+              >
+                (Change Name / Team)
+              </button>
+            </div>
             <h1 className="max-w-3xl text-4xl font-black leading-[0.98] tracking-tight sm:text-5xl lg:text-6xl">
               Build your team.<br />
               <span className="text-amber-400">Own the season.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              Compete live with real human friends online (zero AI bots) or lead a solo campaign against simulated AI franchise managers.
-            </p>
             
             {/* Primary Action Buttons: Online Multiplayer vs Single Player */}
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -252,7 +262,7 @@ export const MainMenu: React.FC = () => {
             ) : (
               <div className="mt-5 flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10"><Shield className="h-6 w-6 text-amber-300" /></div>
-                <div><div className="font-black">Choose your franchise</div><div className="text-xs text-slate-400">Your campaign starts with the auction.</div></div>
+                <div className="font-black">Choose your franchise</div>
               </div>
             )}
             <div className="mt-5 grid grid-cols-3 divide-x divide-white/10 border-t border-white/10 pt-4">
@@ -310,9 +320,6 @@ export const MainMenu: React.FC = () => {
                   Zero Bots Guaranteed
                 </span>
               </div>
-              <p className="mt-1 max-w-2xl text-xs text-slate-300 leading-relaxed">
-                Host a real online room or join with a room code (e.g. <span className="font-mono text-emerald-300 font-bold">JDLJ77</span>). Play live auctions and matches directly with friends across mobile phones and PCs. If a player disconnects, the game pauses immediately until they return — no bot will ever take their place.
-              </p>
             </div>
           </div>
           <button
@@ -338,7 +345,6 @@ export const MainMenu: React.FC = () => {
             <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-700">Your control room</p>
             <h2 className="mt-1 text-xl font-black tracking-tight text-slate-900 sm:text-2xl">Pick up where you left off</h2>
           </div>
-          <span className="hidden text-xs font-semibold text-slate-500 sm:block">Every decision shapes the season.</span>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
@@ -346,7 +352,7 @@ export const MainMenu: React.FC = () => {
             icon={<Flame className="h-5 w-5" />}
             eyebrow="Single-Player Auction"
             title={isAuctionActive ? 'Live auction' : isAuctionFinished ? 'Auction review' : 'Mega auction'}
-            description={isAuctionActive ? 'The bidding is live with AI managers. Get back in before the hammer falls.' : isAuctionFinished ? 'Your signings are in. Set your starting eleven.' : 'Pick a franchise and draft your squad against AI bots.'}
+            description=""
             action={isAuctionActive ? 'Resume bidding' : isAuctionFinished ? 'Review squad' : 'Choose a team'}
             tone="amber"
             onClick={openAuction}
@@ -355,7 +361,7 @@ export const MainMenu: React.FC = () => {
             icon={<Users className="h-5 w-5" />}
             eyebrow="Squad room"
             title="Your lineup"
-            description={hasDraftedPlayers ? `${team?.squad.length ?? 0} players signed. Balance roles and choose your XI.` : 'Your squad will take shape as players are signed at auction.'}
+            description=""
             action={hasDraftedPlayers ? 'Manage squad' : 'Go to auction'}
             tone="sky"
             onClick={openSquad}
@@ -364,7 +370,7 @@ export const MainMenu: React.FC = () => {
             icon={<Crown className="h-5 w-5" />}
             eyebrow="The big stage"
             title="Championship"
-            description={isSeasonReady ? 'Track the table, play fixtures, and chase a place in the playoffs.' : 'Get your squad ready before the championship season begins.'}
+            description=""
             action={isSeasonReady ? 'Open season' : 'Prepare squad'}
             tone="emerald"
             onClick={openSeason}
@@ -378,7 +384,6 @@ export const MainMenu: React.FC = () => {
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-amber-400"><Gauge className="h-5 w-5" /></div>
             <div>
               <div className="text-sm font-black text-slate-900">Want a faster auction?</div>
-              <p className="mt-1 text-xs leading-relaxed text-slate-500">Blitz mode speeds up the clock and makes AI managers more aggressive (Single-Player mode only).</p>
             </div>
           </div>
           <button onClick={openBlitz} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-xs font-black text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500">
@@ -388,7 +393,6 @@ export const MainMenu: React.FC = () => {
       </section>
 
       <footer className="flex flex-col items-center justify-between gap-2 border-t border-slate-200 px-1 pt-4 text-[11px] text-slate-500 sm:flex-row">
-        <span>Cric-Auction Pro · Franchise cricket, your way.</span>
         <button onClick={() => { soundService.playClick(); setSettingsOpen(true); }} className="font-bold text-slate-600 transition hover:text-amber-800">Audio, appearance & game settings</button>
       </footer>
 
@@ -456,7 +460,7 @@ const ActionCard: React.FC<ActionCardProps> = ({ icon, eyebrow, title, descripti
       </div>
       <span className={`mt-4 text-[9px] font-black uppercase tracking-[0.16em] ${colors.eyebrow}`}>{eyebrow}</span>
       <span className="mt-1 text-lg font-black text-slate-900">{title}</span>
-      <span className="mt-1 text-xs leading-relaxed text-slate-500">{description}</span>
+      {description && <span className="mt-1 text-xs leading-relaxed text-slate-500">{description}</span>}
       <span className="mt-auto flex items-center gap-1 pt-4 text-xs font-black text-slate-800">{action}<ChevronRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" /></span>
     </motion.button>
   );

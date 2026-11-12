@@ -12,7 +12,8 @@ import {
   Home,
   RotateCcw,
   Plus,
-  Radio
+  Radio,
+  Trophy
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -68,6 +69,7 @@ export const Navbar: React.FC = () => {
     disabled?: boolean;
     disabledReason?: string;
   }[] = [
+    { screen: 'start', label: 'Start & Teams', shortLabel: 'Start', icon: Trophy },
     { screen: 'menu', label: 'Dashboard', shortLabel: 'Home', icon: Home },
     ...(gameMode === 'multiplayer' || multiplayerRoom ? [
       {
@@ -111,9 +113,10 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button 
             type="button"
-            onClick={() => handleNavClick('menu')}
+            onClick={() => handleNavClick('start')}
             className="flex items-center gap-2 group text-left flex-shrink-0"
-            aria-label="Open dashboard"
+            aria-label="Open start screen"
+            title="Open Start Screen & Team Select"
           >
             <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 to-amber-400 font-black text-slate-950 shadow-md shadow-amber-500/20 group-hover:scale-105 transition-transform text-sm sm:text-base">
               🏏
@@ -133,7 +136,12 @@ export const Navbar: React.FC = () => {
 
           {/* User's Team Pill */}
           {team && (
-            <div className="flex items-center gap-1.5 sm:gap-2.5 rounded-full bg-slate-100 border border-slate-200 px-2 sm:px-3 py-1 shadow-inner min-w-0">
+            <button
+              type="button"
+              onClick={() => handleNavClick('start')}
+              title="Change Manager Name or Franchise on Start Page"
+              className="flex items-center gap-1.5 sm:gap-2.5 rounded-full bg-slate-100 hover:bg-slate-200/80 border border-slate-200 px-2 sm:px-3 py-1 shadow-inner min-w-0 transition-colors text-left"
+            >
               <TeamBadge teamId={team.id} size="sm" />
               <div className="flex flex-col min-w-0">
                 <span className="text-[11px] sm:text-xs font-extrabold text-slate-900 tracking-wide truncate max-w-[70px] xs:max-w-[110px] sm:max-w-none">
@@ -147,7 +155,7 @@ export const Navbar: React.FC = () => {
                 <span className="text-[9px] sm:text-[10px] text-slate-500 leading-none">Squad</span>
                 <span className="text-[11px] sm:text-xs font-bold text-emerald-600">{team.squad.length}/25</span>
               </div>
-            </div>
+            </button>
           )}
         </div>
 
