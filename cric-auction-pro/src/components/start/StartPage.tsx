@@ -15,20 +15,11 @@ import {
   Flame, 
   Zap,
   Sparkles,
-  Compass,
   X
 } from 'lucide-react';
 import { SessionFormat } from '../../types/session';
 
 type SessionMode = 'singleplayer' | 'multiplayer';
-
-const MANAGER_PERSONAS = [
-  { id: 'tactician', label: 'Tactician', icon: '👔', title: 'Master Strategist', motto: 'Data & Precision' },
-  { id: 'skipper', label: 'Skipper', icon: '🧢', title: 'Player-Leader', motto: 'Instinct & Heart' },
-  { id: 'mogul', label: 'Mogul', icon: '💼', title: 'Franchise Owner', motto: 'Marquee Superstars' },
-  { id: 'analyst', label: 'Analyst', icon: '💻', title: 'Moneyball Scout', motto: 'Undervalued Gems' },
-  { id: 'legend', label: 'Legend', icon: '🌟', title: 'IPL Icon', motto: 'Pressure Champion' },
-];
 
 export const StartPage: React.FC = () => {
   const {
@@ -54,7 +45,6 @@ export const StartPage: React.FC = () => {
       ? profile.name
       : ''
   );
-  const [selectedPersonaId, setSelectedPersonaId] = useState('tactician');
   const [selectedTeamId, setSelectedTeamId] = useState(userTeamId || 'chennai-super-kings');
   const [tab, setTab] = useState<'create' | 'login'>('create');
   const [sessionName, setSessionName] = useState('IPL 2025 Mega Auction');
@@ -64,7 +54,6 @@ export const StartPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedTeam = teams.find(t => t.id === selectedTeamId) || teams[0];
-  const activePersona = MANAGER_PERSONAS.find(p => p.id === selectedPersonaId) || MANAGER_PERSONAS[0];
   const isExistingCampaignActive = (auction.phase !== 'idle' && auction.phase !== 'completed') || leagueMatches.length > 0;
   const purseCap = format === 'mini' ? 60 : format === 'turbo' ? 90 : 120;
   const effectiveName = name.trim() || 'Vikram Sengupta';
@@ -79,11 +68,6 @@ export const StartPage: React.FC = () => {
     soundService.playClick();
     setSelectedTeamId(tId);
     selectTeam(tId);
-  };
-
-  const handleSelectPersona = (pId: string) => {
-    soundService.playClick();
-    setSelectedPersonaId(pId);
   };
 
   const handleSelectFormat = (fmt: SessionFormat) => {
@@ -258,7 +242,7 @@ export const StartPage: React.FC = () => {
                 maxLength={32}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Vikram Sengupta"
-                className="w-full rounded-xl border-2 border-white/15 bg-slate-900/90 pl-11 pr-10 py-2.5 sm:py-3 text-sm sm:text-base font-extrabold text-white placeholder:text-slate-400/80 placeholder:font-medium outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 shadow-inner"
+                className="w-full rounded-xl border-2 border-white/15 bg-slate-900/90 pl-11 pr-10 py-2.5 sm:py-3 text-base sm:text-lg font-extrabold text-white placeholder:text-slate-400/80 placeholder:font-medium outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20 shadow-inner"
               />
               {name.length > 0 && (
                 <button
@@ -272,31 +256,6 @@ export const StartPage: React.FC = () => {
               )}
             </div>
 
-            {/* Persona Customization Chips */}
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-0.5">
-              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 mr-1 flex items-center gap-1">
-                <Compass className="h-3 w-3 text-amber-400" />
-                Style:
-              </span>
-              {MANAGER_PERSONAS.map((p) => {
-                const isSelected = selectedPersonaId === p.id;
-                return (
-                  <button
-                    type="button"
-                    key={p.id}
-                    onClick={() => handleSelectPersona(p.id)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold transition active:scale-95 ${
-                      isSelected
-                        ? 'border border-amber-400 bg-amber-400/25 text-amber-300 shadow-sm ring-1 ring-amber-400'
-                        : 'border border-white/10 bg-slate-900/80 text-slate-400 hover:border-white/25 hover:text-white'
-                    }`}
-                  >
-                    <span>{p.icon}</span>
-                    <span>{p.label}</span>
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           {/* 10 Real IPL Franchises Selection Grid */}
@@ -381,10 +340,7 @@ export const StartPage: React.FC = () => {
                     <TeamBadge teamId={selectedTeam.id} size="md" />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="truncate text-sm sm:text-base font-black text-white">{effectiveName}</span>
-                        <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-emerald-300 border border-emerald-500/40">
-                          {activePersona.label} Accredited
-                        </span>
+                        <span className="truncate text-base sm:text-lg font-black text-white">{effectiveName}</span>
                         {selectedTeam.trophies > 0 ? (
                           <span className="rounded bg-amber-400/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-amber-300 border border-amber-400/40 flex items-center gap-1">
                             <Trophy className="h-2.5 w-2.5 fill-current text-amber-400" />
@@ -397,7 +353,7 @@ export const StartPage: React.FC = () => {
                         )}
                       </div>
                       <div className="text-[11px] text-slate-300 font-semibold truncate mt-0.5">
-                        {selectedTeam.name} · <span className="text-amber-400">{activePersona.motto}</span>
+                        {selectedTeam.name}
                       </div>
                     </div>
                   </div>
