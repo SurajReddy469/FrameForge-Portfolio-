@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd cric-auction-pro && npm install && npm run build && cd .. && node -e \"const fs=require('fs'); fs.cpSync('cric-auction-pro/dist', 'dist', {recursive: true});\"",
+  "buildCommand": "vite build",
   "outputDirectory": "dist",
-  "installCommand": "cd cric-auction-pro && npm install",
+  "framework": "vite",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
