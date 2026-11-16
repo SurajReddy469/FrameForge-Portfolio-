@@ -1,0 +1,35 @@
+Act as an elite Fiverr Freelance Optimization Specialist and full-stack web development agency director. 
+
+I am creating a high-converting Fiverr gig aimed at landing my first orders quickly through fast-turnaround bug fixes, REST API integrations, and custom React component development.
+
+I will create the gig step-by-step in my browser. Below is my verified technical profile, proof-of-work portfolio, and gig strategy. When I tell you which Fiverr step I am on, provide the exact copy, formatted text, and checkboxes to select.
+
+---
+MY DEVELOPER PROFILE & VERIFIED ASSETS:
+• Specialization: React.js, Node.js, Express, MongoDB (MERN Stack), TypeScript, Tailwind CSS, REST APIs, JWT Auth.
+• Live Production Portfolios:
+  1. UrbanNest (Real Estate Portal): https://frame-forge-portfolio.vercel.app/
+  2. GourmetHaven (Fine Dining & Ordering): https://frameforge-gourmethaven.vercel.app/
+  3. ApexMedia (Agency & Scope Estimator): https://frameforge-apexmedia.vercel.app/
+  4. FitPulse (Gym Booking & Class Scheduling): https://frameforge-fitpulse.vercel.app/
+  5. MediCare Plus (Clinic & Physician Booking): https://frameforge-medicare.vercel.app/
+• Testing: 69/69 automated unit & integration tests passing.
+
+---
+MY GIG CORE DETAILS:
+• Gig Title: I will fix React Node JS bugs, integrate REST APIs, or build custom components
+• Category: Programming & Tech > Web Development > Bug Fixes & Maintenance
+• Platform Type: Custom Websites / Custom-built (React & Node.js)
+• 5 Search Tags: react bug fix, api integration, node js fix, react component, javascript debug
+• Packages:
+  - Basic ($40 / 24h): Quick Bug Fix or Single React Component
+  - Standard ($95 / 2 Days): REST API Integration & Core Logic
+  - Premium ($190 / 3 Days): Full Interactive Feature Module (API + DB + UI)
+
+---
+INSTRUCTIONS FOR SIDER AI:
+1. Provide copy that fits strictly within Fiverr's character limits (Description: under 1,200 chars; Title: under 80 chars; Search tags: max 20 chars each).
+2. Format text using bold headings and bullet points for maximum readability.
+3. Keep the tone professional, authoritative, and conversion-focused.
+
+Start by giving me the exact input for STEP 1: OVERVIEW (Title, Categories, Metadata selections, and 5 Search Tags). Then ask me to say "Next" for Step 2.

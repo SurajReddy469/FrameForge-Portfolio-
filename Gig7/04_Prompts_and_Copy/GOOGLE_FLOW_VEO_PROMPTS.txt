@@ -1,0 +1,22 @@
+================================================================================
+GOOGLE FLOW (VEO) 8-SECOND VIDEO PROMPTS
+================================================================================
+
+Option 1: The Senior Full-Stack Developer Station (Best for Gig Trust)
+--------------------------------------------------------------------------------
+Cinematic 8-second sequence. An extreme slow dolly-in towards an ultrawide curved glass monitor in a modern dark-mode software studio at night. The screen displays vibrant glowing React component code and a clean Linux terminal executing tests, turning from amber to bright emerald green with the message '✓ ALL 69 TESTS PASSED - PRODUCTION READY'. Soft neon cyan and violet rim lighting reflects off the desk surface. Anamorphic lens flare, shallow depth of field, photorealistic, 4K resolution, 24fps, 8 seconds.
+
+
+Option 2: 3D Holographic Code & Circuit Node Assembly (High-Tech Eye Catcher)
+--------------------------------------------------------------------------------
+Dynamic 8-second shot. A slow 180-degree orbital camera move around a glowing 3D holographic cube composed of interconnected React and Node.js circuit pathways floating in mid-air. Subtle red glitch lines across the surface rapidly resolve and lock into pristine neon blue and emerald green as a smooth energy wave passes through. Volumetric god rays, dark obsidian background with fine floating digital particles, octane render style, photorealistic, 4K, 8 seconds.
+
+
+Option 3: Kinetic Web Architecture Assembly (Clean Product Showcase) - [USED FOR GENERATION]
+--------------------------------------------------------------------------------
+Kinetic 8-second tracking shot. The camera glides swiftly forward at a low angle across a dark frosted glass surface as modern web application dashboard panels, interactive modals, and data charts assemble themselves with magnetic precision. Clean geometric alignment, soft studio diffusion lighting with subtle cyan accents, Apple-commercial minimalist aesthetic, smooth motion blur, photorealistic, 4K, 8 seconds.
+
+
+Scene 2 Continuation Prompt (To Extend from Frame 7.85s to 16s):
+--------------------------------------------------------------------------------
+Cinematic 8-second continuation. Camera smoothly pushes in past the floating glass UI panels, diving seamlessly into an ultrawide obsidian monitor displaying clean, glowing React syntax and a dark Linux terminal. Lines of green code rapidly compile, culminating in a bright emerald banner: '✓ ALL 69 TESTS PASSED - 0 CONSOLE ERRORS'. Soft anamorphic lens flare, shallow depth of field, photorealistic, 4K, 24fps.

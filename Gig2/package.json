@@ -1,0 +1,44 @@
+{
+  "name": "gig2-ecommerce-portfolio-master",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "Store01-VanguardChrono",
+    "Store02-ZeroGravityNYC",
+    "Store03-AuraBotanica",
+    "Store04-NordicRoast",
+    "Store05-KeyCraftLabs",
+    "Store06-VeloCoreAthletics",
+    "Store07-AtelierForma",
+    "Store08-MaisonCacao",
+    "Store09-PawAndCobble",
+    "Store10-CanvasCurator"
+  ],
+  "scripts": {
+    "dev:store1": "npm --workspace=Store01-VanguardChrono run dev",
+    "dev:store2": "npm --workspace=Store02-ZeroGravityNYC run dev",
+    "dev:store3": "npm --workspace=Store03-AuraBotanica run dev",
+    "dev:store4": "npm --workspace=Store04-NordicRoast run dev",
+    "dev:store5": "npm --workspace=Store05-KeyCraftLabs run dev",
+    "dev:store6": "npm --workspace=Store06-VeloCoreAthletics run dev",
+    "dev:store7": "npm --workspace=Store07-AtelierForma run dev",
+    "dev:store8": "npm --workspace=Store08-MaisonCacao run dev",
+    "dev:store9": "npm --workspace=Store09-PawAndCobble run dev",
+    "dev:store10": "npm --workspace=Store10-CanvasCurator run dev"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "lucide-react": "^0.475.0",
+    "canvas-confetti": "^1.9.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.0",
+    "vite": "^6.1.0"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
+  }
+}

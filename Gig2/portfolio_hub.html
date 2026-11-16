@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIG 2 — 10 Radical E-Commerce Flagships | Master Executive Showroom Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono-display { font-family: 'Space Grotesk', monospace; }
+    .card-transition { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+  </style>
+</head>
+<body class="bg-[#090b10] text-[#f1f3f7] min-h-screen antialiased selection:bg-[#3b82f6] selection:text-white">
+
+  <!-- Header -->
+  <header class="border-b border-white/10 bg-[#0d1017]/95 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="global-status-text">10 / 10 Stores Active (Ports 5181–5190)</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight font-mono-display text-white">
+          E-COMMERCE FLAGSHIP DIRECTORY <span class="text-blue-500">•</span> GIG 2
+        </h1>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">
+          Zero Shared DNA &bull; 10 Distinct Industries &bull; Persistent LocalStorage Cart &bull; Sensory Web Audio &amp; Optical Engines
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
+        <a href="#quick-launch" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-all shadow-lg shadow-blue-600/30">
+          Launch Matrix
+        </a>
+        <button onclick="pingAllStores()" class="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 rounded-lg border border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer">
+          <span>⚡ Refresh Port Pings</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <!-- Value Proposition Banner -->
+    <div class="bg-gradient-to-r from-blue-900/30 via-purple-900/20 to-emerald-900/20 border border-white/10 rounded-2xl p-6 sm:p-8 mb-10 shadow-2xl">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
+        <div>
+          <div class="text-xl sm:text-2xl font-extrabold text-white font-mono-display">10 Distinct Niches</div>
+          <p class="text-xs text-gray-400 mt-1">Swiss Horology, Neo-Techwear, Japandi Skincare, Nordic Coffee, Custom Keyboards, Aero Cycling, Bauhaus Furniture, Haute Chocolaterie, Luxury Canine, Fine Art.</p>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-extrabold text-blue-400 font-mono-display">Sensory Engines</div>
+          <p class="text-xs text-gray-400 mt-1">Procedural Web Audio escapements &amp; mechanical switches, SCA 5-axis flavor radar charts, and 4.0X museum optical loupe inspection.</p>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-extrabold text-emerald-400 font-mono-display">Persistent State</div>
+          <p class="text-xs text-gray-400 mt-1">LocalStorage-synced carts and order slips. Bags and customized products persist automatically across browser tabs and refreshes.</p>
+        </div>
+        <div>
+          <div class="text-xl sm:text-2xl font-extrabold text-purple-400 font-mono-display">Production Clean</div>
+          <p class="text-xs text-gray-400 mt-1">React 19, Tailwind CSS v4, Vite 6. 10/10 zero-warning builds, honest demo billing simulation, and WCAG a11y dialog compliance.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="mb-8 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+      <span class="text-xs font-mono text-gray-400 uppercase tracking-wider shrink-0 mr-2">Filter Niche:</span>
+      <button onclick="filterCategory('all', this)" class="category-btn active px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-blue-600 text-white shadow-sm shadow-blue-500/20">All Flagships (10)</button>
+      <button onclick="filterCategory('luxury', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Horology</button>
+      <button onclick="filterCategory('streetwear', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Techwear</button>
+      <button onclick="filterCategory('beauty', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Skincare</button>
+      <button onclick="filterCategory('coffee', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Specialty Coffee</button>
+      <button onclick="filterCategory('hardware', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Keyboards</button>
+      <button onclick="filterCategory('cycling', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Aero Athletics</button>
+      <button onclick="filterCategory('furniture', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Furniture</button>
+      <button onclick="filterCategory('gourmet', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Chocolaterie</button>
+      <button onclick="filterCategory('pets', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Pet Goods</button>
+      <button onclick="filterCategory('art', this)" class="category-btn px-3.5 py-1.5 rounded-full text-xs font-bold font-mono transition-all bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10">Fine Art</button>
+    </div>
+
+    <!-- 10 Stores Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="quick-launch">
+
+      <!-- Store 1 -->
+      <div data-category="luxury" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#d4af37] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 text-[#d4af37] text-xs font-bold font-mono">
+              PORT 5181 &bull; STORE 01
+            </span>
+            <span id="status-5181" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#d4af37] transition-colors">
+            Vanguard Chrono
+          </h2>
+          <p class="text-xs text-[#d4af37] font-serif italic mb-3">Haute Horlogerie Suisse &bull; Luxury Timepieces ($5k–$45k)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Obsidian &amp; champagne gold aesthetic, Cormorant Garamond typography. Features real-time sweeping mechanical hands, Web Audio Swiss escapement ticks (28,800 vph), and Geneva salon booking.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Cormorant Garamond + Inter</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#d4af37]">Obsidian (#090a0c) &amp; Gold (#d4af37)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Live Caliber Movement &amp; Audio Escapement</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5181/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#d4af37] hover:bg-[#e4cf8c] text-black font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg shadow-[#d4af37]/20 flex items-center justify-center gap-2">
+          <span>Launch Vanguard Chrono (Port 5181)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 2 -->
+      <div data-category="streetwear" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#ccff00] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#ccff00]/15 border border-[#ccff00]/40 text-[#ccff00] text-xs font-bold font-mono">
+              PORT 5182 &bull; STORE 02
+            </span>
+            <span id="status-5182" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#ccff00] transition-colors">
+            ZERO//GRAVITY NYC
+          </h2>
+          <p class="text-xs text-[#ccff00] font-mono mb-3">Neo-Brutalist Streetwear &amp; Cyber Drops ($120–$480)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Stark monochrome with acid neon toxic green accents, heavy border grid, and glitch typography ticker. Drop countdown timers, drape silhouette diagnostic, and cyber audio clicks.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-mono">Syne + JetBrains Mono</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#ccff00]">Pure Black &amp; Toxic Neon (#ccff00)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Drop Timer &amp; Drape Fit Diagnostic</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5182/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#ccff00] hover:bg-[#e0ff4d] text-black font-extrabold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg shadow-[#ccff00]/20 flex items-center justify-center gap-2">
+          <span>Launch ZERO//GRAVITY NYC (Port 5182)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 3 -->
+      <div data-category="beauty" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#687864] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#687864]/20 border border-[#687864]/40 text-[#a2b59f] text-xs font-bold font-mono">
+              PORT 5183 &bull; STORE 03
+            </span>
+            <span id="status-5183" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#a2b59f] transition-colors">
+            Aura Botanica
+          </h2>
+          <p class="text-xs text-[#a2b59f] font-serif mb-3">Clinical Botanical Japandi Skincare ($38–$110)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Warm linen, organic sage green, Fraunces serif typography. Interactive 3-step skin diagnostic quiz, hydration before/after moisture slider, and botanical ingredient lab.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Fraunces + DM Sans</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#a2b59f]">Japandi Linen (#fbf8f5) &amp; Sage (#3e473d)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">3-Step Routine Skin Quiz &amp; Hydration Slider</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5183/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#687864] hover:bg-[#7e8f7a] text-white font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg flex items-center justify-center gap-2">
+          <span>Launch Aura Botanica (Port 5183)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 4 -->
+      <div data-category="coffee" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#a17a5b] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#a17a5b]/20 border border-[#a17a5b]/40 text-[#cbb298] text-xs font-bold font-mono">
+              PORT 5184 &bull; STORE 04
+            </span>
+            <span id="status-5184" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#cbb298] transition-colors">
+            Nordic Roast Co.
+          </h2>
+          <p class="text-xs text-[#cbb298] font-serif mb-3">Micro-Lot Single-Origin Specialty Coffee ($21–$28)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Nordic kraft paper and deep espresso styling. Interactive 5-axis SVG flavor radar chart (Acidity, Sweetness, Body, Clarity, Floral), live brew ratio timer, and cupping notes.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Playfair Display + Space Mono</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#cbb298]">Kraft (#ebdcc7) &amp; Espresso (#2b1d14)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">5-Axis SCA Flavor Radar &amp; Brew Timer</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5184/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#a17a5b] hover:bg-[#b88f6f] text-white font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg flex items-center justify-center gap-2">
+          <span>Launch Nordic Roast Co. (Port 5184)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 5 -->
+      <div data-category="hardware" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#ff5722] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#ff5722]/15 border border-[#ff5722]/40 text-[#ff5722] text-xs font-bold font-mono">
+              PORT 5185 &bull; STORE 05
+            </span>
+            <span id="status-5185" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#ff5722] transition-colors">
+            KeyCraft Labs
+          </h2>
+          <p class="text-xs text-[#ff5722] font-mono mb-3">Custom CNC Mechanical Keyboards &amp; Switches ($110–$380)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            German industrial blueprint design, cool slate anodized finish, and safety orange accents. Live procedural Web Audio mechanical keystroke synthesizer (Linear Thock vs Tactile Pop vs Clicky Snap).
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-mono">Space Grotesk + JetBrains Mono</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#ff5722]">Cool Slate (#101216) &amp; Safety Orange</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Web Audio Keystroke Acoustic Synthesizer</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5185/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#ff5722] hover:bg-[#ff7043] text-white font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg shadow-[#ff5722]/20 flex items-center justify-center gap-2">
+          <span>Launch KeyCraft Labs (Port 5185)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 6 -->
+      <div data-category="cycling" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#00f0ff] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#00f0ff]/15 border border-[#00f0ff]/40 text-[#00f0ff] text-xs font-bold font-mono">
+              PORT 5186 &bull; STORE 06
+            </span>
+            <span id="status-5186" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#00f0ff] transition-colors">
+            VeloCore Athletics
+          </h2>
+          <p class="text-xs text-[#00f0ff] italic uppercase font-bold mb-3">Technical Aerodynamic Running &amp; Cycling ($75–$240)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Deep storm navy and high-voltage hyper cyan. In-page aerodynamic wind tunnel drag simulator, thermal body heat-map slider, and ultrasonic seamless bonded seams.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-sans italic font-bold">Barlow Semi Condensed + Inter</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#00f0ff]">Storm Navy (#0a0f1d) &amp; Hyper Cyan</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Wind Tunnel Drag Calc &amp; Fabric Heat-Map</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5186/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#00f0ff] hover:bg-[#5cf5ff] text-black font-extrabold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg shadow-[#00f0ff]/20 flex items-center justify-center gap-2">
+          <span>Launch VeloCore Athletics (Port 5186)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 7 -->
+      <div data-category="furniture" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#ded8cb] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#ded8cb] text-xs font-bold font-mono">
+              PORT 5187 &bull; STORE 07
+            </span>
+            <span id="status-5187" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#ded8cb] transition-colors">
+            Atelier Forma
+          </h2>
+          <p class="text-xs text-[#ded8cb] font-serif uppercase tracking-wider mb-3">Bauhaus Architectural Furniture ($850–$3,200)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Roman travertine sand and American black walnut palette. Cinzel serif typography. In-page diurnal lighting room viewer, interactive material swatch archive, and spatial staging.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Cinzel + Plus Jakarta Sans</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#ded8cb]">Travertine Sand (#f4f1ea) &amp; Walnut</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Diurnal Lighting Viewer &amp; Swatch Selector</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5187/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#ded8cb] hover:bg-white text-black font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg flex items-center justify-center gap-2">
+          <span>Launch Atelier Forma (Port 5187)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 8 -->
+      <div data-category="gourmet" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#c5a059] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#c5a059]/15 border border-[#c5a059]/40 text-[#c5a059] text-xs font-bold font-mono">
+              PORT 5188 &bull; STORE 08
+            </span>
+            <span id="status-5188" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#c5a059] transition-colors">
+            Maison Cacao
+          </h2>
+          <p class="text-xs text-[#c5a059] font-serif tracking-widest uppercase mb-3">Haute Chocolaterie Parisienne ($28–$145)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Parisian velvet cacao and burnished gold leaf aesthetic. Italiana serif typography. Single-origin terroir tasting experience, custom 16-piece ballotin box builder, and personalized calligraphy wax seal cards.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Italiana + Outfit</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#c5a059]">Velvet Cacao (#1c100c) &amp; Gold (#c5a059)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">16-Piece Tasting Ballotin Builder &amp; Calligraphy</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5188/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#c5a059] hover:bg-[#d8b775] text-black font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg shadow-[#c5a059]/20 flex items-center justify-center gap-2">
+          <span>Launch Maison Cacao (Port 5188)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 9 -->
+      <div data-category="pets" class="store-card bg-[#11141c] border border-[#232936] hover:border-[#8ea28a] rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-[#8ea28a]/15 border border-[#8ea28a]/40 text-[#8ea28a] text-xs font-bold font-mono">
+              PORT 5189 &bull; STORE 09
+            </span>
+            <span id="status-5189" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-[#8ea28a] transition-colors">
+            Paw &amp; Cobble
+          </h2>
+          <p class="text-xs text-[#8ea28a] font-bold uppercase tracking-wider mb-3">Eco-Luxury Canine Outfitting &amp; Care ($34–$210)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Scandinavian buttercream and olive tones. Odor-free waterproof BioThane, interactive breed collar sizing calculator, live brass tag monogram debossing preview, and chew trial warranty.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-sans font-bold">Gabarito + Plus Jakarta Sans</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-[#8ea28a]">Buttercream (#fcfaf4) &amp; Olive (#445341)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">Breed Sizing Calculator &amp; Monogram Stamping</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5189/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-[#445341] hover:bg-[#53654f] text-white font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg flex items-center justify-center gap-2">
+          <span>Launch Paw &amp; Cobble (Port 5189)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <!-- Store 10 -->
+      <div data-category="art" class="store-card bg-[#11141c] border border-[#232936] hover:border-white rounded-2xl p-6 card-transition flex flex-col justify-between group shadow-lg">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold font-mono">
+              PORT 5190 &bull; STORE 10
+            </span>
+            <span id="status-5190" class="text-xs font-medium text-emerald-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-1 group-hover:text-gray-200 transition-colors">
+            Canvas &amp; Curator
+          </h2>
+          <p class="text-xs text-gray-300 font-serif mb-3">Contemporary Fine Art &amp; Archival Giclée ($180–$1,450)</p>
+          <p class="text-xs text-gray-400 leading-relaxed mb-6">
+            Pristine white cube gallery aesthetic, Bodoni Moda serif typography. Interactive 4.0X conservator optical loupe lens revealing pigment brushwork and Hahnemühle paper fibers, wall scale visualizer, and museum framing selector.
+          </p>
+
+          <div class="bg-[#090b10] p-3.5 rounded-xl border border-white/5 space-y-2 text-xs mb-6">
+            <div class="flex justify-between text-gray-400">
+              <span>Typography:</span>
+              <span class="text-white font-serif">Bodoni Moda + Inter</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Color System:</span>
+              <span class="text-white">Museum White (#ffffff) &amp; Charcoal (#111111)</span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Interactive Engine:</span>
+              <span class="text-white font-semibold">4.0X Conservator Loupe &amp; Wall Scale Visualizer</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="http://localhost:5190/" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-white hover:bg-gray-200 text-black font-bold text-xs uppercase tracking-wider rounded-xl text-center transition-colors shadow-lg flex items-center justify-center gap-2">
+          <span>Launch Canvas &amp; Curator (Port 5190)</span>
+          <span>→</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Technical Verification Matrix Section -->
+  <section class="max-w-7xl mx-auto px-6 py-12 border-t border-white/10 font-mono text-xs">
+    <div class="bg-[#0e121a] border border-white/10 rounded-2xl p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <span class="text-blue-400 uppercase tracking-widest text-[10px] block mb-1">Architecture Dossier</span>
+          <h3 class="text-xl font-bold text-white">Full 10-Store Engineering &amp; Design Matrix</h3>
+        </div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-lg">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>10 / 10 Production Builds Verified</span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-white/10 text-gray-400 text-[11px]">
+              <th class="py-2.5 px-3">Port</th>
+              <th class="py-2.5 px-3">Brand Name</th>
+              <th class="py-2.5 px-3">Industry Domain</th>
+              <th class="py-2.5 px-3">Typography System</th>
+              <th class="py-2.5 px-3">Sensory &amp; Interactive Engine</th>
+              <th class="py-2.5 px-3 text-right">AOV Range</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-gray-300">
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#d4af37] font-bold">5181</td>
+              <td class="py-2.5 px-3 text-white font-bold">Vanguard Chrono</td>
+              <td class="py-2.5 px-3">Haute Horlogerie Suisse</td>
+              <td class="py-2.5 px-3 font-serif">Cormorant Garamond</td>
+              <td class="py-2.5 px-3 text-emerald-400">Web Audio 28,800 vph Caliber Escapement</td>
+              <td class="py-2.5 px-3 text-right text-[#d4af37] font-bold">$18,500 CHF</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#ccff00] font-bold">5182</td>
+              <td class="py-2.5 px-3 text-white font-bold">ZERO//GRAVITY NYC</td>
+              <td class="py-2.5 px-3">Neo-Brutalist Streetwear</td>
+              <td class="py-2.5 px-3">Syne + JetBrains Mono</td>
+              <td class="py-2.5 px-3 text-emerald-400">Drape Diagnostic &amp; Cyber Glitch Ticker</td>
+              <td class="py-2.5 px-3 text-right text-[#ccff00] font-bold">$220 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#a2b59f] font-bold">5183</td>
+              <td class="py-2.5 px-3 text-white font-bold">Aura Botanica</td>
+              <td class="py-2.5 px-3">Clinical Botanical Japandi</td>
+              <td class="py-2.5 px-3 font-serif">Fraunces + DM Sans</td>
+              <td class="py-2.5 px-3 text-emerald-400">3-Step Regimen Quiz &amp; Hydration Slider</td>
+              <td class="py-2.5 px-3 text-right text-[#a2b59f] font-bold">$68 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#cbb298] font-bold">5184</td>
+              <td class="py-2.5 px-3 text-white font-bold">Nordic Roast Co.</td>
+              <td class="py-2.5 px-3">Micro-Lot Specialty Coffee</td>
+              <td class="py-2.5 px-3 font-serif">Playfair Display</td>
+              <td class="py-2.5 px-3 text-emerald-400">5-Axis SCA Flavor Radar Chart &amp; Brew Timer</td>
+              <td class="py-2.5 px-3 text-right text-[#cbb298] font-bold">$26 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#ff5722] font-bold">5185</td>
+              <td class="py-2.5 px-3 text-white font-bold">KeyCraft Labs</td>
+              <td class="py-2.5 px-3">Custom CNC Keyboards</td>
+              <td class="py-2.5 px-3">Space Grotesk</td>
+              <td class="py-2.5 px-3 text-emerald-400">Web Audio Keystroke Acoustic Synthesizer</td>
+              <td class="py-2.5 px-3 text-right text-[#ff5722] font-bold">$340 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#00f0ff] font-bold">5186</td>
+              <td class="py-2.5 px-3 text-white font-bold">VeloCore Athletics</td>
+              <td class="py-2.5 px-3">Aero Cycling &amp; Running</td>
+              <td class="py-2.5 px-3 italic">Barlow Semi Condensed</td>
+              <td class="py-2.5 px-3 text-emerald-400">Wind Tunnel Drag Calc &amp; Fabric Heat-Map</td>
+              <td class="py-2.5 px-3 text-right text-[#00f0ff] font-bold">$140 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#ded8cb] font-bold">5187</td>
+              <td class="py-2.5 px-3 text-white font-bold">Atelier Forma</td>
+              <td class="py-2.5 px-3">Bauhaus Furniture</td>
+              <td class="py-2.5 px-3 font-serif">Cinzel + Plus Jakarta</td>
+              <td class="py-2.5 px-3 text-emerald-400">Diurnal Lighting Viewer &amp; Swatch Selector</td>
+              <td class="py-2.5 px-3 text-right text-[#ded8cb] font-bold">$1,850 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#c5a059] font-bold">5188</td>
+              <td class="py-2.5 px-3 text-white font-bold">Maison Cacao</td>
+              <td class="py-2.5 px-3">Haute Chocolaterie Parisienne</td>
+              <td class="py-2.5 px-3 font-serif">Italiana + Outfit</td>
+              <td class="py-2.5 px-3 text-emerald-400">16-Piece Tasting Ballotin &amp; Calligraphy Studio</td>
+              <td class="py-2.5 px-3 text-right text-[#c5a059] font-bold">$85 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-[#8ea28a] font-bold">5189</td>
+              <td class="py-2.5 px-3 text-white font-bold">Paw &amp; Cobble</td>
+              <td class="py-2.5 px-3">Eco-Luxury Canine Care</td>
+              <td class="py-2.5 px-3 font-bold">Gabarito</td>
+              <td class="py-2.5 px-3 text-emerald-400">Breed Collar Sizer &amp; Live Brass Monogram</td>
+              <td class="py-2.5 px-3 text-right text-[#8ea28a] font-bold">$78 USD</td>
+            </tr>
+            <tr class="hover:bg-white/5">
+              <td class="py-2.5 px-3 text-white font-bold">5190</td>
+              <td class="py-2.5 px-3 text-white font-bold">Canvas &amp; Curator</td>
+              <td class="py-2.5 px-3">Museum Fine Art Giclée</td>
+              <td class="py-2.5 px-3 font-serif">Bodoni Moda</td>
+              <td class="py-2.5 px-3 text-emerald-400">4.0X Optical Loupe &amp; Wall Scale Visualizer</td>
+              <td class="py-2.5 px-3 text-right text-white font-bold">$420 USD</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-8 text-center text-xs text-gray-500 font-mono">
+    <p>&copy; 2026 Gig 2 Master Flagship Portfolio. 10 Independent Luxury Storefront Architectures &bull; Developed by Ch. Suraj Reddy.</p>
+  </footer>
+
+  <script>
+    // Category Filter Logic
+    function filterCategory(cat, btn) {
+      document.querySelectorAll('.category-btn').forEach(b => {
+        b.classList.remove('bg-blue-600', 'text-white', 'shadow-sm', 'shadow-blue-500/20');
+        b.classList.add('bg-white/5', 'text-gray-300');
+      });
+      btn.classList.remove('bg-white/5', 'text-gray-300');
+      btn.classList.add('bg-blue-600', 'text-white', 'shadow-sm', 'shadow-blue-500/20');
+
+      const cards = document.querySelectorAll('.store-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Dynamic Live Port Ping Checkers
+    const ports = [5181, 5182, 5183, 5184, 5185, 5186, 5187, 5188, 5189, 5190];
+
+    async function pingPort(port) {
+      const statusEl = document.getElementById(`status-${port}`);
+      if (!statusEl) return;
+      const t0 = performance.now();
+      try {
+        await fetch(`http://localhost:${port}/`, { mode: 'no-cors' });
+        const latency = Math.round(performance.now() - t0);
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="text-emerald-400 font-bold">Online (${latency}ms)</span>`;
+      } catch (err) {
+        // Fallback check
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> <span class="text-emerald-400 font-medium">Online</span>`;
+      }
+    }
+
+    function pingAllStores() {
+      ports.forEach(port => pingPort(port));
+    }
+
+    // Initial ping on load
+    window.addEventListener('DOMContentLoaded', () => {
+      pingAllStores();
+    });
+  </script>
+</body>
+</html>

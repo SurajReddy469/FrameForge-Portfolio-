@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #fcfaf4;
+    color: #2c332b;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-brand {
+    font-family: 'Gabarito', sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+.pet-border {
+  border-color: #e5ded0;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #445341 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

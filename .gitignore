@@ -36,6 +36,10 @@ Thumbs.db
 *.sln
 *.sw?
 
+# Media binaries
+*.mp4
+*.mov
+
 # Antigravity Brain / Temp
 .system_generated/
 scratch/

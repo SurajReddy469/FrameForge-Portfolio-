@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #fbf8f5;
+    color: #2c322b;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+}
+
+.linen-card {
+  background-color: #ffffff;
+  border: 1px solid #ede8e1;
+}
+
+.linen-card-accent {
+  background-color: #f5f0e8;
+  border: 1px solid #e2dad0;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #788574 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Code Browser Multi-Store Viewer | Gig 2 E-Commerce Matrix</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0d11; }
+    ::-webkit-scrollbar-thumb { background: #232936; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+  </style>
+</head>
+<body class="bg-[#090b0e] text-[#f1f3f7] h-full flex flex-col overflow-hidden antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- VS Code Browser Header Navigation -->
+  <header class="bg-[#10131a] border-b border-[#1e2430] flex-shrink-0 z-50 px-4 py-2.5">
+    <div class="flex flex-col xl:flex-row items-center justify-between gap-3">
+      
+      <!-- Left: Title & Mode Toggle -->
+      <div class="flex items-center gap-3 w-full xl:w-auto justify-between xl:justify-start">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs shadow-md shadow-blue-600/30">
+            VS
+          </div>
+          <div>
+            <h1 class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+              <span>VS CODE EMBEDDED STORE BROWSER</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono-code bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                10/10 PORTS ONLINE
+              </span>
+            </h1>
+            <p class="text-[10px] text-gray-400 font-mono-code">Gig 2 Multi-Domain E-Commerce Flagships &bull; Live Interactive Iframes</p>
+          </div>
+        </div>
+
+        <!-- View Mode Switcher -->
+        <div class="flex items-center bg-[#090b0e] p-1 rounded-lg border border-[#232936] text-xs font-semibold">
+          <button id="btn-focus-mode" onclick="setViewMode('focus')" class="px-3 py-1 rounded bg-blue-600 text-white shadow transition-all">
+            Single Focus View
+          </button>
+          <button id="btn-grid-mode" onclick="setViewMode('grid')" class="px-3 py-1 rounded text-gray-400 hover:text-white transition-all">
+            10-Store Split Grid
+          </button>
+        </div>
+      </div>
+
+      <!-- Center: Store Quick-Switch Pills (for Focus Mode) -->
+      <div id="store-pill-bar" class="flex items-center gap-1.5 overflow-x-auto max-w-full pb-1 xl:pb-0">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Right: Responsive Device Toolbar -->
+      <div class="flex items-center gap-2 text-xs">
+        <div id="device-controls" class="flex items-center bg-[#090b0e] p-1 rounded-lg border border-[#232936]">
+          <button onclick="setDeviceSize('desktop')" id="dev-desktop" class="px-2.5 py-1 rounded bg-[#232936] text-white text-[11px] font-medium" title="Desktop 100%">
+            🖥️ Desktop
+          </button>
+          <button onclick="setDeviceSize('tablet')" id="dev-tablet" class="px-2.5 py-1 rounded text-gray-400 hover:text-white text-[11px] font-medium" title="Tablet 1024px">
+            📱 Tablet
+          </button>
+          <button onclick="setDeviceSize('mobile')" id="dev-mobile" class="px-2.5 py-1 rounded text-gray-400 hover:text-white text-[11px] font-medium" title="Mobile 414px">
+            📱 Mobile
+          </button>
+        </div>
+
+        <button onclick="reloadCurrentFrame()" class="p-1.5 rounded-lg bg-[#191e28] hover:bg-[#232936] text-gray-300 hover:text-white border border-[#232936] transition-colors" title="Reload Active Store Frame">
+          🔄
+        </button>
+
+        <a id="ext-link" href="http://localhost:5181" target="_blank" class="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600 border border-blue-500/40 text-blue-300 hover:text-white font-medium text-[11px] transition-all flex items-center gap-1.5">
+          <span>Open Tab</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewport Area -->
+  <main class="flex-1 relative overflow-hidden bg-[#060709] flex flex-col">
+    
+    <!-- FOCUS MODE: Single Store Full Viewport -->
+    <div id="focus-viewport" class="flex-1 w-full h-full flex flex-col items-center justify-start p-2 sm:p-4 transition-all duration-300 overflow-y-auto">
+      <div id="frame-container" class="w-full h-full bg-[#10131a] rounded-xl border border-[#1e2430] overflow-hidden shadow-2xl flex flex-col transition-all duration-300">
+        <!-- Live URL Bar -->
+        <div class="bg-[#121620] px-4 py-2 border-b border-[#1e2430] flex items-center justify-between text-xs font-mono-code text-gray-400">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="current-store-badge" class="text-white font-bold">Store 01: Vanguard Chrono</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="current-url-display" class="text-blue-400 underline">http://localhost:5181</span>
+            <button onclick="copyCurrentUrl()" class="hover:text-white transition-colors" title="Copy URL">📋</button>
+          </div>
+        </div>
+
+        <!-- The Live Embedded Iframe -->
+        <iframe id="main-frame" src="http://localhost:5181" class="w-full flex-1 border-0 bg-black" allow="fullscreen" loading="eager"></iframe>
+      </div>
+    </div>
+
+    <!-- GRID MODE: All 10 Stores in a Multi-Window Grid -->
+    <div id="grid-viewport" class="hidden flex-1 p-4 overflow-y-auto">
+      <div class="max-w-[1920px] mx-auto grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6" id="multi-grid-cards">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const STORES = [
+      { id: 1, name: "Vanguard Chrono", domain: "Swiss Luxury Timepieces", port: 5181, color: "#d4af37", font: "Cormorant Garamond" },
+      { id: 2, name: "ZERO//GRAVITY NYC", domain: "Cyberpunk Streetwear", port: 5182, color: "#ccff00", font: "Syne + JetBrains Mono" },
+      { id: 3, name: "Aura Botanica", domain: "Botanical Japandi Skincare", port: 5183, color: "#a2b59f", font: "Fraunces + DM Sans" },
+      { id: 4, name: "Nordic Roast Co.", domain: "Specialty Micro-Lot Coffee", port: 5184, color: "#cbb298", font: "Playfair + Space Mono" },
+      { id: 5, name: "KeyCraft Labs", domain: "Industrial Custom Keyboards", port: 5185, color: "#ff5722", font: "Space Grotesk" },
+      { id: 6, name: "VeloCore Athletics", domain: "Technical Activewear", port: 5186, color: "#00f0ff", font: "Barlow Semi Condensed" },
+      { id: 7, name: "Atelier Forma", domain: "Bauhaus Architectural Furniture", port: 5187, color: "#ded8cb", font: "Cinzel + Jakarta" },
+      { id: 8, name: "Maison Cacao", domain: "Parisian Luxury Chocolatier", port: 5188, color: "#c5a059", font: "Italiana + Outfit" },
+      { id: 9, name: "Paw & Cobble", domain: "Eco-Luxury Pet Lifestyle", port: 5189, color: "#8ea28a", font: "Gabarito + Jakarta" },
+      { id: 10, name: "Canvas & Curator", domain: "Contemporary Fine Art", port: 5190, color: "#ffffff", font: "Bodoni Moda + Inter" }
+    ];
+
+    let currentStoreId = 1;
+    let currentMode = 'focus';
+    let currentDevice = 'desktop';
+
+    // Render Pills
+    function renderPills() {
+      const pillBar = document.getElementById('store-pill-bar');
+      pillBar.innerHTML = STORES.map(s => `
+        <button
+          onclick="switchStore(${s.id})"
+          id="pill-${s.id}"
+          class="px-2.5 py-1 rounded-md text-[11px] font-mono-code transition-all whitespace-nowrap flex items-center gap-1.5 border ${
+            s.id === currentStoreId
+              ? 'bg-blue-600/20 text-white border-blue-500 font-bold shadow'
+              : 'bg-[#141822] text-gray-400 border-[#232936] hover:border-gray-500 hover:text-gray-200'
+          }"
+        >
+          <span class="w-1.5 h-1.5 rounded-full" style="background-color: ${s.color}"></span>
+          <span>${s.id < 10 ? '0' + s.id : s.id}. ${s.name.split(' ')[0]}</span>
+          <span class="text-[9px] text-gray-500">:${s.port}</span>
+        </button>
+      `).join('');
+    }
+
+    // Switch active store in Focus Mode
+    function switchStore(id) {
+      currentStoreId = id;
+      const store = STORES.find(s => s.id === id);
+      const url = `http://localhost:${store.port}`;
+
+      document.getElementById('main-frame').src = url;
+      document.getElementById('current-store-badge').innerHTML = `Store ${store.id < 10 ? '0' + store.id : store.id}: ${store.name} <span class="text-xs font-normal text-gray-400">(${store.domain})</span>`;
+      document.getElementById('current-url-display').innerText = url;
+      document.getElementById('current-url-display').href = url;
+      document.getElementById('ext-link').href = url;
+
+      renderPills();
+    }
+
+    // Reload iframe
+    function reloadCurrentFrame() {
+      const frame = document.getElementById('main-frame');
+      frame.src = frame.src;
+    }
+
+    // Copy URL
+    function copyCurrentUrl() {
+      const store = STORES.find(s => s.id === currentStoreId);
+      navigator.clipboard.writeText(`http://localhost:${store.port}`);
+      alert(`Copied http://localhost:${store.port} to clipboard!`);
+    }
+
+    // Toggle view mode
+    function setViewMode(mode) {
+      currentMode = mode;
+      const focusVp = document.getElementById('focus-viewport');
+      const gridVp = document.getElementById('grid-viewport');
+      const btnFocus = document.getElementById('btn-focus-mode');
+      const btnGrid = document.getElementById('btn-grid-mode');
+      const devControls = document.getElementById('device-controls');
+
+      if (mode === 'focus') {
+        focusVp.classList.remove('hidden');
+        gridVp.classList.add('hidden');
+        btnFocus.className = "px-3 py-1 rounded bg-blue-600 text-white shadow transition-all";
+        btnGrid.className = "px-3 py-1 rounded text-gray-400 hover:text-white transition-all";
+        devControls.classList.remove('hidden');
+      } else {
+        focusVp.classList.add('hidden');
+        gridVp.classList.remove('hidden');
+        btnGrid.className = "px-3 py-1 rounded bg-blue-600 text-white shadow transition-all";
+        btnFocus.className = "px-3 py-1 rounded text-gray-400 hover:text-white transition-all";
+        devControls.classList.add('hidden');
+        renderMultiGrid();
+      }
+    }
+
+    // Responsive device simulation in Focus mode
+    function setDeviceSize(size) {
+      currentDevice = size;
+      const container = document.getElementById('frame-container');
+      const btnDesk = document.getElementById('dev-desktop');
+      const btnTab = document.getElementById('dev-tablet');
+      const btnMob = document.getElementById('dev-mobile');
+
+      btnDesk.className = "px-2.5 py-1 rounded text-gray-400 hover:text-white text-[11px] font-medium";
+      btnTab.className = "px-2.5 py-1 rounded text-gray-400 hover:text-white text-[11px] font-medium";
+      btnMob.className = "px-2.5 py-1 rounded text-gray-400 hover:text-white text-[11px] font-medium";
+
+      if (size === 'desktop') {
+        container.style.maxWidth = '100%';
+        btnDesk.className = "px-2.5 py-1 rounded bg-[#232936] text-white text-[11px] font-medium";
+      } else if (size === 'tablet') {
+        container.style.maxWidth = '1024px';
+        btnTab.className = "px-2.5 py-1 rounded bg-[#232936] text-white text-[11px] font-medium";
+      } else if (size === 'mobile') {
+        container.style.maxWidth = '420px';
+        btnMob.className = "px-2.5 py-1 rounded bg-[#232936] text-white text-[11px] font-medium";
+      }
+    }
+
+    // Render all 10 in Multi-Grid Mode
+    function renderMultiGrid() {
+      const container = document.getElementById('multi-grid-cards');
+      container.innerHTML = STORES.map(s => `
+        <div class="bg-[#11141c] border border-[#212735] hover:border-blue-500/50 rounded-2xl overflow-hidden shadow-xl flex flex-col transition-all duration-300">
+          <div class="p-3 bg-[#151924] border-b border-[#212735] flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full" style="background-color: ${s.color}"></span>
+              <span class="font-bold text-white">${s.name}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-mono-code text-[11px] text-gray-400">:${s.port}</span>
+              <a href="http://localhost:${s.port}" target="_blank" class="text-blue-400 hover:text-blue-300" title="Open in New Tab">↗</a>
+            </div>
+          </div>
+          <div class="aspect-[16/10] w-full bg-black relative">
+            <iframe src="http://localhost:${s.port}" class="w-full h-full border-0" loading="lazy"></iframe>
+          </div>
+          <div class="p-3 bg-[#0d1017] flex items-center justify-between text-[11px] text-gray-400">
+            <span class="truncate">${s.domain}</span>
+            <button onclick="switchStore(${s.id}); setViewMode('focus');" class="text-blue-400 hover:underline font-semibold ml-2">Focus &bull; Interact</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Initialize
+    renderPills();
+    switchStore(1);
+  </script>
+</body>
+</html>

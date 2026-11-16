@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #fcfaf7;
+    color: #2b1d14;
+    font-family: 'Space Mono', monospace;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+.kraft-paper {
+  background-color: #ebdcc7;
+  border: 1px solid #d8c5ab;
+}
+
+.espresso-dark {
+  background-color: #231812;
+  color: #fcfaf7;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #a67c52 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

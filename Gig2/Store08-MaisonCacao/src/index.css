@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #1c100c;
+    color: #fbf7f2;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-paris {
+    font-family: 'Italiana', serif;
+    letter-spacing: 0.04em;
+  }
+}
+
+.gold-border {
+  border-color: #4a3424;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #d8b775 0%, #aa843c 100%);
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #c5a059 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

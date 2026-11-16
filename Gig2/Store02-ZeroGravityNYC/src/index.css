@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #050505;
+    color: #ededed;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Syne', sans-serif;
+  }
+}
+
+/* Neo-Brutalist Hard Borders & Shadows */
+.brutal-border {
+  border: 2px solid #222222;
+}
+
+.brutal-border-accent {
+  border: 2px solid #ccff00;
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px #ccff00;
+}
+
+.brutal-shadow-white {
+  box-shadow: 4px 4px 0px #ffffff;
+}
+
+/* Marquee Scrolling Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 16s linear infinite;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid #ccff00 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
