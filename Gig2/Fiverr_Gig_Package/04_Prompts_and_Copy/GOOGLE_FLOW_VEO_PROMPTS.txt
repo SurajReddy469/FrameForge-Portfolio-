@@ -1,0 +1,22 @@
+================================================================================
+GOOGLE FLOW (VEO) 8-SECOND VIDEO PROMPTS - LUXURY E-COMMERCE WEBSITES
+================================================================================
+
+Option 1: The Luxury E-Commerce Device Ecosystem (Recommended for Gig Cover Video)
+--------------------------------------------------------------------------------
+Cinematic 8-second sequence. An extreme slow dolly-in towards a matte-black Apple studio display, MacBook Pro, and iPad Pro arranged on a minimalist dark walnut desk. The screens seamlessly showcase a breathtaking luxury dark-mode e-commerce storefront with a spinning gold mechanical tourbillon watch and sleek interactive typography. Soft amber and warm bronze rim lighting washes over the desk. Micro-animations slide smoothly across the UI. Anamorphic lens flare, shallow depth of field, photorealistic, 4K resolution, 24fps, 8 seconds.
+
+
+Option 2: Kinetic E-Commerce UI Assembly & Instant Checkout (Dynamic Tech Appeal)
+--------------------------------------------------------------------------------
+Kinetic 8-second tracking shot. The camera glides swiftly at a 45-degree angle across a dark frosted glass surface as modular e-commerce storefront panels—product cards, interactive 4x optical loupes, persistent slide-out cart drawer, and sleek checkout badges—assemble themselves with magnetic precision. A vibrant emerald checkmark pulses with the text 'ORDER CONFIRMED - SUB-SECOND PERFORMANCE'. Clean geometric alignment, soft studio diffusion lighting with subtle gold and cyan accents, Apple commercial minimalist aesthetic, smooth motion blur, photorealistic, 4K, 8 seconds.
+
+
+Option 3: 3D Holographic E-Commerce Glass Showcase (High-Converting Visualizer)
+--------------------------------------------------------------------------------
+Dynamic 8-second shot. A slow 180-degree orbital camera move around a glowing 3D holographic luxury boutique interface floating in mid-air above an obsidian pedestal. Floating cards show 10 diverse luxury industries: horology, cyber techwear, botanical skincare, specialty coffee, and fine art. Holographic light particles drift gently in the dark background with volumetric god rays and soft neon reflections. Octane render style, photorealistic, 4K, 8 seconds.
+
+
+Outro Scene Continuation Prompt (To Extend from Frame 7.85s to 16s with Fiverr Compliance):
+--------------------------------------------------------------------------------
+Cinematic 8-second continuation. The camera pushes into the central MacBook display which transitions to a sleek dark minimalist outro card with glowing gold typography: '10+ LIVE PRODUCTION SHOWROOMS • REACT & TAILWIND CSS • AVAILABLE EXCLUSIVELY ON FIVERR'. A subtle emerald verified badge pulses in the corner. Soft studio rim lighting, shallow depth of field, 4K, 24fps.

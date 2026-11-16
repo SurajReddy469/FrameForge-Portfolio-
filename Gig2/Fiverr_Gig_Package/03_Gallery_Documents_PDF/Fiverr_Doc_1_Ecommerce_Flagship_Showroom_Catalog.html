@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FrameForge – 10 Luxury E-Commerce Flagship Showrooms Catalog</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.45;
+    font-size: 10pt;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  .header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .brand {
+    font-size: 20pt;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #0f172a;
+  }
+  .brand span {
+    color: #d97706;
+  }
+  .tagline {
+    font-size: 8.5pt;
+    color: #64748b;
+    margin-top: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .contact-meta {
+    text-align: right;
+    font-size: 8pt;
+    color: #475569;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+  }
+  .badge-live {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+  .badge-tech {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+  h1 {
+    font-size: 15pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .lead {
+    font-size: 9.5pt;
+    color: #475569;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .hub-banner {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hub-banner h2 {
+    font-size: 12pt;
+    color: #f59e0b;
+    margin-bottom: 3px;
+  }
+  .hub-banner p {
+    font-size: 8.5pt;
+    color: #94a3b8;
+  }
+  .hub-link {
+    background: #d97706;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 8.5pt;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .store-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #f8fafc;
+  }
+  .store-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .store-title {
+    font-size: 10.5pt;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .store-niche {
+    font-size: 7.5pt;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .store-desc {
+    font-size: 8.5pt;
+    color: #334155;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .store-feature {
+    font-size: 8pt;
+    color: #0f172a;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 4px 6px;
+    margin-bottom: 6px;
+  }
+  .store-feature strong {
+    color: #b45309;
+  }
+  .store-link {
+    font-size: 8pt;
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 8pt;
+  }
+  .metrics-table th {
+    background: #0f172a;
+    color: #f8fafc;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 700;
+  }
+  .metrics-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .metrics-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  .footer {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="header">
+    <div>
+      <div class="brand">Frame<span>Forge</span></div>
+      <div class="tagline">Luxury E-Commerce Engineering & Architecture</div>
+    </div>
+    <div class="contact-meta">
+      <div><strong>Freelance E-Commerce Suite</strong></div>
+      <div>Portfolio Showroom Dossier (Gig 2)</div>
+      <div><span class="badge badge-live">10 Live Vercel Deployments</span></div>
+    </div>
+  </div>
+
+  <h1>💎 10 Luxury E-Commerce Flagship Showrooms</h1>
+  <p class="lead">
+    A comprehensive showcase of 10 bespoke e-commerce storefronts engineered across distinct commercial industries. Built with React.js, Tailwind CSS, and custom interactive sensory engines, these stores represent production-grade alternatives to sluggish template solutions.
+  </p>
+
+  <div class="hub-banner">
+    <div>
+      <h2>Master Showroom Hub Live on Vercel</h2>
+      <p>Browse all 10 live stores in one executive portal with live iframe device previews and direct launches.</p>
+    </div>
+    <div>
+      <a class="hub-link" href="https://gig2-flagship-hub.vercel.app">Launch Master Hub →</a>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Store 01 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">01. Vanguard Chrono</div>
+          <div class="store-niche">Haute Horlogerie & Timepieces</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Ultra-luxury mechanical watchmaker storefront featuring precision caliber mechanics, dark aesthetic, and gold accents.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Sweeping 60fps Tourbillon Caliber visualizer + Web Audio 28,800 vph mechanical escapement tick.
+      </div>
+      <a class="store-link" href="https://gig2-store01-vanguard.vercel.app">https://gig2-store01-vanguard.vercel.app</a>
+    </div>
+
+    <!-- Store 02 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">02. ZERO//GRAVITY NYC</div>
+          <div class="store-niche">Cyberpunk & Technical Streetwear</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Dystopian high-fashion technical apparel with drop-event countdowns, sizing grids, and tactical water-repellent specs.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Live drop countdown timer, cyberpunk glitch hover effects & high-speed quick-add cart drawer.
+      </div>
+      <a class="store-link" href="https://gig2-store02-zerogravity.vercel.app">https://gig2-store02-zerogravity.vercel.app</a>
+    </div>
+
+    <!-- Store 03 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">03. Aura Botanica</div>
+          <div class="store-niche">Clean Botanical Skincare & Apothecary</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Earthy organic wellness & cosmetic dispensary emphasizing cold-pressed botanical oils and sustainable glass packaging.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> 3-Step daily ritual guide, bioactive ingredient matrix & eco-refill subscription toggle.
+      </div>
+      <a class="store-link" href="https://gig2-store03-aurabotanica.vercel.app">https://gig2-store03-aurabotanica.vercel.app</a>
+    </div>
+
+    <!-- Store 04 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">04. Nordic Roast Co.</div>
+          <div class="store-niche">Specialty Micro-Lot Coffee Roastery</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Scandinavian single-origin roaster with cupping notes, altitude specs, processing methods, and customized grind selectors.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Interactive 5-Axis SCA Cupping Radar spider chart with live Radar/Photo toggle.
+      </div>
+      <a class="store-link" href="https://gig2-store04-nordicroast.vercel.app">https://gig2-store04-nordicroast.vercel.app</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>FrameForge E-Commerce Studio &bull; Page 1 of 2</div>
+    <div>All Stores Deployed & Verified on Vercel Edge Network</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PAGE 2 -->
+  <div class="header">
+    <div>
+      <div class="brand">Frame<span>Forge</span></div>
+      <div class="tagline">Flagship Showcase Catalog — Continued</div>
+    </div>
+    <div class="contact-meta">
+      <div><strong>Full-Stack E-Commerce Architecture</strong></div>
+      <div>React 18 &bull; Tailwind CSS &bull; Vite</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Store 05 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">05. KeyCraft Labs</div>
+          <div class="store-niche">Custom Mechanical Keyboards</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Bespoke CNC aluminum keyboards, lubed switches, hot-swappable PCBs, and PBT double-shot keycap sets.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Procedural Web Audio switch acoustics synth (Linear Thock, Tactile Pop, Clicky Snap).
+      </div>
+      <a class="store-link" href="https://gig2-store05-keycraftlabs.vercel.app">https://gig2-store05-keycraftlabs.vercel.app</a>
+    </div>
+
+    <!-- Store 06 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">06. VeloCore Athletics</div>
+          <div class="store-niche">Pro Aero Cycling & Performance Tech</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Carbon-composite road bicycles, aerodynamic racing skinsuits, and thermal regulating cycling apparel.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Aerodynamic windtunnel drag coefficient calculator and rider sizing geometry matrix.
+      </div>
+      <a class="store-link" href="https://gig2-store06-velocore.vercel.app">https://gig2-store06-velocore.vercel.app</a>
+    </div>
+
+    <!-- Store 07 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">07. Atelier Forma</div>
+          <div class="store-niche">Scandinavian Stoneware & Ceramics</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Hand-thrown stoneware, textured architectural vases, matte tableware, and artisanal home vessels.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Studio glaze formulation specifications, 360-degree rotation view, and craft provenance.
+      </div>
+      <a class="store-link" href="https://gig2-store07-atelierforma.vercel.app">https://gig2-store07-atelierforma.vercel.app</a>
+    </div>
+
+    <!-- Store 08 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">08. Maison Cacao</div>
+          <div class="store-niche">Single-Origin Artisanal Chocolatier</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Bean-to-bar micro-batch confectionery highlighting bean origins from Madagascar, Ecuador, and Tanzania.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Cacao percentage intensity sliders, sensory terroir notes, and curated gift box pairings.
+      </div>
+      <a class="store-link" href="https://gig2-store08-maisoncacao.vercel.app">https://gig2-store08-maisoncacao.vercel.app</a>
+    </div>
+
+    <!-- Store 09 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">09. Paw & Cobble</div>
+          <div class="store-niche">Handcrafted Leather Canine Goods</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Full-grain vegetable-tanned Italian leather dog collars, solid brass leash hardware, and travel carriers.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> Solid brass personalized monogram customizer and leather patina aging guide.
+      </div>
+      <a class="store-link" href="https://gig2-store09-pawandcobble.vercel.app">https://gig2-store09-pawandcobble.vercel.app</a>
+    </div>
+
+    <!-- Store 10 -->
+    <div class="store-card">
+      <div class="store-card-header">
+        <div>
+          <div class="store-title">10. Canvas & Curator</div>
+          <div class="store-niche">Museum Fine Art Prints & Archival</div>
+        </div>
+        <span class="badge badge-live">Live: 200 OK</span>
+      </div>
+      <p class="store-desc">Numbered limited edition giclée prints on 310gsm Hahnemühle German etching paper with museum glass framing.</p>
+      <div class="store-feature">
+        <strong>Sensory Engine:</strong> 4.0X Conservator Optical Loupe with real-time cursor tracking and museum glass options.
+      </div>
+      <a class="store-link" href="https://gig2-store10-canvascurator.vercel.app">https://gig2-store10-canvascurator.vercel.app</a>
+    </div>
+  </div>
+
+  <table class="metrics-table">
+    <thead>
+      <tr>
+        <th>Storefront</th>
+        <th>Category</th>
+        <th>Interactive Highlight</th>
+        <th>Persistent Cart</th>
+        <th>Vercel Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>01. Vanguard Chrono</td><td>Horology</td><td>60fps Tourbillon Caliber + Escapement Tick</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>02. ZERO//GRAVITY NYC</td><td>Streetwear</td><td>Drop Countdown + Glitch State</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>03. Aura Botanica</td><td>Apothecary</td><td>3-Step Daily Ritual Builder</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>04. Nordic Roast Co.</td><td>Coffee</td><td>5-Axis SCA Cupping Radar Chart</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>05. KeyCraft Labs</td><td>Keyboards</td><td>Web Audio Mechanical Sound Synth</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>06. VeloCore Athletics</td><td>Cycling</td><td>Aerodynamic Drag & Sizing Matrix</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>07. Atelier Forma</td><td>Ceramics</td><td>360° View & Artisan Glaze Specs</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>08. Maison Cacao</td><td>Chocolate</td><td>Cacao Percentage & Terroir Notes</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>09. Paw & Cobble</td><td>Leather Goods</td><td>Solid Brass Monogramming Customizer</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+      <tr><td>10. Canvas & Curator</td><td>Fine Art</td><td>4.0X Conservator Optical Loupe</td><td>✓ LocalStorage</td><td>200 OK</td></tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <div>FrameForge E-Commerce Studio &bull; Page 2 of 2</div>
+    <div>Master Showroom: https://gig2-flagship-hub.vercel.app</div>
+  </div>
+
+</body>
+</html>

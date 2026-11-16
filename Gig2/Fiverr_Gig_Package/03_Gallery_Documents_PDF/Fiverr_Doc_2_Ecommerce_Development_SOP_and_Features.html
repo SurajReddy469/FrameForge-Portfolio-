@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FrameForge – E-Commerce Engineering SOP & Technical Service Catalog</title>
+<style>
+  @page {
+    size: A4;
+    margin: 14mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.45;
+    font-size: 10pt;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  .header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .brand {
+    font-size: 20pt;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #0f172a;
+  }
+  .brand span {
+    color: #d97706;
+  }
+  .tagline {
+    font-size: 8.5pt;
+    color: #64748b;
+    margin-top: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .contact-meta {
+    text-align: right;
+    font-size: 8pt;
+    color: #475569;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+  }
+  .badge-live {
+    background: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+  .badge-tech {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+  }
+  h1 {
+    font-size: 15pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+  .lead {
+    font-size: 9.5pt;
+    color: #475569;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .section-title {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #0f172a;
+    border-left: 3px solid #d97706;
+    padding-left: 8px;
+    margin: 14px 0 8px 0;
+  }
+  .card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    margin-bottom: 10px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .pillar-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    background: #ffffff;
+  }
+  .pillar-card h3 {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .pillar-card p {
+    font-size: 8pt;
+    color: #475569;
+    line-height: 1.35;
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 8pt;
+  }
+  .table th {
+    background: #0f172a;
+    color: #f8fafc;
+    text-align: left;
+    padding: 6px 8px;
+    font-weight: 700;
+  }
+  .table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  .sop-step {
+    display: flex;
+    margin-bottom: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .sop-num {
+    font-weight: 900;
+    font-size: 11pt;
+    color: #d97706;
+    margin-right: 12px;
+    min-width: 24px;
+  }
+  .sop-content h4 {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 2px;
+  }
+  .sop-content p {
+    font-size: 8pt;
+    color: #475569;
+    line-height: 1.35;
+  }
+  .footer {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 8px;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="header">
+    <div>
+      <div class="brand">Frame<span>Forge</span></div>
+      <div class="tagline">Engineering Standard Operating Procedure & Capabilities</div>
+    </div>
+    <div class="contact-meta">
+      <div><strong>Technical Service Catalog</strong></div>
+      <div>High-Converting E-Commerce Engineering</div>
+      <div><span class="badge badge-tech">Vite &bull; React &bull; Tailwind</span></div>
+    </div>
+  </div>
+
+  <h1>⚡ Technical Architecture & E-Commerce Engineering SOP</h1>
+  <p class="lead">
+    This document outlines the software engineering standards, sensory engine architecture, conversion rate optimization (CRO) principles, and quality assurance workflows applied to every custom client e-commerce store.
+  </p>
+
+  <div class="section-title">1. High-Performance Modern Frontend Stack vs. Legacy Template Themes</div>
+  <table class="table" style="margin-bottom: 12px;">
+    <thead>
+      <tr>
+        <th>Performance Attribute</th>
+        <th>FrameForge Custom React Storefront</th>
+        <th>Standard Shopify / WooCommerce Themes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Initial Page Load Time</strong></td>
+        <td><strong>0.4s – 0.8s (Sub-second FCP)</strong></td>
+        <td>3.8s – 7.2s (Bloated by unneeded plugins)</td>
+      </tr>
+      <tr>
+        <td><strong>Lighthouse Mobile Score</strong></td>
+        <td><strong>95 – 100 / 100</strong></td>
+        <td>38 – 65 / 100 (Render-blocking JS scripts)</td>
+      </tr>
+      <tr>
+        <td><strong>Cart & Filter Latency</strong></td>
+        <td><strong>Instantaneous (<10ms React State)</strong></td>
+        <td>Full-page reload or 800ms AJAX spin</td>
+      </tr>
+      <tr>
+        <td><strong>Monthly Server / App Fees</strong></td>
+        <td><strong>$0 / month (Free Vercel Cloud Hosting)</strong></td>
+        <td>$50 – $300 / month (App plugin subscriptions)</td>
+      </tr>
+      <tr>
+        <td><strong>Custom Sensory Features</strong></td>
+        <td><strong>Fully bespoke Web Audio, Loupe, Radar, 360°</strong></td>
+        <td>Restricted to static template layout grids</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">2. Conversion Rate Optimization (CRO) UX Architecture</div>
+  <div class="grid-3">
+    <div class="pillar-card">
+      <h3>Persistent LocalStorage Cart</h3>
+      <p>Shoppers never lose their selections. Cart state, quantities, and selected variants are automatically persisted client-side across page refreshes and browser tabs.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>Frictionless Slide-out Drawer</h3>
+      <p>Customers can view items, adjust quantities, calculate free-shipping thresholds, and apply promotional discounts without ever leaving their browsing view.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>Instant Search & Multi-Filters</h3>
+      <p>Zero-latency client-side search and category filtering enable buyers to pinpoint products in milliseconds, directly boosting checkout conversions.</p>
+    </div>
+  </div>
+
+  <div class="section-title">3. Interactive Sensory Engines Catalog</div>
+  <div class="grid-2">
+    <div class="pillar-card">
+      <h3>Procedural Web Audio Synthesizer</h3>
+      <p>Generates real-time acoustic feedback for luxury goods (e.g., mechanical switch clicks, luxury watch escapement ticking) with zero sound file download latency.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>4.0X Conservator Optical Loupe</h3>
+      <p>Hardware-accelerated canvas/CSS magnifier providing tactile inspection of fine art, fabric weave, jewelry facets, and watch dials with crosshair tracking.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>Interactive 5-Axis Spider Radar</h3>
+      <p>Custom mathematical SVG radar charts for taste, sensory, or technical specs (acidity, body, balance, aroma, sweetness) with instant visual mode toggles.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>Dynamic Drop Countdowns & Micro-States</h3>
+      <p>Scarcity countdown timers, tactical badge animations, and celebratory canvas-confetti checkout completions that elevate perceived brand value.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>FrameForge E-Commerce Studio &bull; Page 1 of 2</div>
+    <div>Executive Engineering Standards Dossier</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- PAGE 2 -->
+  <div class="header">
+    <div>
+      <div class="brand">Frame<span>Forge</span></div>
+      <div class="tagline">Client Delivery SOP & Guarantees</div>
+    </div>
+    <div class="contact-meta">
+      <div><strong>Full-Stack E-Commerce Studio</strong></div>
+      <div>Delivery SLA: 3 to 7 Days</div>
+    </div>
+  </div>
+
+  <div class="section-title">4. The 4-Stage Client Delivery Standard Operating Procedure (SOP)</div>
+  
+  <div class="sop-step">
+    <div class="sop-num">01</div>
+    <div class="sop-content">
+      <h4>Discovery & Brand Asset Ingestion (Day 1)</h4>
+      <p>We collect your logo, typography preferences, product imagery, price matrix, and brand vision. If assets are not ready, we provide commercial-grade curated placeholders so development begins immediately without delays.</p>
+    </div>
+  </div>
+
+  <div class="sop-step">
+    <div class="sop-num">02</div>
+    <div class="sop-content">
+      <h4>Component Architecture & Interactive Layout (Days 2–3)</h4>
+      <p>Creation of the modular React hierarchy: responsive navigation bar, hero banner, interactive product cards, filter drawers, and modal overlays styled with custom Tailwind CSS utility systems.</p>
+    </div>
+  </div>
+
+  <div class="sop-step">
+    <div class="sop-num">03</div>
+    <div class="sop-content">
+      <h4>Sensory Module Integration & Performance Optimization (Days 3–5)</h4>
+      <p>Mounting custom sensory engines (audio synths, optical loupe, radar charts), wiring persistent LocalStorage cart state, and auditing Lighthouse performance to guarantee 95+ scores on mobile and desktop.</p>
+    </div>
+  </div>
+
+  <div class="sop-step">
+    <div class="sop-num">04</div>
+    <div class="sop-content">
+      <h4>Vercel Edge Cloud Deployment, Domain Linking & Handover (Days 5–7)</h4>
+      <p>Deploying production build to Vercel/Netlify global CDN with HTTPS security, linking custom domains, validating zero console errors, and delivering the full documented GitHub repository.</p>
+    </div>
+  </div>
+
+  <div class="section-title">5. Transparent Package Pricing & SLA Guarantees</div>
+  <table class="table" style="margin-bottom: 14px;">
+    <thead>
+      <tr>
+        <th>Package Tier</th>
+        <th>Turnaround</th>
+        <th>Scope of Deliverables</th>
+        <th>Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Basic (Boutique Launchpad)</strong></td>
+        <td>3 Days</td>
+        <td>1 High-converting single-product / landing page store, cart modal, responsive mobile UI, Vercel deployment.</td>
+        <td><strong>$90</strong> (₹7.6k)</td>
+      </tr>
+      <tr>
+        <td><strong>Standard (Full Brand Store)</strong></td>
+        <td>5 Days</td>
+        <td>Full store (up to 10 products), category filters, persistent cart drawer, reviews, newsletter, SEO.</td>
+        <td><strong>$195</strong> (₹16.5k)</td>
+      </tr>
+      <tr>
+        <td><strong>Premium (Flagship Luxury Suite)</strong></td>
+        <td>7 Days</td>
+        <td>Full flagship store, custom sensory interactive engine (audio/loupe/radar), checkout flow, domain setup, 30d VIP support.</td>
+        <td><strong>$395</strong> (₹33.5k)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">6. Client Guarantees & Peace of Mind</div>
+  <div class="grid-3">
+    <div class="pillar-card">
+      <h3>Unlimited Revisions</h3>
+      <p>We refine and tweak layouts, colors, and interactions until you are completely thrilled with your store.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>100% Free Hosting</h3>
+      <p>Zero recurring platform hosting fees on Vercel with global CDN acceleration and free SSL encryption.</p>
+    </div>
+    <div class="pillar-card">
+      <h3>Full Source Code Ownership</h3>
+      <p>You own 100% of the repository, assets, and code. No platform lock-in, vendor restrictions, or licensing fees.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>FrameForge E-Commerce Studio &bull; Page 2 of 2</div>
+    <div>Live Showroom: https://gig2-flagship-hub.vercel.app</div>
+  </div>
+
+</body>
+</html>
