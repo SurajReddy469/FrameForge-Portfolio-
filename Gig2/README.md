@@ -15,7 +15,25 @@ All 10 flagships and the master showroom hub run concurrently on local loopback 
 
 ---
 
-## 🚀 Live Launch Matrix (Ports 5180–5190)
+## 🌐 Live Production Cloud Deployments (Vercel)
+
+| # | Flagship Brand | Live Vercel Production Domain | Local Port | Industry Niche |
+|:---:|:---|:---|:---:|:---|
+| **HUB** | **Executive Showroom Hub** | **[gig2-flagship-hub.vercel.app](https://gig2-flagship-hub.vercel.app/)** | `:5180` | Master Portfolio Directory |
+| **01** | **Vanguard Chrono** | **[gig2-store01-vanguard.vercel.app](https://gig2-store01-vanguard.vercel.app/)** | `:5181` | Haute Horlogerie Suisse |
+| **02** | **ZERO//GRAVITY NYC** | **[gig2-store02-zerogravity.vercel.app](https://gig2-store02-zerogravity.vercel.app/)** | `:5182` | Neo-Brutalist Streetwear |
+| **03** | **Aura Botanica** | **[gig2-store03-aurabotanica.vercel.app](https://gig2-store03-aurabotanica.vercel.app/)** | `:5183` | Japandi Clinical Skincare |
+| **04** | **Nordic Roast Co.** | **[gig2-store04-nordicroast.vercel.app](https://gig2-store04-nordicroast.vercel.app/)** | `:5184` | Micro-Lot Specialty Coffee |
+| **05** | **KeyCraft Labs** | **[gig2-store05-keycraftlabs.vercel.app](https://gig2-store05-keycraftlabs.vercel.app/)** | `:5185` | Custom CNC Keyboards |
+| **06** | **VeloCore Athletics** | **[gig2-store06-velocore.vercel.app](https://gig2-store06-velocore.vercel.app/)** | `:5186` | Technical Aero Athletics |
+| **07** | **Atelier Forma** | **[gig2-store07-atelierforma.vercel.app](https://gig2-store07-atelierforma.vercel.app/)** | `:5187` | Bauhaus Furniture |
+| **08** | **Maison Cacao** | **[gig2-store08-maisoncacao.vercel.app](https://gig2-store08-maisoncacao.vercel.app/)** | `:5188` | Haute Chocolaterie Parisienne |
+| **09** | **Paw & Cobble** | **[gig2-store09-pawandcobble.vercel.app](https://gig2-store09-pawandcobble.vercel.app/)** | `:5189` | Eco-Luxury Canine Outfitting |
+| **10** | **Canvas & Curator** | **[gig2-store10-canvascurator.vercel.app](https://gig2-store10-canvascurator.vercel.app/)** | `:5190` | Contemporary Fine Art |
+
+---
+
+## 🚀 Local Development Matrix (Ports 5180–5190)
 
 | Port | Store Name | Industry Domain | Signature Sensory & Interactive Engine | Typography System | AOV Range |
 |:---:|:---|:---|:---|:---|:---:|
